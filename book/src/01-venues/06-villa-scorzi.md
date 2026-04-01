@@ -48,7 +48,7 @@ A 14th-century villa at the foot of the Monti Pisani, restored with care and fit
 
 ## ✅ The Case For
 
-Villa Scorzi is the practical choice done well. The rooms are modern and well-appointed — en-suite bathrooms, air conditioning, Wi-Fi, smart TVs — and 36 guests onsite is the best lodging ratio of any affordable option on the list. The infinity pool is confirmed and clearly suitable for the post-ceremony jump.
+Villa Scorzi is the practical choice done well. The rooms are modern and well-appointed — en-suite bathrooms, air conditioning, Wi-Fi, smart TVs — and 36 guests onsite is the best lodging ratio of any Tuscan villa on the list. The infinity pool is confirmed and clearly suitable for the post-ceremony jump.
 
 The villa dates to the 1300s but has been restored without losing its character. Gardens and tree-lined grounds give it the atmosphere the brief demands, and the overall package is the most affordable on the list at €55k–€80k.
 

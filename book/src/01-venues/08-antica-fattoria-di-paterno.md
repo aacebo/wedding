@@ -50,7 +50,7 @@ The tower itself has a rooftop terrace, which is a unique ceremony or cocktail h
 > [!TIP]
 > **Accommodation Champion**
 >
-> 70 guests onsite — the best accommodation-to-price ratio on the list. Most of your guest list can sleep where they celebrate.
+> 70 guests onsite — the best accommodation-to-price ratio of any Tuscan venue on the list. Most of your guest list can sleep where they celebrate.
 
 ## 💀 The Case Against
 
