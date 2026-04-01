@@ -1,27 +1,5 @@
 # Vocabolo Moscatelli
 
-<pre>
-├── <a href="../README.md">..</a>
-├── <a href="./01-villa-di-maiano.md">1. Villa di Maiano</a>
-├── <a href="./02-villa-grabau.md">2. Villa Grabau</a>
-├── <a href="./03-villa-corsini-a-mezzomonte.md">3. Villa Corsini a Mezzomonte</a>
-├── <a href="./04-tenuta-corbinaia.md">4. Tenuta Corbinaia</a>
-├── <a href="./05-villa-le-fontanelle.md">5. Villa Le Fontanelle</a>
-├── <a href="./06-villa-scorzi.md">6. Villa Scorzi</a>
-├── <a href="./07-lupaia.md">7. Lupaia</a>
-├── <a href="./08-antica-fattoria-di-paterno.md">8. Antica Fattoria di Paterno</a>
-├── <a href="./09-locanda-in-tuscany.md">9. Locanda in Tuscany</a>
-├── <a href="./10-borgo-santambrogio.md">10. Borgo Sant'Ambrogio</a>
-├── <a href="./11-castello-di-petrata.md">11. Castello di Petrata</a>
-├── <a href="./12-abbazia-di-san-pietro-in-valle.md">12. Abbazia di San Pietro in Valle</a>
-├── <a href="./13-borgo-castello-panicaglia.md">13. Borgo Castello Panicaglia</a>
-├── <a href="./14-fattoria-di-corniola.md">14. Fattoria di Corniola</a>
-├── <a href="./15-nikis-resort.md">15. Nikis Resort</a>
-└── <span><a href="./16-vocabolo-moscatelli.md"><b>▾ 16. Vocabolo Moscatelli</b></a> 👈</span>
-</pre>
-
----
-
 ## Photos
 
 <p>
