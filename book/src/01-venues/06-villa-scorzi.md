@@ -1,6 +1,6 @@
 # Villa Scorzi
 
-> **Official site:** [villascorzi.com](https://www.villascorzi.com)
+> **Official site:** [villascorzi.com](https://www.villascorzi.com) · **Instagram:** [@villa.scorzi](https://www.instagram.com/villa.scorzi/)
 
 A 14th-century villa at the foot of the Monti Pisani, restored with care and fitted with modern comforts. Infinity pool, 36 guests in en-suite rooms, and the most affordable price point on this list. The catch? It's near Pisa, not Florence.
 

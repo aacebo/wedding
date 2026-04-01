@@ -1,6 +1,6 @@
 # Antica Fattoria di Paterno
 
-> **Official site:** [anticafattoriadipaterno.com](https://www.anticafattoriadipaterno.com)
+> **Official site:** [anticafattoriadipaterno.com](https://www.anticafattoriadipaterno.com) · **Instagram:** [@anticafattoriapaterno](https://www.instagram.com/anticafattoriapaterno/)
 
 A 17th-century Chianti farmhouse with a tower, frescoed halls with names like "Hall of Mirrors" and "Hall of Queen Helen," and enough onsite beds for 70 guests. The most practical large-wedding option in the mid-range.
 

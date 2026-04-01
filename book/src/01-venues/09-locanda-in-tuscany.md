@@ -1,6 +1,6 @@
 # Locanda in Tuscany
 
-> **Official site:** [locandaintuscany.it](https://www.locandaintuscany.it)
+> **Official site:** [locandaintuscany.it](https://www.locandaintuscany.it) · **Instagram:** [@locandaintuscany](https://www.instagram.com/locandaintuscany/)
 
 A restored 17th-century mansion in the UNESCO Val d'Orcia with a 20-metre pool overlooking golden rolling fields. The original pool-first pick — and if you could have your ceremony in the middle of a grain field at sunset, this is the place that actually offers that.
 

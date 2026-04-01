@@ -1,6 +1,6 @@
 # Borgo Castello Panicaglia
 
-> **Official site:** [borgocastellopanicaglia.com](https://www.borgocastellopanicaglia.com)
+> **Official site:** [borgocastellopanicaglia.com](https://www.borgocastellopanicaglia.com) · **Instagram:** [@borgocastellopanicaglia](https://www.instagram.com/borgocastellopanicaglia/)
 
 A 13th-century hilltop borgo on 50 private acres in Umbria, with a castle, a private chapel, olive groves, and mountain views in every direction. Exclusive-use only — when you book it, the entire hilltop is yours.
 

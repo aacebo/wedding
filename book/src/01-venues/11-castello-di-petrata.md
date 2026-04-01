@@ -1,6 +1,6 @@
 # Castello di Petrata
 
-> **Official site:** [castellopetrata.it](https://www.castellopetrata.it)
+> **Official site:** [castellopetrata.it](https://www.castellopetrata.it) · **Instagram:** [@castello_di_petrata](https://www.instagram.com/castello_di_petrata/)
 
 A 14th-century castle on 50 acres of olive groves near Assisi, with a wellness center, a panoramic pool, and — crucially — enough beds for almost your entire guest list. This is the best-value venue on the list by a wide margin.
 

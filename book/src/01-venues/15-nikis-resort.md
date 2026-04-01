@@ -1,6 +1,6 @@
 # Nikis Resort
 
-> **Official site:** [nikisresort.com](https://www.nikisresort.com)
+> **Official site:** [nikisresort.com](https://www.nikisresort.com) · **Instagram:** [@nikisresort](https://www.instagram.com/nikisresort/)
 
 A medieval hamlet founded in 1137, scattered across six stone buildings with a fortress tower, two pools, and a church with frescoes by a pupil of Giotto. If you want something that feels like a small village rather than a single building, this is it.
 

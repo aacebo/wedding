@@ -1,6 +1,6 @@
 # Tenuta Corbinaia
 
-> **Official site:** [tenutacorbinaia.com](https://www.tenutacorbinaia.com)
+> **Official site:** [tenutacorbinaia.com](https://www.tenutacorbinaia.com) · **Instagram:** [@tenuta_corbinaia](https://www.instagram.com/tenuta_corbinaia/)
 
 A 19th-century farmhouse on 40 hectares of Chianti vineyards and olive groves, with an infinity pool that overlooks the entire valley. This is the venue where the pool question has a definitive answer: yes, absolutely, jump in.
 

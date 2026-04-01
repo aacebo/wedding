@@ -1,6 +1,6 @@
 # Lupaia
 
-> **Official site:** [lupaia.com](https://www.lupaia.com)
+> **Official site:** [lupaia.com](https://www.lupaia.com) · **Instagram:** [@lupaia](https://www.instagram.com/lupaia/)
 
 A restored 17th-century farmhouse perched on a ridge in the Val d'Orcia, with panoramic views that stretch from Montepulciano to Pienza. If you scaled the guest list down and wanted the most purely beautiful setting possible, this might be the one.
 
