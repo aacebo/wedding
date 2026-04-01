@@ -16,22 +16,22 @@ You want something as visually strong as **Villa di Striano**, with **beauty and
 
 ## New ranking from the full original list
 
-1. **[Villa di Maiano](venues/01-villa-di-maiano.md)**
-2. **[Villa Grabau](venues/02-villa-grabau.md)**
-3. **[Villa Corsini a Mezzomonte](venues/03-villa-corsini-a-mezzomonte.md)**
-4. **[Tenuta Corbinaia](venues/04-tenuta-corbinaia.md)**
-5. **[Villa Le Fontanelle](venues/05-villa-le-fontanelle.md)**
-6. **[Villa Scorzi](venues/06-villa-scorzi.md)**
-7. **Lupaia**
-8. **Antica Fattoria di Paterno**
-9. **Locanda in Tuscany**
-10. **Borgo Sant'Ambrogio**
-11. **Castello di Petrata**
-12. **Abbazia di San Pietro in Valle**
-13. **Borgo Castello Panicaglia**
-14. **Fattoria di Corniola**
-15. **Nikis Resort**
-16. **Vocabolo Moscatelli**
+1. **[Villa di Maiano](venues/01-villa-di-maiano.md)** — Fiesole/Florence
+2. **[Villa Grabau](venues/02-villa-grabau.md)** — Lucca
+3. **[Villa Corsini a Mezzomonte](venues/03-villa-corsini-a-mezzomonte.md)** — Impruneta/Florence
+4. **[Tenuta Corbinaia](venues/04-tenuta-corbinaia.md)** — Chianti
+5. **[Villa Le Fontanelle](venues/05-villa-le-fontanelle.md)** — Florence
+6. **[Villa Scorzi](venues/06-villa-scorzi.md)** — Calci/Pisa
+7. **[Lupaia](venues/07-lupaia.md)** — Val d'Orcia
+8. **[Antica Fattoria di Paterno](venues/08-antica-fattoria-di-paterno.md)** — Chianti
+9. **[Locanda in Tuscany](venues/09-locanda-in-tuscany.md)** — Val d'Orcia
+10. **[Borgo Sant'Ambrogio](venues/10-borgo-santambrogio.md)** — Pienza
+11. **[Castello di Petrata](venues/11-castello-di-petrata.md)** — Assisi/Umbria
+12. **[Abbazia di San Pietro in Valle](venues/12-abbazia-di-san-pietro-in-valle.md)** — Ferentillo/Umbria
+13. **[Borgo Castello Panicaglia](venues/13-borgo-castello-panicaglia.md)** — Nocera Umbra/Umbria
+14. **[Fattoria di Corniola](venues/14-fattoria-di-corniola.md)** — Empoli
+15. **[Nikis Resort](venues/15-nikis-resort.md)** — Umbertide/Umbria
+16. **[Vocabolo Moscatelli](venues/16-vocabolo-moscatelli.md)** — Calzolaro/Umbria
 
 ---
 
