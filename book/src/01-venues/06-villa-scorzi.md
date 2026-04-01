@@ -1,50 +1,62 @@
 # Villa Scorzi
 
-## Photos
+> **Official site:** [villascorzi.com](https://www.villascorzi.com)
+
+A 14th-century villa at the foot of the Monti Pisani, restored with care and fitted with modern comforts. Infinity pool, 36 guests in en-suite rooms, and the most affordable price point on this list. The catch? It's near Pisa, not Florence.
+
+## 📸 Gallery
 
 <p>
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Scorzi-14.jpg" width="32%" alt="Villa Scorzi exterior" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-200.jpg" width="32%" alt="Villa Scorzi interior" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-216.jpg" width="32%" alt="Villa Scorzi room" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Scorzi-14.jpg" width="32%" alt="Villa exterior" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-200.jpg" width="32%" alt="Interior" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-216.jpg" width="32%" alt="Room" />
 </p>
 <p>
-  <img src="https://www.villascorzi.com/wp-content/uploads/2024/01/Villa-Scorzi-Hd-143-scaled.jpg" width="32%" alt="Villa Scorzi grounds" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-170-1200x800.jpg" width="32%" alt="Villa Scorzi gardens" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2024/02/Villa-Scorzi-Hd-165-1200x800.jpg" width="32%" alt="Villa Scorzi pool area" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2024/01/Villa-Scorzi-Hd-143-scaled.jpg" width="32%" alt="Grounds" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-170-1200x800.jpg" width="32%" alt="Gardens" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2024/02/Villa-Scorzi-Hd-165-1200x800.jpg" width="32%" alt="Pool area" />
 </p>
 <p>
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-96-1200x800.jpg" width="32%" alt="Villa Scorzi interior detail" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2024/02/Canossa-1200x800.jpg" width="32%" alt="Villa Scorzi Canossa suite" />
-  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-159-1200x800.jpg" width="32%" alt="Villa Scorzi terrace" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-96-1200x800.jpg" width="32%" alt="Interior detail" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2024/02/Canossa-1200x800.jpg" width="32%" alt="Canossa suite" />
+  <img src="https://www.villascorzi.com/wp-content/uploads/2023/10/Villa-Scorzi-Web-159-1200x800.jpg" width="32%" alt="Terrace" />
 </p>
 
-## Location
+## 📋 At a Glance
 
-Calci, Province of **Pisa** (~10 min from Pisa, ~1 hour from Florence). At the foot of the Monti Pisani. **Note: this is notably further from Florence than the other venues on this list.**
+> [!NOTE]
+> **Quick Facts**
+>
+> - **Location:** Calci, Province of Pisa — ~10 min from Pisa, ~1 hour from Florence
+> - **Budget:** €55k–€80k for ~100 guests
+> - **Sleeps:** 36 guests in en-suite rooms with AC, Wi-Fi, smart TVs
+> - **Pool:** Yes — infinity pool, jump-in ready
+> - **Capacity:** 100+ guests
+> - **Vibe:** Restored historic villa, practical elegance
 
-## Why it ranks here
+## ✅ The Case For
 
-A stronger fit than before because the gardens and tree-lined structure matter more under the new brief. Dates back to the 1300s and has been carefully restored.
+Villa Scorzi is the practical choice done well. The rooms are modern and well-appointed — en-suite bathrooms, air conditioning, Wi-Fi, smart TVs — and 36 guests onsite is the best lodging ratio of any affordable option on the list. The infinity pool is confirmed and clearly suitable for the post-ceremony jump.
 
-## Estimated all-in budget for ~100 guests
+The villa dates to the 1300s but has been restored without losing its character. Gardens and tree-lined grounds give it the atmosphere the brief demands, and the overall package is the most affordable on the list at €55k–€80k.
 
-* **€55k–€80k**
+> [!TIP]
+> **Best Value**
+>
+> At €55k–€80k with 36 guests sleeping onsite in modern rooms, this is the best price-to-practicality ratio on the entire list.
 
-## Pros
+## 💀 The Case Against
 
-* Historic villa dating to the 1300s, beautifully restored
-* Infinity pool onsite — clearly works for the jump-in requirement
-* Best onsite lodging of the practical options — sleeps 36 guests in suites with en-suite bathrooms, AC, Wi-Fi, and smart TVs
-* Balanced practical choice with real atmosphere
-* Most affordable option on this list
-* Capacity for 100+ guests
+The location is the main issue. Calci is 10 minutes from Pisa but a full hour from Florence. If "Tuscan wedding near Florence" is the mental image, this doesn't quite fit. The villa is attractive but not breathtaking in the way Maiano, Grabau, or Corsini are — it's more solid than spectacular.
 
-## Cons
+> [!WARNING]
+> **It's Near Pisa, Not Florence**
+>
+> ~1 hour from Florence. If your guests are anchored in Florence, this is a real logistics consideration. If they're flying into Pisa, it's actually the most convenient venue on the list.
 
-* Located near **Pisa**, not Florence — ~1 hour from Florence, which is a significant geographic distinction if Florence access matters
-* Less visually elite than Maiano, Grabau, or Corsini
-* More safe than unforgettable
+## 🏆 Verdict
 
-## Verdict
-
-Best practical compromise if you want beauty, trees, and a reliable pool without overpaying for pure prestige. Be aware of the Pisa location if proximity to Florence is important.
+> [!TIP]
+> **Best for: practical beauty on a budget**
+>
+> The right choice if you want a reliable pool, good accommodation, genuine historic character, and don't need to be near Florence. The best value on the list by a meaningful margin.

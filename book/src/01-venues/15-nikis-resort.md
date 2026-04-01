@@ -1,50 +1,57 @@
 # Nikis Resort
 
-## Photos
+> **Official site:** [nikisresort.com](https://www.nikisresort.com)
+
+A medieval hamlet founded in 1137, scattered across six stone buildings with a fortress tower, two pools, and a church with frescoes by a pupil of Giotto. If you want something that feels like a small village rather than a single building, this is it.
+
+## 📸 Gallery
 
 <p>
-  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-Hero-page.webp" width="32%" alt="Nikis Resort overview" />
-  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-cerimonia.webp" width="32%" alt="Nikis Resort ceremony space" />
-  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-appartamenti.webp" width="32%" alt="Nikis Resort apartments" />
+  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-Hero-page.webp" width="32%" alt="Resort overview" />
+  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-cerimonia.webp" width="32%" alt="Ceremony space" />
+  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-appartamenti.webp" width="32%" alt="Apartments" />
 </p>
 <p>
-  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Suite-Major-04.webp" width="32%" alt="Nikis Resort major suite" />
-  <img src="https://imagedelivery.net/SQx9MVPmzIo4YN8gmsdPow/6f57ad10-4935-41aa-f894-c674a6781200/heroxl" width="32%" alt="Nikis Resort grounds" />
-  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-gallery-19.webp" width="32%" alt="Nikis Resort venue detail" />
+  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Suite-Major-04.webp" width="32%" alt="Major suite" />
+  <img src="https://imagedelivery.net/SQx9MVPmzIo4YN8gmsdPow/6f57ad10-4935-41aa-f894-c674a6781200/heroxl" width="32%" alt="Grounds" />
+  <img src="https://www.nikisresort.com/wp-content/uploads/2023/03/Nikis-Resort-Matrimoni-gallery-19.webp" width="32%" alt="Venue detail" />
 </p>
 
-## Location
+## 📋 At a Glance
 
-Umbertide, Province of Perugia, Umbria. A restored medieval hamlet (founded 1137) across 5 hectares with valley views.
+> [!NOTE]
+> **Quick Facts**
+>
+> - **Location:** Umbertide, Umbria — rural valley setting
+> - **Budget:** €45k–€75k for ~100 guests
+> - **Sleeps:** 55 guests (14 rooms across 6 stone buildings)
+> - **Pool:** Yes — two pools with valley views
+> - **Capacity:** Up to 120 guests
+> - **Vibe:** Medieval hamlet, Albergo Diffuso
 
-## Why it ranks here
+## ✅ The Case For
 
-A medieval hamlet with a frescoed church by a pupil of Giotto and a fortress tower. Interesting historical character but lower on the list due to Umbrian location and less tree-heavy grounds.
+The frescoed church is the standout. Having your ceremony in a space decorated by a student of Giotto is a genuine once-in-a-lifetime detail — the kind of thing that shows up in the photos and the stories for decades. The fortress tower adds drama to the setting, and the Albergo Diffuso concept (guests spread across six stone buildings) creates a village-weekend feeling.
 
-## Estimated all-in budget for ~100 guests
+Two pools with valley views handle the jump-in requirement, 55 guests can sleep onsite (solid for this list), and the venue permits music until 3am — rare in rural Italy. There's also a fine-dining restaurant, a wellness centre, and activity options like wine tastings and truffle hunting.
 
-* **€45k–€75k**
+> [!NOTE]
+> **Giotto Connection**
+>
+> The church frescoes were painted by a pupil of Giotto. A ceremony here has genuine art-historical weight.
 
-## Pros
+## 💀 The Case Against
 
-* Frescoed church by a pupil of Giotto — unique ceremony venue
-* Fortress tower adds dramatic character
-* Two pools with valley views
-* 14 rooms (55 guests) — decent accommodation
-* Albergo Diffuso concept across 6 stone buildings
-* Fine-dining restaurant, wellness centre (sauna & jacuzzi)
-* Wine tastings and truffle hunting experiences
-* Events up to 120 guests
-* Late-night permitted until 03:00
-* Exclusive use available
+Events are capped at 120, which is tight for a 100-guest wedding once you add vendors, musicians, and photographers. The Umbrian location is rural and relatively remote, and the overall aesthetic is medieval hamlet rather than elegant villa — charming, but a different register entirely.
 
-## Cons
+> [!WARNING]
+> **120-Person Cap**
+>
+> With vendors and staff, a 100-guest wedding in a 120-cap venue leaves very little room for flexibility. Confirm exact capacity limits and what counts toward the cap.
 
-* Umbria, not Tuscany — different character and further from Florence
-* Events capped at 120 — tight for 100-guest weddings with vendors
-* Less grand or lush than the top-tier beauty venues
-* Medieval hamlet feel rather than villa grandeur
+## 🏆 Verdict
 
-## Verdict
-
-A characterful medieval hamlet with unique historical features (Giotto-school frescoes, fortress tower). The late-night license and dual pools are practical pluses, but it falls lower on pure beauty.
+> [!TIP]
+> **Best for: medieval village weekend with Giotto frescoes**
+>
+> A characterful option with strong accommodation, two pools, and a late-night license. The frescoed church elevates it above a typical hamlet venue. Just make sure 120 is enough headroom.

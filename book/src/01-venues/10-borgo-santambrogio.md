@@ -1,47 +1,56 @@
 # Borgo Sant'Ambrogio
 
-## Photos
+> **Official site:** [borgosantambrogio.com](https://www.borgosantambrogio.com)
+
+A 17th-century convent turned luxury hamlet, surrounded by 800 hectares of private natural reserve near Pienza. It has its own chapel, an infinity pool, and the kind of total privacy that only comes from owning every building and field in sight.
+
+## 📸 Gallery
 
 <p>
-  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/dimore-quartetto-borgo-santambrogio-3-1-1368x684.jpeg" width="48%" alt="Borgo Sant'Ambrogio property overview" />
-  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/1_borgo-490x327.jpg" width="48%" alt="Borgo Sant'Ambrogio borgo exterior" />
+  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/dimore-quartetto-borgo-santambrogio-3-1-1368x684.jpeg" width="48%" alt="Property overview" />
+  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/1_borgo-490x327.jpg" width="48%" alt="Borgo exterior" />
 </p>
 <p>
-  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/2-8-490x327.jpg" width="32%" alt="Borgo Sant'Ambrogio property view" />
-  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/3-3-490x327.jpg" width="32%" alt="Borgo Sant'Ambrogio grounds" />
-  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/4-3-490x327.jpg" width="32%" alt="Borgo Sant'Ambrogio venue space" />
+  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/2-8-490x327.jpg" width="32%" alt="Property view" />
+  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/3-3-490x327.jpg" width="32%" alt="Grounds" />
+  <img src="https://thetuscanwedding.com/wp-content/uploads/2021/06/4-3-490x327.jpg" width="32%" alt="Venue space" />
 </p>
 
-## Location
+## 📋 At a Glance
 
-Pienza, Province of Siena, Tuscany. Between Val di Chiana and Val d'Orcia.
+> [!NOTE]
+> **Quick Facts**
+>
+> - **Location:** Pienza, Val d'Orcia — between Val di Chiana and Val d'Orcia
+> - **Budget:** €55k–€90k for ~100 guests
+> - **Sleeps:** 30 guests (11 rooms)
+> - **Pool:** Yes — infinity pool overlooking woods
+> - **Capacity:** Up to 200 guests
+> - **Vibe:** Private hamlet, total seclusion
 
-## Why it ranks here
+## ✅ The Case For
 
-A historic 17th-century hamlet — once a convent — transformed into a luxurious countryside resort surrounded by 800 hectares of natural reserve. Exclusive-use estate with a private chapel.
+The private chapel is a genuine differentiator — if a church ceremony matters to you, having one built into the venue simplifies everything. Beyond that, the estate operates as a complete self-contained world: a secret garden for ceremonies, an olive tree garden for aperitifs, a village square, a private courtyard for dinners, an onsite restaurant, and an organic farm supplying the kitchen.
 
-## Estimated all-in budget for ~100 guests
+The 800-hectare natural reserve means there's nothing around you but nature. No neighbouring properties, no passing traffic, no noise restrictions to worry about. The estate also provides an in-house wedding team and vintage car hire — it's set up to handle everything.
 
-* **€55k–€90k**
+> [!NOTE]
+> **The Chapel**
+>
+> One of only three venues on this list with a private chapel (along with Borgo Castello Panicaglia and Vocabolo Moscatelli). If a church ceremony is important, this matters.
 
-## Pros
+## 💀 The Case Against
 
-* Infinity pool overlooking woods and reserve
-* Private chapel for ceremonies
-* Multiple outdoor spaces: secret garden, olive tree garden, village square, private courtyard
-* 800-hectare natural reserve — exceptional privacy
-* On-site restaurant and organic farm
-* In-house wedding team and vintage car hire
-* Events up to 200 guests
-* Exclusive-use estate
+Thirty guests onsite in a remote location. The hamlet feel is charming but it's not grand — if you're expecting villa architecture and manicured formal gardens, this is a different aesthetic entirely. The Val d'Orcia location is beautiful but distant from any major airport.
 
-## Cons
+> [!WARNING]
+> **Remote Hamlet**
+>
+> 30 guests onsite, remote location, and a hamlet rather than a villa. This works if you want seclusion; it's a challenge if you need convenience.
 
-* Only 11 rooms (30 guests onsite) — significant overflow needed
-* Remote Val d'Orcia location
-* Less tree-filled grounds immediately around the venue compared to the top beauty estates
-* More borgo/hamlet feel than grand villa
+## 🏆 Verdict
 
-## Verdict
-
-A unique option with the private chapel and 800-hectare reserve setting it apart. Best suited for couples who value privacy and a multi-day hamlet experience over grand villa aesthetics.
+> [!TIP]
+> **Best for: total privacy with a chapel**
+>
+> The right choice if you want an exclusive-use hamlet where the chapel, the pool, the restaurant, and the 800 hectares are all yours. Trade grand beauty for complete seclusion.

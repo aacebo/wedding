@@ -1,48 +1,59 @@
 # Castello di Petrata
 
-## Photos
+> **Official site:** [castellopetrata.it](https://www.castellopetrata.it)
+
+A 14th-century castle on 50 acres of olive groves near Assisi, with a wellness center, a panoramic pool, and — crucially — enough beds for almost your entire guest list. This is the best-value venue on the list by a wide margin.
+
+## 📸 Gallery
 
 <p>
-  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/contatti.jpg" width="32%" alt="Castello di Petrata exterior" />
-  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-la-primula220-1.jpg" width="32%" alt="Castello di Petrata room" />
-  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-la-cantina-2.jpg" width="32%" alt="Castello di Petrata wine cellar" />
+  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/contatti.jpg" width="32%" alt="Castle exterior" />
+  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-la-primula220-1.jpg" width="32%" alt="Guest room" />
+  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-la-cantina-2.jpg" width="32%" alt="Wine cellar" />
 </p>
 <p>
-  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-pacchetti-benessere-4.jpg" width="32%" alt="Castello di Petrata wellness" />
-  <img src="https://thewhiteedit.com/app/uploads/2022/08/Castello-di-Petrata-2019-27.jpg" width="32%" alt="Castello di Petrata grounds" />
-  <img src="https://thewhiteedit.com/app/uploads/2022/08/Castello-di-Petrata-2019-22-930x620.jpg" width="32%" alt="Castello di Petrata pool area" />
+  <img src="https://castellopetrata.it/wp-content/uploads/2023/05/gallery-pacchetti-benessere-4.jpg" width="32%" alt="Wellness center" />
+  <img src="https://thewhiteedit.com/app/uploads/2022/08/Castello-di-Petrata-2019-27.jpg" width="32%" alt="Grounds" />
+  <img src="https://thewhiteedit.com/app/uploads/2022/08/Castello-di-Petrata-2019-22-930x620.jpg" width="32%" alt="Pool area" />
 </p>
 
-## Location
+## 📋 At a Glance
 
-Assisi, Province of Perugia, Umbria. 5 km from Assisi on a 50-acre park among olive groves.
+> [!NOTE]
+> **Quick Facts**
+>
+> - **Location:** Assisi, Umbria — 5 km from Assisi town
+> - **Budget:** €40k–€65k for ~100 guests
+> - **Sleeps:** ~95 guests (22 rooms + 20 glamping tents)
+> - **Pool:** Yes — freeform pool with valley views + outdoor spa tub
+> - **Capacity:** 100+ guests
+> - **Vibe:** Umbrian castle, rustic wellness retreat
 
-## Why it ranks here
+## ✅ The Case For
 
-A restored 14th-century castle with strong accommodation capacity and wellness amenities. The Umbrian setting near Assisi offers a different character from the Tuscan venues.
+Ninety-five guests onsite. That number alone sets Castello di Petrata apart from everything else on this list. Twenty-two rooms in the castle complex sleep 55, and 20 glamping tents add another 40 — meaning nearly your entire 100-person guest list can stay where they celebrate. No shuttles, no offsite hotels, no logistics headaches.
 
-## Estimated all-in budget for ~100 guests
+The castle dates to 1340 and sits on 50 acres of olive groves with panoramic views across the Umbrian Valley. There's a proper wellness center with a Turkish bath, sensory showers, and a Kneipp path — unusual for a wedding venue and a nice perk for guests arriving the day before. The freeform pool with valley views handles the jump-in requirement, and the onsite restaurant covers catering.
 
-* **€40k–€65k**
+At €40k–€65k, this is the most affordable venue on the list that can genuinely handle 100 guests.
 
-## Pros
+> [!TIP]
+> **Almost Everyone Sleeps Here**
+>
+> 95 guests onsite. No other venue on this list comes close to housing your entire guest list under one roof (and one set of glamping tents).
 
-* Medieval castle dating to 1340, beautifully restored
-* Large freeform pool with Umbrian Valley views + outdoor spa tub
-* Strong accommodation — 22 rooms (55 guests) + 20 glamping tents (~40 more) = ~95 total
-* 50-acre park among olive groves
-* Wellness center with Turkish bath, sensory showers, Kneipp path
-* Panoramic valley views
-* On-site restaurant
-* On the historic Franciscan path near Assisi
+## 💀 The Case Against
 
-## Cons
+This is Umbria, not Tuscany — near Assisi, not Florence. The castle aesthetic is rustic rather than grand, and the glamping tents won't suit every guest. If visual beauty is the top priority, this is a tier below the Tuscan villas at the top of the list.
 
-* Umbria, not Tuscany — different feel and further from Florence
-* Less grand-villa aesthetic, more restored-castle rustic
-* Glamping tents may not suit all guests
-* Less tree-canopy atmosphere than top-ranked venues
+> [!WARNING]
+> **Umbria, Not Tuscany**
+>
+> Different region, different character. If "Tuscan villa" is the dream, an Umbrian castle near Assisi doesn't scratch the same itch — even if it's more practical.
 
-## Verdict
+## 🏆 Verdict
 
-Best value option with near-complete onsite accommodation (95 guests). The castle setting and wellness center add unique appeal, though it trades grand Tuscan beauty for Umbrian rustic charm.
+> [!TIP]
+> **Best for: everyone under one roof on a budget**
+>
+> The clear winner if accommodation logistics and budget are your biggest concerns. A medieval castle near Assisi that sleeps 95 for €40k–€65k is hard to argue with.
