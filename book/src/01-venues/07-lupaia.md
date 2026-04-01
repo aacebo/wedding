@@ -4,6 +4,18 @@
 
 A restored 17th-century farmhouse perched on a ridge in the Val d'Orcia, with panoramic views that stretch from Montepulciano to Pienza. If you scaled the guest list down and wanted the most purely beautiful setting possible, this might be the one.
 
+## 📊 Score: 6.25 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 9/10 | 2.25 |
+| 🌳 Trees | 20% | 7/10 | 1.40 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 3/10 | 0.45 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 6/10 | 0.90 |
+| | | **Total** | **6.25** |
+
 ## 📸 Gallery
 
 <p>

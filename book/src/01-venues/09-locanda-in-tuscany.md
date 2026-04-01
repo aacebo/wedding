@@ -4,6 +4,18 @@
 
 A restored 17th-century mansion in the UNESCO Val d'Orcia with a 20-metre pool overlooking golden rolling fields. The original pool-first pick — and if you could have your ceremony in the middle of a grain field at sunset, this is the place that actually offers that.
 
+## 📊 Score: 6.20 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 8/10 | 2.00 |
+| 🌳 Trees | 20% | 5/10 | 1.00 |
+| 🏊 Pool | 15% | 9/10 | 1.35 |
+| 💒 Practicality | 15% | 4/10 | 0.60 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 7/10 | 1.05 |
+| | | **Total** | **6.20** |
+
 ## 📸 Gallery
 
 <p>

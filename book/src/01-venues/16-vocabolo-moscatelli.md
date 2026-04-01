@@ -4,6 +4,18 @@
 
 An 800-year-old monastery reimagined as a boutique design hotel, wrapped in ancient woodland in an Umbrian valley. Bamboo domes, a travertine pool, a 30-metre pergola, and a private chapel. It's the most architecturally distinctive venue on this list — and the least practical for a 100-guest wedding.
 
+## 📊 Score: 5.20 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 8/10 | 2.00 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 6/10 | 0.90 |
+| 💒 Practicality | 15% | 2/10 | 0.30 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 4/10 | 0.60 |
+| | | **Total** | **5.20** |
+
 ## 📸 Gallery
 
 <p>

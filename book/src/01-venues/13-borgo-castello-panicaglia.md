@@ -4,6 +4,18 @@
 
 A 13th-century hilltop borgo on 50 private acres in Umbria, with a castle, a private chapel, olive groves, and mountain views in every direction. Exclusive-use only — when you book it, the entire hilltop is yours.
 
+## 📊 Score: 6.15 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 6/10 | 1.50 |
+| 🌳 Trees | 20% | 5/10 | 1.00 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 7/10 | 1.05 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 9/10 | 1.35 |
+| | | **Total** | **6.15** |
+
 ## 📸 Gallery
 
 <p>

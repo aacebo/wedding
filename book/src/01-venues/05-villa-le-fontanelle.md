@@ -4,6 +4,18 @@
 
 A Medici-built residence turned 4-star boutique hotel, minutes from central Florence. It has its own restaurant, a pool, and the kind of refined intimacy that larger estates can't replicate. This is the venue for people who want Florence at their doorstep.
 
+## 📊 Score: 7.25 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 7/10 | 1.75 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 8/10 | 1.20 |
+| 💒 Practicality | 15% | 7/10 | 1.05 |
+| 🍸 Nightlife | 10% | 10/10 | 1.00 |
+| 💰 Value | 15% | 7/10 | 1.05 |
+| | | **Total** | **7.25** |
+
 ## 📸 Gallery
 
 <p>

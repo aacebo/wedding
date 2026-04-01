@@ -4,6 +4,18 @@
 
 A formal villa near Lucca with frescoed salons, period furniture from India and China, and a 9-hectare botanical park that feels like it belongs in a novel. Three swimming pools. An open-air theatre made of hedges. This place delivers.
 
+## 📊 Score: 8.20 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 9/10 | 2.25 |
+| 🌳 Trees | 20% | 10/10 | 2.00 |
+| 🏊 Pool | 15% | 8/10 | 1.20 |
+| 💒 Practicality | 15% | 8/10 | 1.20 |
+| 🍸 Nightlife | 10% | 5/10 | 0.50 |
+| 💰 Value | 15% | 7/10 | 1.05 |
+| | | **Total** | **8.20** |
+
 ## 📸 Gallery
 
 <p>

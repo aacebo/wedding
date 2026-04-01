@@ -4,6 +4,18 @@
 
 A 15th-century estate in the Fiesole hills where James Ivory filmed *A Room with a View*. If you want a venue that stops people mid-sentence when they see the photos, this is it.
 
+## 📊 Score: 8.15 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 10/10 | 2.50 |
+| 🌳 Trees | 20% | 8/10 | 1.60 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 8/10 | 1.20 |
+| 🍸 Nightlife | 10% | 9/10 | 0.90 |
+| 💰 Value | 15% | 6/10 | 0.90 |
+| | | **Total** | **8.15** |
+
 ## 📸 Gallery
 
 <p>

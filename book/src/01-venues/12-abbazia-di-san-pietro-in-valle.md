@@ -4,6 +4,18 @@
 
 An 8th-century Benedictine abbey in the Nera Valley with Romanesque cloisters, ancient frescoes, and the kind of atmosphere that makes you lower your voice without thinking about it. There is nothing else like this on the list.
 
+## 📊 Score: 5.90 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 9/10 | 2.25 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 2/10 | 0.30 |
+| 💒 Practicality | 15% | 5/10 | 0.75 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 8/10 | 1.20 |
+| | | **Total** | **5.90** |
+
 ## 📸 Gallery
 
 <p>

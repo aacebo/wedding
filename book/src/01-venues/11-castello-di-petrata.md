@@ -4,6 +4,18 @@
 
 A 14th-century castle on 50 acres of olive groves near Assisi, with a wellness center, a panoramic pool, and — crucially — enough beds for almost your entire guest list. This is the best-value venue on the list by a wide margin.
 
+## 📊 Score: 6.80 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 6/10 | 1.50 |
+| 🌳 Trees | 20% | 5/10 | 1.00 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 9/10 | 1.35 |
+| 🍸 Nightlife | 10% | 4/10 | 0.40 |
+| 💰 Value | 15% | 10/10 | 1.50 |
+| | | **Total** | **6.80** |
+
 ## 📸 Gallery
 
 <p>

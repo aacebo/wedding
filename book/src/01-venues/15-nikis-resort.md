@@ -4,6 +4,18 @@
 
 A medieval hamlet founded in 1137, scattered across six stone buildings with a fortress tower, two pools, and a church with frescoes by a pupil of Giotto. If you want something that feels like a small village rather than a single building, this is it.
 
+## 📊 Score: 5.85 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 6/10 | 1.50 |
+| 🌳 Trees | 20% | 5/10 | 1.00 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 7/10 | 1.05 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 7/10 | 1.05 |
+| | | **Total** | **5.85** |
+
 ## 📸 Gallery
 
 <p>

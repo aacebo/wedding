@@ -4,6 +4,18 @@
 
 Over 900 square metres of frescoed halls painted by Passignano and Giovanni da San Giovanni, sitting 7 km from Florence with Chianti views in every direction. This is the most historically grand venue on the list.
 
+## 📊 Score: 7.35 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 10/10 | 2.50 |
+| 🌳 Trees | 20% | 7/10 | 1.40 |
+| 🏊 Pool | 15% | 6/10 | 0.90 |
+| 💒 Practicality | 15% | 6/10 | 0.90 |
+| 🍸 Nightlife | 10% | 9/10 | 0.90 |
+| 💰 Value | 15% | 5/10 | 0.75 |
+| | | **Total** | **7.35** |
+
 ## 📸 Gallery
 
 <p>

@@ -4,6 +4,18 @@
 
 An organic farm estate near Empoli that produces its own Chianti wine and olive oil. This is the most authentically agricultural venue on the list — a working farm that happens to have a beautiful hilltop villa and reception halls with big windows overlooking the vines.
 
+## 📊 Score: 5.05 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 5/10 | 1.25 |
+| 🌳 Trees | 20% | 5/10 | 1.00 |
+| 🏊 Pool | 15% | 2/10 | 0.30 |
+| 💒 Practicality | 15% | 4/10 | 0.60 |
+| 🍸 Nightlife | 10% | 4/10 | 0.40 |
+| 💰 Value | 15% | 10/10 | 1.50 |
+| | | **Total** | **5.05** |
+
 ## 📸 Gallery
 
 <p>

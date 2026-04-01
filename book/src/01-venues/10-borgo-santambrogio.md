@@ -4,6 +4,18 @@
 
 A 17th-century convent turned luxury hamlet, surrounded by 800 hectares of private natural reserve near Pienza. It has its own chapel, an infinity pool, and the kind of total privacy that only comes from owning every building and field in sight.
 
+## 📊 Score: 5.85 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 7/10 | 1.75 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 5/10 | 0.75 |
+| 🍸 Nightlife | 10% | 2/10 | 0.20 |
+| 💰 Value | 15% | 6/10 | 0.90 |
+| | | **Total** | **5.85** |
+
 ## 📸 Gallery
 
 <p>

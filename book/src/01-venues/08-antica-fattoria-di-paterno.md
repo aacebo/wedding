@@ -4,6 +4,18 @@
 
 A 17th-century Chianti farmhouse with a tower, frescoed halls with names like "Hall of Mirrors" and "Hall of Queen Helen," and enough onsite beds for 70 guests. The most practical large-wedding option in the mid-range.
 
+## 📊 Score: 6.60 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 6/10 | 1.50 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 7/10 | 1.05 |
+| 💒 Practicality | 15% | 9/10 | 1.35 |
+| 🍸 Nightlife | 10% | 3/10 | 0.30 |
+| 💰 Value | 15% | 8/10 | 1.20 |
+| | | **Total** | **6.60** |
+
 ## 📸 Gallery
 
 <p>

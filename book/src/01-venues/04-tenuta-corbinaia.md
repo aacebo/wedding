@@ -4,6 +4,18 @@
 
 A 19th-century farmhouse on 40 hectares of Chianti vineyards and olive groves, with an infinity pool that overlooks the entire valley. This is the venue where the pool question has a definitive answer: yes, absolutely, jump in.
 
+## 📊 Score: 6.80 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 8/10 | 2.00 |
+| 🌳 Trees | 20% | 6/10 | 1.20 |
+| 🏊 Pool | 15% | 10/10 | 1.50 |
+| 💒 Practicality | 15% | 6/10 | 0.90 |
+| 🍸 Nightlife | 10% | 3/10 | 0.30 |
+| 💰 Value | 15% | 6/10 | 0.90 |
+| | | **Total** | **6.80** |
+
 ## 📸 Gallery
 
 <p>

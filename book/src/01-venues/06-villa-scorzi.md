@@ -4,6 +4,18 @@
 
 A 14th-century villa at the foot of the Monti Pisani, restored with care and fitted with modern comforts. Infinity pool, 36 guests in en-suite rooms, and the most affordable price point on this list. The catch? It's near Pisa, not Florence.
 
+## 📊 Score: 7.40 / 10
+
+| Attribute | Weight | Rating | Weighted |
+|-----------|--------|--------|----------|
+| 🏛️ Beauty | 25% | 6/10 | 1.50 |
+| 🌳 Trees | 20% | 7/10 | 1.40 |
+| 🏊 Pool | 15% | 9/10 | 1.35 |
+| 💒 Practicality | 15% | 8/10 | 1.20 |
+| 🍸 Nightlife | 10% | 6/10 | 0.60 |
+| 💰 Value | 15% | 9/10 | 1.35 |
+| | | **Total** | **7.40** |
+
 ## 📸 Gallery
 
 <p>
