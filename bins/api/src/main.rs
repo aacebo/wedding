@@ -36,6 +36,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::guests::list::get)
             .service(routes::guests::create::post)
             .service(routes::rsvps::create::post)
+            .service(routes::web::welcome::get)
+            .service(routes::web::welcome::details)
     })
     .bind(("0.0.0.0", config.port))?
     .run()
