@@ -18,7 +18,11 @@ pub struct RequestContext {
 
 impl RequestContext {
     pub fn new(ctx: Arc<Context>, headers: HeaderMap, request_id: String) -> Self {
-        Self { ctx, headers, request_id }
+        Self {
+            ctx,
+            headers,
+            request_id,
+        }
     }
 
     pub fn headers(&self) -> &HeaderMap {
@@ -101,7 +105,8 @@ where
             .map(String::from)
             .unwrap_or_else(|| uuid::Uuid::new_v4().to_string());
 
-        req.extensions_mut().insert(RequestContext::new(ctx, headers, request_id));
+        req.extensions_mut()
+            .insert(RequestContext::new(ctx, headers, request_id));
         self.service.call(req)
     }
 }

@@ -12,10 +12,12 @@ impl<'a> RsvpStorage<'a> {
     }
 
     pub async fn list_by_guest(&self, guest_id: uuid::Uuid) -> Result<Vec<Rsvp>, sqlx::Error> {
-        sqlx::query_as::<_, Rsvp>("SELECT * FROM rsvps WHERE guest_id = $1 ORDER BY created_at DESC")
-            .bind(guest_id)
-            .fetch_all(self.pool)
-            .await
+        sqlx::query_as::<_, Rsvp>(
+            "SELECT * FROM rsvps WHERE guest_id = $1 ORDER BY created_at DESC",
+        )
+        .bind(guest_id)
+        .fetch_all(self.pool)
+        .await
     }
 
     pub async fn get(&self, id: uuid::Uuid) -> Result<Option<Rsvp>, sqlx::Error> {

@@ -11,6 +11,7 @@ pub struct Rsvp {
 impl Rsvp {
     pub fn new(guest_id: uuid::Uuid, attending: bool, meal_preference: Option<String>) -> Self {
         let now = chrono::Utc::now();
+
         Self {
             id: uuid::Uuid::new_v4(),
             guest_id,

@@ -11,6 +11,7 @@ pub struct Guest {
 impl Guest {
     pub fn new(name: impl Into<String>, email: impl Into<String>, plus_one: bool) -> Self {
         let now = chrono::Utc::now();
+
         Self {
             id: uuid::Uuid::new_v4(),
             name: name.into(),
