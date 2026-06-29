@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      target: builder
+    working_dir: /app
+    volumes:
+      - .:/app
+      - api-target:/app/target
+      - api-cargo:/usr/local/cargo/registry
+    command: cargo run --package api
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  api-target:
+  api-cargo:

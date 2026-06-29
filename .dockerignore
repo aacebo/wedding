@@ -1,0 +1,6 @@
+book/
+target/
+.git/
+.github/
+.vscode/
+*.md

@@ -1,0 +1,43 @@
+use actix_web::{App, HttpServer, web};
+use sqlx::postgres::PgPoolOptions;
+
+mod config;
+mod context;
+mod request_context;
+mod routes;
+
+pub use config::Config;
+pub use context::Context;
+pub use request_context::{RequestContext, RequestContextMiddleware};
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    let config = Config::from_env();
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&config.database_url)
+        .await
+        .expect("Failed to create pool");
+
+    sqlx::migrate!("../../crates/storage/migrations")
+        .run(&pool)
+        .await
+        .expect("Failed to run migrations");
+
+    let ctx = Context::new(pool);
+    println!("Starting server at http://0.0.0.0:{}", config.port);
+
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(ctx.clone()))
+            .wrap(RequestContextMiddleware)
+            .service(routes::index::get)
+            .service(routes::index::ui)
+            .service(routes::guests::list::get)
+            .service(routes::guests::create::post)
+            .service(routes::rsvps::create::post)
+    })
+    .bind(("0.0.0.0", config.port))?
+    .run()
+    .await
+}

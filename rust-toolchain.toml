@@ -1,0 +1,7 @@
+[toolchain]
+# Pinned to a stable release: the codebase uses no nightly-only features, and
+# old transitive deps (rustix 0.37 via lapin -> async-reactor-trait -> async-io 1.x)
+# fail to compile on current nightly. edition 2024 requires >= 1.85, and
+# actix-web/askama/time in the tree require >= 1.88.
+channel = "1.90.0"
+components = ["rustfmt", "clippy"]
