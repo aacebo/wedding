@@ -1,5 +1,5 @@
 use actix_files::Files;
-use actix_web::{App, HttpServer, web};
+use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 use sqlx::postgres::PgPoolOptions;
 
 mod config;
@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(ctx.clone()))
+            .wrap(NormalizePath::trim())
             .wrap(RequestContextMiddleware)
             .service(routes::index::get)
             .service(routes::guests::list::get)
