@@ -1,9 +1,7 @@
 # Build stage
-FROM rust:alpine AS builder
+FROM rust:slim AS builder
 
 WORKDIR /app
-
-RUN apk add --no-cache musl-dev pkgconfig openssl-dev
 
 COPY rust-toolchain.toml ./
 
@@ -14,11 +12,13 @@ COPY bins ./bins
 RUN cargo build --release --package api
 
 # Runtime stage
-FROM alpine:latest
+FROM debian:bookworm-slim
 
 WORKDIR /app
 
-RUN apk add --no-cache ca-certificates libssl3
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/target/release/api /app/api
 
