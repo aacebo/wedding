@@ -1,0 +1,17 @@
+<svg viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <line x1="4" y1="84" x2="196" y2="84" />
+  <path d="M14 84 V 46 h 18 V 84" />
+  <path d="M18 50 v 4 M26 50 v 4 M18 58 v 4 M26 58 v 4 M18 66 v 4 M26 66 v 4" stroke-width="1" />
+  <path d="M40 84 V 30 h 22 V 84" />
+  <path d="M45 36 v 4 M55 36 v 4 M45 46 v 4 M55 46 v 4 M45 56 v 4 M55 56 v 4 M45 66 v 4 M55 66 v 4" stroke-width="1" />
+  <path d="M70 84 V 18 l 6 -8 l 6 8 V 84" />
+  <path d="M73 26 v 4 M73 36 v 4 M73 46 v 4 M73 56 v 4 M73 66 v 4" stroke-width="1" />
+  <path d="M92 84 V 40 h 20 V 84" />
+  <path d="M96 46 v 4 M104 46 v 4 M96 56 v 4 M104 56 v 4 M96 66 v 4 M104 66 v 4" stroke-width="1" />
+  <path d="M120 84 V 22 h 16 l 4 -6 l 4 6 V 84" />
+  <path d="M125 30 v 4 M133 30 v 4 M125 42 v 4 M133 42 v 4 M125 54 v 4 M133 54 v 4 M125 66 v 4 M133 66 v 4" stroke-width="1" />
+  <path d="M152 84 V 50 h 18 V 84" />
+  <path d="M157 56 v 4 M165 56 v 4 M157 66 v 4 M165 66 v 4" stroke-width="1" />
+  <path d="M178 84 V 38 h 14 V 84" />
+  <path d="M182 44 v 4 M188 44 v 4 M182 56 v 4 M188 56 v 4 M182 68 v 4 M188 68 v 4" stroke-width="1" />
+</svg>

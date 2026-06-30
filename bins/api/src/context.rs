@@ -21,6 +21,10 @@ impl Context {
         self.start_time
     }
 
+    pub fn uptime(&self) -> chrono::Duration {
+        Utc::now() - self.start_time
+    }
+
     pub fn storage(&self) -> Storage<'_> {
         Storage::new(&self.pool)
     }

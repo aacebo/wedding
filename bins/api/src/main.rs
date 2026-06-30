@@ -32,7 +32,6 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(ctx.clone()))
             .wrap(RequestContextMiddleware)
             .service(routes::index::get)
-            .service(routes::index::ui)
             .service(routes::guests::list::get)
             .service(routes::guests::create::post)
             .service(routes::rsvps::create::post)
