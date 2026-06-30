@@ -10,7 +10,7 @@ services:
   - type: web
     name: wedding-api
     runtime: docker
-    plan: starter
+    plan: standard
     region: virginia
     dockerfilePath: bins/api/Dockerfile
     dockerContext: .
