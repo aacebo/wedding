@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Venue — Nancy &amp; Alexander{% endblock %}
+
+{% block content %}
+<main class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-8 py-16 text-center">
+    <p class="text-xs uppercase tracking-[0.4em] text-accent">Where we&#39;ll celebrate</p>
+    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">The Old Mill</h1>
+    <p class="font-serif text-lg italic text-ink/70">Toronto, Ontario</p>
+
+    <div class="w-44 text-accent">
+        {% include "svg/frame.svg" %}
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <p class="font-display text-sm uppercase tracking-[0.25em] text-ink">Address</p>
+        <p class="font-serif text-lg text-ink/80">21 Old Mill Road<br>Toronto, ON M8X 1G5</p>
+    </div>
+
+    <a href="https://maps.google.com/?q=The+Old+Mill+Toronto+21+Old+Mill+Road" target="_blank" rel="noopener"
+       class="mt-2 border border-ink px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-ink transition hover:bg-ink hover:text-cream">
+        Open in Maps
+    </a>
+
+    <p class="mt-4 max-w-md font-serif text-lg leading-relaxed text-ink/80">
+        A historic riverside setting along the Humber River, The Old Mill blends timeless
+        architecture with garden grounds &mdash; the perfect backdrop for the day.
+    </p>
+
+    <p class="font-serif text-sm italic text-ink/50">
+        See the <a href="/travel" class="text-accent transition hover:text-ink">Travel &amp; Stay</a> page for directions, parking, and lodging.
+    </p>
+
+    <div class="w-16 text-accent">
+        {% include "svg/sprig.svg" %}
+    </div>
+</main>
+{% endblock %}

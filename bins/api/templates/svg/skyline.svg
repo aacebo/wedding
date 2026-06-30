@@ -1,17 +1,48 @@
 <svg viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <line x1="4" y1="84" x2="196" y2="84" />
-  <path d="M14 84 V 46 h 18 V 84" />
-  <path d="M18 50 v 4 M26 50 v 4 M18 58 v 4 M26 58 v 4 M18 66 v 4 M26 66 v 4" stroke-width="1" />
-  <path d="M40 84 V 30 h 22 V 84" />
-  <path d="M45 36 v 4 M55 36 v 4 M45 46 v 4 M55 46 v 4 M45 56 v 4 M55 56 v 4 M45 66 v 4 M55 66 v 4" stroke-width="1" />
-  <path d="M70 84 V 18 l 6 -8 l 6 8 V 84" />
-  <path d="M73 26 v 4 M73 36 v 4 M73 46 v 4 M73 56 v 4 M73 66 v 4" stroke-width="1" />
-  <path d="M92 84 V 40 h 20 V 84" />
-  <path d="M96 46 v 4 M104 46 v 4 M96 56 v 4 M104 56 v 4 M96 66 v 4 M104 66 v 4" stroke-width="1" />
-  <path d="M120 84 V 22 h 16 l 4 -6 l 4 6 V 84" />
-  <path d="M125 30 v 4 M133 30 v 4 M125 42 v 4 M133 42 v 4 M125 54 v 4 M133 54 v 4 M125 66 v 4 M133 66 v 4" stroke-width="1" />
-  <path d="M152 84 V 50 h 18 V 84" />
-  <path d="M157 56 v 4 M165 56 v 4 M157 66 v 4 M165 66 v 4" stroke-width="1" />
-  <path d="M178 84 V 38 h 14 V 84" />
-  <path d="M182 44 v 4 M188 44 v 4 M182 56 v 4 M188 56 v 4 M182 68 v 4 M188 68 v 4" stroke-width="1" />
+  <line x1="2" y1="84" x2="198" y2="84" />
+
+  <!-- left low-rise with rooftop water tank -->
+  <path d="M8 84 V 58 h 16 V 84" />
+  <path d="M12 60 v 4 M20 60 v 4 M12 68 v 4 M20 68 v 4 M12 76 v 4 M20 76 v 4" stroke-width="1" />
+  <path d="M13 58 v -3 h 6 v 3 M14 55 l 2 -3 l 2 3" stroke-width="1" />
+
+  <!-- Flatiron-style wedge -->
+  <path d="M30 84 V 44 l 8 -6 V 84" />
+  <path d="M33 50 v 4 M33 58 v 4 M33 66 v 4 M33 74 v 4" stroke-width="1" />
+
+  <!-- Chrysler Building: terraced arched crown + needle spire -->
+  <path d="M44 84 V 40 h 14 V 84" />
+  <path d="M44 40 q 7 -7 14 0 M46 35 q 5 -6 10 0 M48 30 q 3 -5 6 0" stroke-width="1.1" />
+  <path d="M51 26 V 8" stroke-width="1" />
+  <path d="M47 47 v 4 M55 47 v 4 M47 55 v 4 M55 55 v 4 M47 63 v 4 M55 63 v 4 M47 71 v 4 M55 71 v 4" stroke-width="1" />
+
+  <!-- mid-rise tower with water tank -->
+  <path d="M64 84 V 54 h 14 V 84" />
+  <path d="M68 56 v 4 M74 56 v 4 M68 64 v 4 M74 64 v 4 M68 72 v 4 M74 72 v 4" stroke-width="1" />
+  <path d="M68 54 v -3 h 6 v 3 M69 51 l 2 -3 l 2 3" stroke-width="1" />
+
+  <!-- Empire State Building: stepped Art Deco setbacks + antenna -->
+  <path d="M86 84 V 34 h 24 V 84" />
+  <path d="M90 34 V 24 h 16 V 34" />
+  <path d="M94 24 V 16 h 8 V 24" />
+  <path d="M98 16 V 6" stroke-width="1" />
+  <path d="M91 40 v 5 M99 40 v 5 M105 40 v 5 M91 50 v 5 M99 50 v 5 M105 50 v 5 M91 60 v 5 M99 60 v 5 M105 60 v 5 M91 70 v 5 M99 70 v 5 M105 70 v 5" stroke-width="1" />
+
+  <!-- tapering modern supertall (432 Park / One57 silhouette) -->
+  <path d="M118 84 V 30 l 2 -4 h 8 l 2 4 V 84" />
+  <path d="M122 36 v 5 M128 36 v 5 M122 46 v 5 M128 46 v 5 M122 56 v 5 M128 56 v 5 M122 66 v 5 M128 66 v 5 M122 76 v 4 M128 76 v 4" stroke-width="1" />
+
+  <!-- broad rectangular tower -->
+  <path d="M138 84 V 48 h 20 V 84" />
+  <path d="M143 54 v 5 M150 54 v 5 M143 64 v 5 M150 64 v 5 M143 74 v 4 M150 74 v 4" stroke-width="1" />
+
+  <!-- twin-setback building -->
+  <path d="M164 84 V 52 h 18 V 84" />
+  <path d="M168 52 V 44 h 10 V 52" />
+  <path d="M168 58 v 4 M177 58 v 4 M168 67 v 4 M177 67 v 4 M168 76 v 4 M177 76 v 4" stroke-width="1" />
+
+  <!-- right low-rise with water tank -->
+  <path d="M186 84 V 60 h 10 V 84" />
+  <path d="M189 64 v 4 M193 64 v 4 M189 73 v 4 M193 73 v 4" stroke-width="1" />
+  <path d="M188 60 v -3 h 6 v 3 M189 57 l 2 -3 l 2 3" stroke-width="1" />
 </svg>

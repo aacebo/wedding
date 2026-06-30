@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule — Nancy &amp; Alexander{% endblock %}
+
+{% block content %}
+<main class="mx-auto flex max-w-2xl flex-col items-center gap-8 px-8 py-16 text-center">
+    <p class="text-xs uppercase tracking-[0.4em] text-accent">September 12, 2026</p>
+    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Schedule</h1>
+    <p class="font-serif text-lg italic text-ink/70">The Old Mill &middot; Toronto, ON</p>
+
+    <div class="w-44 text-accent">
+        {% include "svg/frame.svg" %}
+    </div>
+
+    <div class="flex w-full flex-col divide-y divide-ink/10">
+        <div class="flex flex-col gap-1 py-5">
+            <p class="font-display text-sm uppercase tracking-[0.3em] text-accent">3:30 PM</p>
+            <p class="font-display text-2xl text-ink">Ceremony</p>
+            <p class="font-serif text-base italic text-ink/60">The Garden Chapel</p>
+        </div>
+        <div class="flex flex-col gap-1 py-5">
+            <p class="font-display text-sm uppercase tracking-[0.3em] text-accent">4:30 PM</p>
+            <p class="font-display text-2xl text-ink">Cocktail Hour</p>
+            <p class="font-serif text-base italic text-ink/60">The Terrace</p>
+        </div>
+        <div class="flex flex-col gap-1 py-5">
+            <p class="font-display text-sm uppercase tracking-[0.3em] text-accent">6:00 PM</p>
+            <p class="font-display text-2xl text-ink">Reception &amp; Dinner</p>
+            <p class="font-serif text-base italic text-ink/60">The Grand Ballroom</p>
+        </div>
+        <div class="flex flex-col gap-1 py-5">
+            <p class="font-display text-sm uppercase tracking-[0.3em] text-accent">9:00 PM</p>
+            <p class="font-display text-2xl text-ink">Dancing</p>
+            <p class="font-serif text-base italic text-ink/60">Until late</p>
+        </div>
+    </div>
+
+    <p class="font-serif text-sm italic text-ink/50">Times are approximate and subject to change.</p>
+
+    <div class="w-16 text-accent">
+        {% include "svg/sprig.svg" %}
+    </div>
+</main>
+{% endblock %}

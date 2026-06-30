@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Our Story — Nancy &amp; Alexander{% endblock %}
+
+{% block content %}
+<main class="mx-auto flex max-w-2xl flex-col items-center gap-8 px-8 py-16 text-center">
+    <p class="text-xs uppercase tracking-[0.4em] text-accent">How it began</p>
+    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Our Story</h1>
+
+    <div class="w-44 text-accent">
+        {% include "svg/frame.svg" %}
+    </div>
+
+    <div class="aspect-[3/2] w-full max-w-md border border-ink/20 bg-ink/5 flex items-center justify-center">
+        <span class="font-display text-xs uppercase tracking-[0.3em] text-ink/40">Photo coming soon</span>
+    </div>
+
+    <p class="font-serif text-lg leading-relaxed text-ink/80">
+        Nancy and Alexander met in New York City, and it&#39;s been a love story written
+        across rooftops and city streets ever since. <span class="italic text-ink/50">(Full story coming soon.)</span>
+    </p>
+
+    <div class="flex w-full flex-col gap-6 text-left">
+        <div class="border-l-2 border-accent pl-6">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2021 &middot; The Meeting</p>
+            <p class="font-serif text-lg text-ink/80">Where it all started. <span class="italic text-ink/50">(TBD)</span></p>
+        </div>
+        <div class="border-l-2 border-accent pl-6">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2024 &middot; The Question</p>
+            <p class="font-serif text-lg text-ink/80">The proposal. <span class="italic text-ink/50">(TBD)</span></p>
+        </div>
+        <div class="border-l-2 border-accent pl-6">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2026 &middot; The Wedding</p>
+            <p class="font-serif text-lg text-ink/80">September 12, 2026 &middot; The Old Mill, Toronto.</p>
+        </div>
+    </div>
+
+    <div class="w-16 text-accent">
+        {% include "svg/sprig.svg" %}
+    </div>
+</main>
+{% endblock %}

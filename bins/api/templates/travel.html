@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Travel &amp; Stay — Nancy &amp; Alexander{% endblock %}
+
+{% block content %}
+<main class="mx-auto flex max-w-2xl flex-col items-center gap-8 px-8 py-16 text-center">
+    <p class="text-xs uppercase tracking-[0.4em] text-accent">Getting there</p>
+    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Travel &amp; Stay</h1>
+
+    <div class="w-44 text-accent">
+        {% include "svg/frame.svg" %}
+    </div>
+
+    <div class="flex w-full flex-col gap-8 text-left">
+        <div class="flex flex-col gap-1">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Where to Stay</p>
+            <p class="font-serif text-lg text-ink/80">We&#39;ve reserved a room block at a hotel near the venue.
+            Mention &ldquo;Nancy &amp; Alexander Wedding&rdquo; when booking. <span class="italic text-ink/50">(Hotel &amp; rates TBD.)</span></p>
+        </div>
+        <div class="flex flex-col gap-1">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Getting There</p>
+            <p class="font-serif text-lg text-ink/80">The nearest airport is Toronto Pearson (YYZ), about a
+            25-minute drive from The Old Mill. Billy Bishop (YTZ) is also close to downtown.</p>
+        </div>
+        <div class="flex flex-col gap-1">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Parking</p>
+            <p class="font-serif text-lg text-ink/80">Complimentary on-site parking is available at the venue.</p>
+        </div>
+        <div class="flex flex-col gap-1">
+            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Transit</p>
+            <p class="font-serif text-lg text-ink/80">The Old Mill subway station (Line 2) is a short walk from the venue.</p>
+        </div>
+    </div>
+
+    <a href="/venue"
+       class="mt-2 border border-ink px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-ink transition hover:bg-ink hover:text-cream">
+        Venue &amp; Directions
+    </a>
+
+    <div class="w-16 text-accent">
+        {% include "svg/sprig.svg" %}
+    </div>
+</main>
+{% endblock %}
