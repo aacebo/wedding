@@ -1,0 +1,6 @@
+[general]
+# `templates` holds the page templates; `assets` holds the SVGs that pages
+# {% include %}. Both are searched, so e.g. {% include "svg/frame.svg" %}
+# resolves to assets/svg/frame.svg. The assets dir is also served over HTTP
+# at /assets (see main.rs).
+dirs = ["templates", "assets"]

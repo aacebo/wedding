@@ -28,17 +28,36 @@
     </script>
 </head>
 <body class="bg-cream text-ink font-serif min-h-screen">
-    <header class="w-full border-b border-ink/10">
-        <nav class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-6 py-4 font-display text-xs uppercase tracking-[0.25em] text-ink/70">
-            <a href="/welcome" class="transition hover:text-accent">Home</a>
-            <a href="/story" class="transition hover:text-accent">Our Story</a>
-            <a href="/schedule" class="transition hover:text-accent">Schedule</a>
-            <a href="/travel" class="transition hover:text-accent">Travel</a>
-            <a href="/venue" class="transition hover:text-accent">Venue</a>
-            <a href="/contact" class="transition hover:text-accent">Contact</a>
-            <a href="/guests" class="text-accent transition hover:text-ink">RSVP</a>
+    {# The bar is transparent and overlays each page. nav link colors live in the
+       reusable "nav" macro; pages pick a theme by calling it with light/dark
+       classes. Default (cream pages) = dark text; welcome overrides to light. #}
+    {%- macro nav(link, rsvp) -%}
+    <header class="absolute inset-x-0 top-0 z-20 w-full">
+        <nav class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-6 py-4 font-display text-xs uppercase tracking-[0.25em]">
+            <a href="/welcome" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Home</a>
+            <a href="/story" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Our Story</a>
+            <a href="/schedule" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Schedule</a>
+            <a href="/travel" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Travel</a>
+            <a href="/venue" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Venue</a>
+            <a href="/contact" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Contact</a>
+            <a href="/guests" data-nav class="{{ rsvp }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">RSVP</a>
         </nav>
     </header>
+    {%- endmacro -%}
+    {% block navbar %}{% call nav("text-ink/70 hover:text-accent aria-[current=page]:text-ink", "text-accent hover:text-ink") %}{% endcall %}{% endblock %}
+    <script>
+        (function () {
+            // Mark the nav link matching the current page as active. "/" redirects
+            // to /welcome, so treat both as Home.
+            var path = location.pathname === '/' ? '/welcome' : location.pathname;
+            document.querySelectorAll('nav [data-nav]').forEach(function (a) {
+                var href = a.getAttribute('href');
+                if (path === href || path.indexOf(href + '/') === 0) {
+                    a.setAttribute('aria-current', 'page');
+                }
+            });
+        })();
+    </script>
     {% block content %}{% endblock %}
 </body>
 </html>

@@ -1,3 +1,4 @@
+use actix_files::Files;
 use actix_web::{App, HttpServer, web};
 use sqlx::postgres::PgPoolOptions;
 
@@ -42,6 +43,9 @@ async fn main() -> std::io::Result<()> {
             .service(routes::web::schedule::get)
             .service(routes::web::travel::get)
             .service(routes::web::venue::get)
+            // Served from disk relative to the working directory the server is
+            // launched from (repo root /app in Docker — see compose & Dockerfile).
+            .service(Files::new("/assets", "bins/api/assets"))
     })
     .bind(("0.0.0.0", config.port))?
     .run()
