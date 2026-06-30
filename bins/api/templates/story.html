@@ -11,9 +11,62 @@
         {% include "svg/frame.svg" %}
     </div>
 
-    <div class="aspect-[3/2] w-full max-w-md border border-ink/20 bg-ink/5 flex items-center justify-center">
-        <span class="font-display text-xs uppercase tracking-[0.3em] text-ink/40">Photo coming soon</span>
+    {% if images.is_empty() %}
+    <div class="aspect-[4/5] w-full max-w-lg border border-ink/20 bg-ink/5 flex items-center justify-center">
+        <span class="font-display text-xs uppercase tracking-[0.3em] text-ink/40">Photos coming soon</span>
     </div>
+    {% else %}
+    <div x-data="{
+            current: 0,
+            count: {{ images.len() }},
+            isPaused: false,
+            autoplayMs: 5000,
+            timer: null,
+            goTo(i) { this.current = (i + this.count) % this.count; },
+            next() { this.goTo(this.current + 1); },
+            prev() { this.goTo(this.current - 1); },
+            start() { this.timer = setInterval(() => { if (!this.isPaused) this.next(); }, this.autoplayMs); }
+         }"
+         x-init="start()"
+         @mouseenter="isPaused = true" @mouseleave="isPaused = false"
+         @focusin="isPaused = true" @focusout="isPaused = false"
+         class="relative aspect-[4/5] w-full max-w-lg overflow-hidden rounded border border-ink/10 bg-ink/5"
+         role="group" aria-roledescription="carousel" aria-label="Photos of Nancy and Alexander">
+
+        <!-- Sliding track (Bootstrap-style push-slide via translateX) -->
+        <div class="flex h-full w-full transition-transform duration-[600ms] ease-in-out"
+             x-cloak
+             :style="`transform: translateX(-${current * 100}%)`">
+            {% for img in images %}
+            <img src="{{ img }}"
+                 alt="Nancy and Alexander"
+                 loading="lazy"
+                 class="h-full w-full shrink-0 object-cover">
+            {% endfor %}
+        </div>
+
+        <!-- Prev / next chevron controls (Bootstrap .carousel-control-*), tinted -->
+        <button type="button" @click="prev()" aria-label="Previous photo"
+                class="absolute inset-y-0 left-0 flex w-[15%] items-center justify-start pl-3 text-3xl text-cream opacity-70 transition-opacity hover:opacity-100 [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
+            &#8249;
+        </button>
+        <button type="button" @click="next()" aria-label="Next photo"
+                class="absolute inset-y-0 right-0 flex w-[15%] items-center justify-end pr-3 text-3xl text-cream opacity-70 transition-opacity hover:opacity-100 [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
+            &#8250;
+        </button>
+
+        <!-- Bar indicators (Bootstrap .carousel-indicators: 30x3px, 3px gaps), tinted -->
+        <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
+            {% for img in images %}
+            <button type="button" @click="goTo({{ loop.index0 }})"
+                    aria-label="Slide {{ loop.index }}"
+                    :aria-current="current === {{ loop.index0 }}"
+                    class="mx-[3px] h-[3px] w-[30px] bg-cream transition-opacity duration-[600ms] [box-shadow:0_1px_2px_rgba(0,0,0,0.5)]"
+                    :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-50 hover:opacity-75'"></button>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 
     <p class="font-serif text-lg leading-relaxed text-ink/80">
         Nancy and Alexander met in New York City, and it&#39;s been a love story written
