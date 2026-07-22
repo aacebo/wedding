@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block title %}Admin — Nancy &amp; Alexander{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>[x-cloak]{display:none !important;}</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F7F1E6',
+                        ink: '#1A1A1A',
+                        accent: '#6B7253',
+                    },
+                    fontFamily: {
+                        display: ['"Playfair Display"', 'Georgia', 'serif'],
+                        serif: ['"EB Garamond"', 'Georgia', 'serif'],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-cream text-ink font-serif min-h-screen">
+    {# Admin surface has its own private nav — no public site links. #}
+    <header class="border-b border-ink/10 bg-cream/80 backdrop-blur">
+        <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+            <a href="/admin" class="font-display text-lg font-semibold tracking-wide">Planning Hub</a>
+            <div class="flex items-center gap-x-6 font-display text-xs uppercase tracking-[0.2em]">
+                <a href="/admin" class="text-ink/70 transition hover:text-accent">Dashboard</a>
+                {% block adminnav %}{% endblock %}
+                <button hx-post="/admin/logout" hx-on::after-request="window.location.href='/welcome'"
+                        class="text-ink/50 transition hover:text-accent">Sign out</button>
+            </div>
+        </nav>
+    </header>
+    <main class="mx-auto max-w-5xl px-6 py-10">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

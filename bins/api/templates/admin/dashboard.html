@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard — Planning Hub{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent">Wedding planning</p>
+        <h1 class="mt-2 font-display text-4xl font-semibold">Planning Hub</h1>
+        <p class="mt-2 text-ink/70">Signed in as <span class="font-medium">{{ email }}</span></p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-3">
+        {# Placeholder cards — populated as later phases land. #}
+        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+            <h2 class="font-display text-lg font-semibold">Todos</h2>
+            <p class="mt-1 text-sm text-ink/60">Coming soon — auto-extracted from your emails &amp; docs.</p>
+        </div>
+        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+            <h2 class="font-display text-lg font-semibold">Timeline</h2>
+            <p class="mt-1 text-sm text-ink/60">Coming soon — key dates in one place.</p>
+        </div>
+        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+            <h2 class="font-display text-lg font-semibold">Deadlines</h2>
+            <p class="mt-1 text-sm text-ink/60">Coming soon — reminders before things are due.</p>
+        </div>
+    </div>
+
+    <div class="rounded-lg border border-dashed border-ink/20 p-6 text-sm text-ink/60">
+        This hub will aggregate communications from your linked Gmail and Google
+        Drive accounts into todos, a timeline, and deadline reminders. Account
+        linking arrives in the next phase.
+    </div>
+</div>
+{% endblock %}
