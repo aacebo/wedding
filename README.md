@@ -20,6 +20,9 @@ from someone who is not signed in as an allowlisted user returns **404**.
 | `GOOGLE_CLIENT_SECRET` | for SSO | unset | OAuth client secret. |
 | `GOOGLE_REDIRECT_URI` | for SSO | unset | Must exactly match an authorized redirect URI, e.g. `https://baicebo.com/admin/auth/google/callback` (or `http://localhost:8080/admin/auth/google/callback` in dev). |
 | `TOKEN_ENCRYPTION_KEY` | for SSO | unset | Secret used to derive the AES-256 key that encrypts stored Google tokens at rest. Use a long random value. |
+| `OPENAI_API_KEY` | for extraction | unset | OpenAI API key. When unset, `/admin/extract` returns 404 and the LLM pipeline is disabled. |
+| `OPENAI_MODEL` | no | `gpt-4o-mini` | OpenAI model used for extraction. |
+| `LLM_MAX_BATCH` | no | `25` | Max sources processed per `/admin/extract` run (cost cap). |
 
 Google SSO is enabled only when **all four** `GOOGLE_*` / `TOKEN_ENCRYPTION_KEY`
 values are set; otherwise `/admin/auth/google/*` returns 404 and you fall back to
@@ -71,5 +74,23 @@ communications into a normalized `comm_sources` table:
 Syncs are incremental: Gmail advances an epoch-seconds `after:` cursor and Drive
 uses the changes-feed page token, both stored in `sync_state`. Re-running only
 fetches deltas; the `UNIQUE (provider, external_id)` constraint deduplicates.
-Google Docs are exported to plain text into `body_text`. Turning sources into
-todos/timeline items is Phase 04; scheduled syncs are Phase 07.
+Google Docs are exported to plain text into `body_text`. Scheduled syncs are
+Phase 07.
+
+### Extracting todos, timeline &amp; deadlines
+
+With `OPENAI_API_KEY` set, the admin hub distills unprocessed `comm_sources` into
+structured planning items via OpenAI:
+
+- `POST /admin/extract` — processes up to `LLM_MAX_BATCH` unprocessed sources,
+  emitting todos, timeline events, and deadlines linked back to their source, and
+  returns per-run counts plus running totals. 404s when `OPENAI_API_KEY` is unset.
+
+Extraction is idempotent: re-running a source deletes only its **AI-created,
+still-open** items before re-inserting, so human edits and completed/dismissed
+items survive. Email/doc text is treated as **untrusted** — the system prompt
+ignores instructions embedded in content (prompt-injection defense). Each call is
+audited in `llm_runs` (model, token usage, estimated cost); on failure the source
+is left unprocessed for the next run. A source is re-extracted automatically when
+its content changes (an upsert resets `processed_at`). Surfacing/editing these
+items in the UI is Phase 05.

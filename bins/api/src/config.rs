@@ -30,6 +30,13 @@ pub struct Config {
     pub google_redirect_uri: Option<String>,
     /// Secret used to derive the AES key that encrypts Google tokens at rest.
     pub token_encryption_key: Option<String>,
+    /// OpenAI API key. When unset, the LLM extraction pipeline is disabled and
+    /// `/admin/extract` returns 404.
+    pub openai_api_key: Option<String>,
+    /// OpenAI model used for extraction.
+    pub openai_model: String,
+    /// Max sources processed per `/admin/extract` run (cost cap).
+    pub llm_max_batch: i64,
 }
 
 impl Config {
@@ -61,6 +68,14 @@ impl Config {
         let google_client_secret = non_empty("GOOGLE_CLIENT_SECRET");
         let google_redirect_uri = non_empty("GOOGLE_REDIRECT_URI");
         let token_encryption_key = non_empty("TOKEN_ENCRYPTION_KEY");
+        let openai_api_key = non_empty("OPENAI_API_KEY");
+        let openai_model =
+            non_empty("OPENAI_MODEL").unwrap_or_else(|| "gpt-4o-mini".to_string());
+        let llm_max_batch = env::var("LLM_MAX_BATCH")
+            .ok()
+            .and_then(|v| v.parse().ok())
+            .filter(|n| *n > 0)
+            .unwrap_or(25);
 
         Self {
             port,
@@ -73,6 +88,9 @@ impl Config {
             google_client_secret,
             google_redirect_uri,
             token_encryption_key,
+            openai_api_key,
+            openai_model,
+            llm_max_batch,
         }
     }
 }

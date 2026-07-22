@@ -1,5 +1,6 @@
 pub mod auth;
 pub mod dev_login;
+pub mod extract;
 pub mod healthz;
 pub mod index;
 pub mod logout;

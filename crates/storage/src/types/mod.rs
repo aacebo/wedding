@@ -1,9 +1,11 @@
+mod admin_item;
 mod comm_source;
 mod google_account;
 mod guest;
 mod rsvp;
 mod sync_state;
 
+pub use admin_item::*;
 pub use comm_source::*;
 pub use google_account::*;
 pub use guest::*;

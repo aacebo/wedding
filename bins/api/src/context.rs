@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 
 use admin::Allowlist;
+use llm::OpenAiExtractor;
 use storage::Storage;
 
 use crate::google_auth::GoogleAuth;
@@ -13,6 +14,8 @@ pub struct Context {
     allowlist: Allowlist,
     dev_login_enabled: bool,
     google: Option<GoogleAuth>,
+    llm: Option<OpenAiExtractor>,
+    llm_max_batch: i64,
 }
 
 impl Context {
@@ -21,6 +24,8 @@ impl Context {
         allowlist: Allowlist,
         dev_login_enabled: bool,
         google: Option<GoogleAuth>,
+        llm: Option<OpenAiExtractor>,
+        llm_max_batch: i64,
     ) -> Self {
         Self {
             pool,
@@ -28,6 +33,8 @@ impl Context {
             allowlist,
             dev_login_enabled,
             google,
+            llm,
+            llm_max_batch,
         }
     }
 
@@ -49,6 +56,14 @@ impl Context {
 
     pub fn google(&self) -> Option<&GoogleAuth> {
         self.google.as_ref()
+    }
+
+    pub fn llm(&self) -> Option<&OpenAiExtractor> {
+        self.llm.as_ref()
+    }
+
+    pub fn llm_max_batch(&self) -> i64 {
+        self.llm_max_batch
     }
 
     pub fn storage(&self) -> Storage<'_> {

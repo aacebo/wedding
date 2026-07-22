@@ -17,4 +17,5 @@ sqlx      = { version = "0.8", features = ["migrate", "postgres", "runtime-tokio
 storage   = { path = "../../crates/storage" }
 admin     = { path = "../../crates/admin" }
 google    = { path = "../../crates/google" }
+llm       = { path = "../../crates/llm" }
 thiserror = "2"

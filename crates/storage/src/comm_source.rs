@@ -86,6 +86,16 @@ impl<'a> CommSourceStorage<'a> {
         .await
     }
 
+    /// Stamps a source as processed so the extraction pipeline skips it until its
+    /// content changes (an upsert resets `processed_at` to NULL).
+    pub async fn mark_processed(&self, id: uuid::Uuid) -> Result<(), sqlx::Error> {
+        sqlx::query("UPDATE comm_sources SET processed_at = NOW(), updated_at = NOW() WHERE id = $1")
+            .bind(id)
+            .execute(self.pool)
+            .await?;
+        Ok(())
+    }
+
     pub async fn count(&self) -> Result<i64, sqlx::Error> {
         sqlx::query_scalar("SELECT COUNT(*) FROM comm_sources")
             .fetch_one(self.pool)

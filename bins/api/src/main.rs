@@ -7,6 +7,7 @@ use sqlx::postgres::PgPoolOptions;
 mod admin_session;
 mod config;
 mod context;
+mod extract;
 mod google_auth;
 mod ingest;
 mod request_context;
@@ -46,11 +47,20 @@ async fn main() -> std::io::Result<()> {
         _ => None,
     };
 
+    // OpenAI extraction is enabled only when an API key is present; otherwise
+    // `/admin/extract` returns 404.
+    let llm = config
+        .openai_api_key
+        .clone()
+        .map(|key| llm::OpenAiExtractor::new(key, config.openai_model.clone()));
+
     let ctx = Context::new(
         pool,
         config.admin_allowlist.clone(),
         config.dev_login_enabled,
         google,
+        llm,
+        config.llm_max_batch,
     );
     // Derives a stable signing key from the configured secret so admin session
     // cookies survive restarts (as long as SESSION_SECRET is stable).
@@ -90,6 +100,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::auth::callback::get)
             .service(routes::admin::sync::post)
             .service(routes::admin::sync_status::get)
+            .service(routes::admin::extract::post)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))
