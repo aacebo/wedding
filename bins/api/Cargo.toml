@@ -15,3 +15,5 @@ chrono    = { version = "0.4", features = ["serde"] }
 sqlx      = { version = "0.8", features = ["migrate", "postgres", "runtime-tokio"] }
 storage   = { path = "../../crates/storage" }
 admin     = { path = "../../crates/admin" }
+google    = { path = "../../crates/google" }
+thiserror = "2"

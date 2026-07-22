@@ -2,15 +2,18 @@ use sqlx::PgPool;
 
 pub mod types;
 
+mod google_account;
 mod guest;
 mod rsvp;
 
+pub use google_account::*;
 pub use guest::*;
 pub use rsvp::*;
 
 pub struct Storage<'a> {
     _guests: GuestStorage<'a>,
     _rsvps: RsvpStorage<'a>,
+    _google: GoogleAccountStorage<'a>,
 }
 
 impl<'a> Storage<'a> {
@@ -18,6 +21,7 @@ impl<'a> Storage<'a> {
         Self {
             _guests: GuestStorage::new(pool),
             _rsvps: RsvpStorage::new(pool),
+            _google: GoogleAccountStorage::new(pool),
         }
     }
 
@@ -27,5 +31,9 @@ impl<'a> Storage<'a> {
 
     pub fn rsvps(&self) -> &RsvpStorage<'a> {
         &self._rsvps
+    }
+
+    pub fn google(&self) -> &GoogleAccountStorage<'a> {
+        &self._google
     }
 }

@@ -28,8 +28,20 @@
 
     <div class="rounded-lg border border-dashed border-ink/20 p-6 text-sm text-ink/60">
         This hub will aggregate communications from your linked Gmail and Google
-        Drive accounts into todos, a timeline, and deadline reminders. Account
-        linking arrives in the next phase.
+        Drive accounts into todos, a timeline, and deadline reminders.
     </div>
+
+    {% if google_enabled %}
+    <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+        <h2 class="font-display text-lg font-semibold">Google access</h2>
+        {% if google_linked %}
+        <p class="mt-1 text-sm text-ink/60">Your Google account is linked. Read-only Gmail &amp; Drive access is active.</p>
+        <a href="/admin/auth/google/login" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Re-link / refresh access</a>
+        {% else %}
+        <p class="mt-1 text-sm text-ink/60">Link your Google account to start pulling in emails &amp; docs (read-only).</p>
+        <a href="/admin/auth/google/login" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Link Google account</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

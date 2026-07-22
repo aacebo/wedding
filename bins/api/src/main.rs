@@ -7,12 +7,14 @@ use sqlx::postgres::PgPoolOptions;
 mod admin_session;
 mod config;
 mod context;
+mod google_auth;
 mod request_context;
 mod routes;
 
 pub use admin_session::AdminSession;
 pub use config::Config;
 pub use context::Context;
+pub use google_auth::GoogleAuth;
 pub use request_context::{RequestContext, RequestContextMiddleware};
 
 #[actix_web::main]
@@ -29,10 +31,25 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Failed to run migrations");
 
+    // Google SSO is enabled only when all four values are present; otherwise its
+    // routes 404 and the admin area falls back to dev-login.
+    let google = match (
+        config.google_client_id.clone(),
+        config.google_client_secret.clone(),
+        config.google_redirect_uri.clone(),
+        config.token_encryption_key.clone(),
+    ) {
+        (Some(id), Some(secret), Some(redirect), Some(key)) => {
+            Some(GoogleAuth::new(id, secret, redirect, &key))
+        }
+        _ => None,
+    };
+
     let ctx = Context::new(
         pool,
         config.admin_allowlist.clone(),
         config.dev_login_enabled,
+        google,
     );
     // Derives a stable signing key from the configured secret so admin session
     // cookies survive restarts (as long as SESSION_SECRET is stable).
@@ -68,6 +85,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::healthz::get)
             .service(routes::admin::dev_login::post)
             .service(routes::admin::logout::post)
+            .service(routes::admin::auth::login::get)
+            .service(routes::admin::auth::callback::get)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))

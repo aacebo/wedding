@@ -23,6 +23,13 @@ pub struct Config {
     /// (correct for the HTTPS production site); set `SESSION_COOKIE_SECURE=false`
     /// for local HTTP development.
     pub cookie_secure: bool,
+    /// Google OAuth client id. When any of the four google_* values are unset,
+    /// Google SSO is disabled and its routes return 404.
+    pub google_client_id: Option<String>,
+    pub google_client_secret: Option<String>,
+    pub google_redirect_uri: Option<String>,
+    /// Secret used to derive the AES key that encrypts Google tokens at rest.
+    pub token_encryption_key: Option<String>,
 }
 
 impl Config {
@@ -49,6 +56,12 @@ impl Config {
             .map(|v| !matches!(v.as_str(), "0" | "false" | "FALSE"))
             .unwrap_or(true);
 
+        let non_empty = |k: &str| env::var(k).ok().filter(|v| !v.is_empty());
+        let google_client_id = non_empty("GOOGLE_CLIENT_ID");
+        let google_client_secret = non_empty("GOOGLE_CLIENT_SECRET");
+        let google_redirect_uri = non_empty("GOOGLE_REDIRECT_URI");
+        let token_encryption_key = non_empty("TOKEN_ENCRYPTION_KEY");
+
         Self {
             port,
             database_url,
@@ -56,6 +69,10 @@ impl Config {
             session_secret,
             dev_login_enabled,
             cookie_secure,
+            google_client_id,
+            google_client_secret,
+            google_redirect_uri,
+            token_encryption_key,
         }
     }
 }
