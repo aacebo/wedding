@@ -18,6 +18,13 @@ impl<'a> GoogleAccountStorage<'a> {
             .await
     }
 
+    /// All linked accounts, used to fan out ingestion across both planners.
+    pub async fn list(&self) -> Result<Vec<GoogleAccount>, sqlx::Error> {
+        sqlx::query_as::<_, GoogleAccount>("SELECT * FROM google_accounts ORDER BY email")
+            .fetch_all(self.pool)
+            .await
+    }
+
     /// Inserts or updates the account for `email`. When `refresh_token` is
     /// `None` (Google omits it on re-consent) any previously stored refresh
     /// token is preserved.

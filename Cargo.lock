@@ -327,6 +327,7 @@ dependencies = [
  "chrono",
  "google",
  "serde",
+ "serde_json",
  "sqlx",
  "storage",
  "thiserror",
@@ -1060,6 +1061,7 @@ name = "google"
 version = "0.0.0"
 dependencies = [
  "aes-gcm",
+ "base64 0.22.1",
  "rand 0.8.6",
  "reqwest",
  "serde",

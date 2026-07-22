@@ -36,7 +36,37 @@
         <h2 class="font-display text-lg font-semibold">Google access</h2>
         {% if google_linked %}
         <p class="mt-1 text-sm text-ink/60">Your Google account is linked. Read-only Gmail &amp; Drive access is active.</p>
-        <a href="/admin/auth/google/login" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Re-link / refresh access</a>
+        <div class="mt-3 flex items-center gap-4">
+            <button id="sync-btn" class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Sync now</button>
+            <a href="/admin/auth/google/login" class="text-sm font-medium text-accent hover:underline">Re-link / refresh access</a>
+        </div>
+        <p id="sync-result" class="mt-3 text-sm text-ink/60"></p>
+        <script>
+            (function () {
+                const btn = document.getElementById("sync-btn");
+                const out = document.getElementById("sync-result");
+                btn.addEventListener("click", async () => {
+                    btn.disabled = true;
+                    out.textContent = "Syncing…";
+                    try {
+                        const res = await fetch("/admin/sync", { method: "POST" });
+                        if (!res.ok) throw new Error("HTTP " + res.status);
+                        const data = await res.json();
+                        const parts = (data.accounts || []).map(a => {
+                            const g = a.gmail, d = a.drive;
+                            const fmt = (p) => p.error ? ("error: " + p.error) : (p.new + " new, " + p.updated + " updated");
+                            return a.account_email + " — Gmail: " + fmt(g) + "; Drive: " + fmt(d);
+                        });
+                        out.textContent = (parts.length ? parts.join(" | ") : "No linked accounts.") +
+                            " (Total sources: " + data.total_sources + ")";
+                    } catch (e) {
+                        out.textContent = "Sync failed: " + e.message;
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+            })();
+        </script>
         {% else %}
         <p class="mt-1 text-sm text-ink/60">Link your Google account to start pulling in emails &amp; docs (read-only).</p>
         <a href="/admin/auth/google/login" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Link Google account</a>

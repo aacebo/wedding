@@ -56,3 +56,20 @@ cargo run -p api
 ```
 
 Real Google SSO replaces `dev-login`; see `backlogs/`.
+
+### Ingesting Gmail &amp; Drive
+
+Once an allowlisted Google account is linked, the admin hub can pull read-only
+communications into a normalized `comm_sources` table:
+
+- `POST /admin/sync` — runs Gmail + Drive ingestion for every linked account and
+  returns per-account `new`/`updated`/`skipped` counts (failures are isolated per
+  account/provider). The `/admin` dashboard exposes this as a **Sync now** button.
+- `GET /admin/sync/status` — last sync time + cursor per account/provider and the
+  total number of ingested sources.
+
+Syncs are incremental: Gmail advances an epoch-seconds `after:` cursor and Drive
+uses the changes-feed page token, both stored in `sync_state`. Re-running only
+fetches deltas; the `UNIQUE (provider, external_id)` constraint deduplicates.
+Google Docs are exported to plain text into `body_text`. Turning sources into
+todos/timeline items is Phase 04; scheduled syncs are Phase 07.

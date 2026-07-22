@@ -8,6 +8,7 @@ mod admin_session;
 mod config;
 mod context;
 mod google_auth;
+mod ingest;
 mod request_context;
 mod routes;
 
@@ -87,6 +88,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::logout::post)
             .service(routes::admin::auth::login::get)
             .service(routes::admin::auth::callback::get)
+            .service(routes::admin::sync::post)
+            .service(routes::admin::sync_status::get)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))
