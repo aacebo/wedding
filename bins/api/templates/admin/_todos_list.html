@@ -1,0 +1,74 @@
+<div id="todos-list" class="space-y-3">
+    {% if todos.is_empty() %}
+    <div class="rounded-lg border border-dashed border-ink/20 p-8 text-center text-sm text-ink/60">
+        No todos yet. Add one above, or run an extraction from the dashboard to pull them from your emails.
+    </div>
+    {% endif %}
+    {% for t in todos %}
+    <div x-data="{ editing: false }"
+         class="rounded-lg border border-ink/10 bg-white/40 p-4 {% if t.status != "open" %}opacity-50{% endif %}">
+        <div x-show="!editing" class="flex items-start gap-3">
+            <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-medium {% if t.status == "done" %}line-through{% endif %}">{{ t.title }}</span>
+                    <span class="rounded px-1.5 py-0.5 text-xs uppercase tracking-wide
+                        {% if t.priority == "high" %}bg-red-100 text-red-700{% else if t.priority == "low" %}bg-ink/5 text-ink/50{% else %}bg-accent/10 text-accent{% endif %}">{{ t.priority }}</span>
+                    {% if t.needs_review() %}
+                    <span class="rounded bg-amber-100 px-1.5 py-0.5 text-xs uppercase tracking-wide text-amber-700" title="Low-confidence AI suggestion">Review</span>
+                    {% endif %}
+                    {% if t.status != "open" %}
+                    <span class="text-xs uppercase tracking-wide text-ink/40">{{ t.status }}</span>
+                    {% endif %}
+                </div>
+                <div class="mt-1 flex flex-wrap gap-x-4 text-xs text-ink/50">
+                    {% match t.owner %}{% when Some with (o) %}<span>Owner: {{ o }}</span>{% when None %}{% endmatch %}
+                    {% match t.due_date %}{% when Some with (d) %}<span>Due {{ d }}</span>{% when None %}{% endmatch %}
+                    {% match t.source_title %}{% when Some with (st) %}
+                        <span>From:
+                        {% match t.source_url %}{% when Some with (u) %}<a href="{{ u }}" target="_blank" rel="noopener" class="text-accent hover:underline">{{ st }}</a>{% when None %}{{ st }}{% endmatch %}
+                        </span>
+                    {% when None %}{% endmatch %}
+                </div>
+                {% match t.notes %}{% when Some with (n) %}<p class="mt-2 text-sm text-ink/60">{{ n }}</p>{% when None %}{% endmatch %}
+            </div>
+            <div class="flex shrink-0 gap-1 text-xs">
+                {% if t.status == "open" %}
+                <button hx-patch="/admin/todos/{{ t.id }}/status?value=done" hx-target="#todos-list" hx-swap="outerHTML"
+                        class="rounded border border-accent px-2 py-1 text-accent hover:bg-accent/10">Done</button>
+                <button hx-patch="/admin/todos/{{ t.id }}/status?value=dismissed" hx-target="#todos-list" hx-swap="outerHTML"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/60 hover:border-ink/40">Dismiss</button>
+                <button @click="editing = true" class="rounded border border-ink/20 px-2 py-1 text-ink/60 hover:border-ink/40">Edit</button>
+                {% else %}
+                <button hx-patch="/admin/todos/{{ t.id }}/status?value=open" hx-target="#todos-list" hx-swap="outerHTML"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/60 hover:border-ink/40">Reopen</button>
+                {% endif %}
+                <button hx-delete="/admin/todos/{{ t.id }}" hx-target="#todos-list" hx-swap="outerHTML"
+                        hx-confirm="Delete this todo?"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/50 hover:border-red-400 hover:text-red-600">✕</button>
+            </div>
+        </div>
+
+        <form x-show="editing" x-cloak
+              hx-patch="/admin/todos/{{ t.id }}" hx-target="#todos-list" hx-swap="outerHTML"
+              class="grid gap-2 sm:grid-cols-2">
+            <input name="title" value="{{ t.title }}" required placeholder="Title"
+                   class="sm:col-span-2 rounded border border-ink/20 px-2 py-1 text-sm">
+            <input name="owner" value="{% match t.owner %}{% when Some with (o) %}{{ o }}{% when None %}{% endmatch %}" placeholder="Owner"
+                   class="rounded border border-ink/20 px-2 py-1 text-sm">
+            <input name="due_date" type="date" value="{% match t.due_date %}{% when Some with (d) %}{{ d }}{% when None %}{% endmatch %}"
+                   class="rounded border border-ink/20 px-2 py-1 text-sm">
+            <select name="priority" class="rounded border border-ink/20 px-2 py-1 text-sm">
+                <option value="low"{% if t.priority == "low" %} selected{% endif %}>Low</option>
+                <option value="med"{% if t.priority == "med" %} selected{% endif %}>Medium</option>
+                <option value="high"{% if t.priority == "high" %} selected{% endif %}>High</option>
+            </select>
+            <input name="notes" value="{% match t.notes %}{% when Some with (n) %}{{ n }}{% when None %}{% endmatch %}" placeholder="Notes"
+                   class="rounded border border-ink/20 px-2 py-1 text-sm">
+            <div class="sm:col-span-2 flex gap-2">
+                <button type="submit" class="rounded bg-accent px-3 py-1 text-sm text-white hover:opacity-90">Save</button>
+                <button type="button" @click="editing = false" class="rounded border border-ink/20 px-3 py-1 text-sm text-ink/60">Cancel</button>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+</div>

@@ -66,15 +66,18 @@ pub async fn extract_pending<E: LlmExtractor>(
                     }
                     storage
                         .admin_items()
-                        .insert_todo(&NewAdminTodo {
-                            source_id: Some(source.id),
-                            title: t.title.clone(),
-                            owner: t.owner.clone(),
-                            due_date: parse_date(t.due_date.as_deref()),
-                            priority: normalize_level(&t.priority),
-                            confidence: t.confidence as f32,
-                            notes: t.notes.clone(),
-                        })
+                        .insert_todo(
+                            &NewAdminTodo {
+                                source_id: Some(source.id),
+                                title: t.title.clone(),
+                                owner: t.owner.clone(),
+                                due_date: parse_date(t.due_date.as_deref()),
+                                priority: normalize_level(&t.priority),
+                                confidence: t.confidence as f32,
+                                notes: t.notes.clone(),
+                            },
+                            "ai",
+                        )
                         .await?;
                     report.todos_created += 1;
                 }
@@ -85,13 +88,16 @@ pub async fn extract_pending<E: LlmExtractor>(
                     }
                     storage
                         .admin_items()
-                        .insert_event(&NewTimelineEvent {
-                            source_id: Some(source.id),
-                            title: e.title.clone(),
-                            event_date: parse_date(e.date.as_deref()),
-                            category: e.category.clone(),
-                            confidence: e.confidence as f32,
-                        })
+                        .insert_event(
+                            &NewTimelineEvent {
+                                source_id: Some(source.id),
+                                title: e.title.clone(),
+                                event_date: parse_date(e.date.as_deref()),
+                                category: e.category.clone(),
+                                confidence: e.confidence as f32,
+                            },
+                            "ai",
+                        )
                         .await?;
                     report.events_created += 1;
                 }
@@ -102,13 +108,16 @@ pub async fn extract_pending<E: LlmExtractor>(
                     }
                     storage
                         .admin_items()
-                        .insert_deadline(&NewDeadline {
-                            source_id: Some(source.id),
-                            title: d.title.clone(),
-                            due_date: parse_date(d.due_date.as_deref()),
-                            severity: normalize_level(&d.severity),
-                            confidence: d.confidence as f32,
-                        })
+                        .insert_deadline(
+                            &NewDeadline {
+                                source_id: Some(source.id),
+                                title: d.title.clone(),
+                                due_date: parse_date(d.due_date.as_deref()),
+                                severity: normalize_level(&d.severity),
+                                confidence: d.confidence as f32,
+                            },
+                            "ai",
+                        )
                         .await?;
                     report.deadlines_created += 1;
                 }

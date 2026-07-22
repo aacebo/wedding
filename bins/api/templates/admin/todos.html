@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Todos — Planning Hub{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent">Tasks</p>
+        <h1 class="mt-2 font-display text-3xl font-semibold">Todos</h1>
+    </div>
+
+    <form hx-post="/admin/todos" hx-target="#todos-list" hx-swap="outerHTML"
+          hx-on::after-request="if(event.detail.successful) this.reset()"
+          class="grid gap-2 rounded-lg border border-ink/10 bg-white/40 p-4 sm:grid-cols-2">
+        <input name="title" required placeholder="Add a todo…"
+               class="sm:col-span-2 rounded border border-ink/20 px-3 py-2 text-sm">
+        <input name="owner" placeholder="Owner (optional)"
+               class="rounded border border-ink/20 px-3 py-2 text-sm">
+        <input name="due_date" type="date"
+               class="rounded border border-ink/20 px-3 py-2 text-sm">
+        <select name="priority" class="rounded border border-ink/20 px-3 py-2 text-sm">
+            <option value="low">Low</option>
+            <option value="med" selected>Medium</option>
+            <option value="high">High</option>
+        </select>
+        <div class="flex items-center">
+            <button type="submit" class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Add todo</button>
+        </div>
+    </form>
+
+    {% include "admin/_todos_list.html" %}
+</div>
+{% endblock %}

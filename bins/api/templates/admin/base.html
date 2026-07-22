@@ -37,6 +37,9 @@
             <a href="/admin" class="font-display text-lg font-semibold tracking-wide">Planning Hub</a>
             <div class="flex items-center gap-x-6 font-display text-xs uppercase tracking-[0.2em]">
                 <a href="/admin" class="text-ink/70 transition hover:text-accent">Dashboard</a>
+                <a href="/admin/inbox" class="text-ink/70 transition hover:text-accent">Inbox</a>
+                <a href="/admin/todos" class="text-ink/70 transition hover:text-accent">Todos</a>
+                <a href="/admin/timeline" class="text-ink/70 transition hover:text-accent">Timeline</a>
                 {% block adminnav %}{% endblock %}
                 <button hx-post="/admin/logout" hx-on::after-request="window.location.href='/welcome'"
                         class="text-ink/50 transition hover:text-accent">Sign out</button>

@@ -11,67 +11,104 @@
     </div>
 
     <div class="grid gap-4 sm:grid-cols-3">
-        {# Placeholder cards — populated as later phases land. #}
-        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
-            <h2 class="font-display text-lg font-semibold">Todos</h2>
-            <p class="mt-1 text-sm text-ink/60">Coming soon — auto-extracted from your emails &amp; docs.</p>
-        </div>
-        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
-            <h2 class="font-display text-lg font-semibold">Timeline</h2>
-            <p class="mt-1 text-sm text-ink/60">Coming soon — key dates in one place.</p>
-        </div>
-        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+        <a href="/admin/todos" class="rounded-lg border border-ink/10 bg-white/40 p-6 transition hover:border-accent">
+            <h2 class="font-display text-lg font-semibold">Open todos</h2>
+            <p class="mt-1 text-3xl font-semibold text-accent">{{ open_todos }}</p>
+            <p class="mt-1 text-sm text-ink/60">Tasks awaiting action.</p>
+        </a>
+        <a href="/admin/timeline" class="rounded-lg border border-ink/10 bg-white/40 p-6 transition hover:border-accent">
+            <h2 class="font-display text-lg font-semibold">Timeline events</h2>
+            <p class="mt-1 text-3xl font-semibold text-accent">{{ event_count }}</p>
+            <p class="mt-1 text-sm text-ink/60">Key dates in one place.</p>
+        </a>
+        <a href="/admin/timeline" class="rounded-lg border border-ink/10 bg-white/40 p-6 transition hover:border-accent">
             <h2 class="font-display text-lg font-semibold">Deadlines</h2>
-            <p class="mt-1 text-sm text-ink/60">Coming soon — reminders before things are due.</p>
+            <p class="mt-1 text-3xl font-semibold text-accent">{{ deadline_count }}</p>
+            <p class="mt-1 text-sm text-ink/60">Things that can't slip.</p>
+        </a>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+            <h2 class="font-display text-lg font-semibold">Upcoming deadlines</h2>
+            {% if upcoming.is_empty() %}
+            <p class="mt-2 text-sm text-ink/60">Nothing due soon.</p>
+            {% else %}
+            <ul class="mt-3 space-y-2">
+                {% for d in upcoming %}
+                <li class="flex items-baseline justify-between gap-3 text-sm">
+                    <span>{{ d.title }}</span>
+                    <span class="whitespace-nowrap font-medium text-accent">
+                        {% match d.due_date %}{% when Some with (dt) %}{{ dt }}{% when None %}—{% endmatch %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+            <h2 class="font-display text-lg font-semibold">Recent communications</h2>
+            {% if recent.is_empty() %}
+            <p class="mt-2 text-sm text-ink/60">No communications yet. Sync your Gmail &amp; Drive to get started.</p>
+            {% else %}
+            <ul class="mt-3 space-y-2">
+                {% for s in recent %}
+                <li class="text-sm">
+                    <span class="rounded bg-accent/10 px-1.5 py-0.5 text-xs uppercase tracking-wide text-accent">{{ s.provider }}</span>
+                    <span class="ml-1">{{ s.title }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="/admin/inbox" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Open inbox →</a>
+            {% endif %}
         </div>
     </div>
 
-    <div class="rounded-lg border border-dashed border-ink/20 p-6 text-sm text-ink/60">
-        This hub will aggregate communications from your linked Gmail and Google
-        Drive accounts into todos, a timeline, and deadline reminders.
+    <div class="flex flex-wrap items-center gap-3 rounded-lg border border-ink/10 bg-white/40 p-6">
+        {% if google_enabled && google_linked %}
+        <button id="sync-btn" class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Sync now</button>
+        {% endif %}
+        {% if llm_enabled %}
+        <button id="extract-btn" class="rounded-md border border-accent px-4 py-2 text-sm font-medium text-accent hover:bg-accent/10">Extract todos</button>
+        {% endif %}
+        <p id="action-result" class="text-sm text-ink/60"></p>
     </div>
 
-    {% if google_enabled %}
+    {% if google_enabled && !google_linked %}
     <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
         <h2 class="font-display text-lg font-semibold">Google access</h2>
-        {% if google_linked %}
-        <p class="mt-1 text-sm text-ink/60">Your Google account is linked. Read-only Gmail &amp; Drive access is active.</p>
-        <div class="mt-3 flex items-center gap-4">
-            <button id="sync-btn" class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Sync now</button>
-            <a href="/admin/auth/google/login" class="text-sm font-medium text-accent hover:underline">Re-link / refresh access</a>
-        </div>
-        <p id="sync-result" class="mt-3 text-sm text-ink/60"></p>
-        <script>
-            (function () {
-                const btn = document.getElementById("sync-btn");
-                const out = document.getElementById("sync-result");
-                btn.addEventListener("click", async () => {
-                    btn.disabled = true;
-                    out.textContent = "Syncing…";
-                    try {
-                        const res = await fetch("/admin/sync", { method: "POST" });
-                        if (!res.ok) throw new Error("HTTP " + res.status);
-                        const data = await res.json();
-                        const parts = (data.accounts || []).map(a => {
-                            const g = a.gmail, d = a.drive;
-                            const fmt = (p) => p.error ? ("error: " + p.error) : (p.new + " new, " + p.updated + " updated");
-                            return a.account_email + " — Gmail: " + fmt(g) + "; Drive: " + fmt(d);
-                        });
-                        out.textContent = (parts.length ? parts.join(" | ") : "No linked accounts.") +
-                            " (Total sources: " + data.total_sources + ")";
-                    } catch (e) {
-                        out.textContent = "Sync failed: " + e.message;
-                    } finally {
-                        btn.disabled = false;
-                    }
-                });
-            })();
-        </script>
-        {% else %}
         <p class="mt-1 text-sm text-ink/60">Link your Google account to start pulling in emails &amp; docs (read-only).</p>
         <a href="/admin/auth/google/login" class="mt-3 inline-block text-sm font-medium text-accent hover:underline">Link Google account</a>
-        {% endif %}
     </div>
     {% endif %}
 </div>
+
+<script>
+    (function () {
+        const out = document.getElementById("action-result");
+        function wire(id, url, render) {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener("click", async () => {
+                btn.disabled = true;
+                out.textContent = "Working…";
+                try {
+                    const res = await fetch(url, { method: "POST" });
+                    if (!res.ok) throw new Error("HTTP " + res.status);
+                    out.textContent = render(await res.json());
+                } catch (e) {
+                    out.textContent = "Failed: " + e.message;
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+        }
+        wire("sync-btn", "/admin/sync", (d) =>
+            "Synced " + (d.accounts ? d.accounts.length : 0) + " account(s). Total sources: " + d.total_sources + ".");
+        wire("extract-btn", "/admin/extract", (d) =>
+            "Extracted " + d.todos_created + " todos, " + d.events_created + " events, " +
+            d.deadlines_created + " deadlines (" + d.processed + " processed, " + d.failed + " failed). Reload to see them.");
+    })();
+</script>
 {% endblock %}

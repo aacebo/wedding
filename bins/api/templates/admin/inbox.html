@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Inbox — Planning Hub{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-accent">Aggregated communications</p>
+            <h1 class="mt-2 font-display text-3xl font-semibold">Inbox</h1>
+        </div>
+        <div class="flex gap-2 font-display text-xs uppercase tracking-[0.15em]">
+            <a href="/admin/inbox" class="rounded-md border px-3 py-1.5 {% if selected.is_none() %}border-accent bg-accent/10 text-accent{% else %}border-ink/15 text-ink/60 hover:border-accent{% endif %}">All</a>
+            <a href="/admin/inbox?provider=gmail" class="rounded-md border px-3 py-1.5 {% if selected_is_gmail %}border-accent bg-accent/10 text-accent{% else %}border-ink/15 text-ink/60 hover:border-accent{% endif %}">Gmail</a>
+            <a href="/admin/inbox?provider=drive" class="rounded-md border px-3 py-1.5 {% if selected_is_drive %}border-accent bg-accent/10 text-accent{% else %}border-ink/15 text-ink/60 hover:border-accent{% endif %}">Drive</a>
+        </div>
+    </div>
+
+    {% if sources.is_empty() %}
+    <div class="rounded-lg border border-dashed border-ink/20 p-8 text-center text-sm text-ink/60">
+        No communications here yet. Link Google and run a sync from the dashboard.
+    </div>
+    {% else %}
+    <ul class="space-y-3">
+        {% for s in sources %}
+        <li class="rounded-lg border border-ink/10 bg-white/40 p-4">
+            <div class="flex flex-wrap items-center gap-2 text-xs text-ink/50">
+                <span class="rounded bg-accent/10 px-1.5 py-0.5 uppercase tracking-wide text-accent">{{ s.provider }}</span>
+                {% match s.sender %}{% when Some with (from) %}<span>{{ from }}</span>{% when None %}{% endmatch %}
+                <span class="ml-auto">{% match s.occurred_at %}{% when Some with (t) %}{{ t.date_naive() }}{% when None %}—{% endmatch %}</span>
+            </div>
+            <h2 class="mt-1 font-medium">
+                {% match s.url %}
+                {% when Some with (u) %}<a href="{{ u }}" target="_blank" rel="noopener" class="hover:text-accent hover:underline">{{ s.title }}</a>
+                {% when None %}{{ s.title }}
+                {% endmatch %}
+            </h2>
+            <p class="mt-1 text-sm text-ink/60">{{ s.snippet }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

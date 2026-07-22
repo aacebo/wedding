@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Timeline — Planning Hub{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent">Key dates</p>
+        <h1 class="mt-2 font-display text-3xl font-semibold">Timeline</h1>
+        <p class="mt-2 text-sm text-ink/60">Events and deadlines, in order.</p>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+        <form hx-post="/admin/events" hx-target="#timeline-list" hx-swap="outerHTML"
+              hx-on::after-request="if(event.detail.successful) this.reset()"
+              class="grid gap-2 rounded-lg border border-ink/10 bg-white/40 p-4">
+            <p class="font-display text-sm font-semibold">Add event</p>
+            <input name="title" required placeholder="Event title"
+                   class="rounded border border-ink/20 px-3 py-2 text-sm">
+            <div class="grid grid-cols-2 gap-2">
+                <input name="event_date" type="date" class="rounded border border-ink/20 px-3 py-2 text-sm">
+                <input name="category" placeholder="Category" class="rounded border border-ink/20 px-3 py-2 text-sm">
+            </div>
+            <button type="submit" class="justify-self-start rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Add event</button>
+        </form>
+
+        <form hx-post="/admin/deadlines" hx-target="#timeline-list" hx-swap="outerHTML"
+              hx-on::after-request="if(event.detail.successful) this.reset()"
+              class="grid gap-2 rounded-lg border border-ink/10 bg-white/40 p-4">
+            <p class="font-display text-sm font-semibold">Add deadline</p>
+            <input name="title" required placeholder="Deadline title"
+                   class="rounded border border-ink/20 px-3 py-2 text-sm">
+            <div class="grid grid-cols-2 gap-2">
+                <input name="due_date" type="date" class="rounded border border-ink/20 px-3 py-2 text-sm">
+                <select name="severity" class="rounded border border-ink/20 px-3 py-2 text-sm">
+                    <option value="low">Low</option>
+                    <option value="med" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="justify-self-start rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Add deadline</button>
+        </form>
+    </div>
+
+    {% include "admin/_timeline_list.html" %}
+</div>
+{% endblock %}

@@ -101,4 +101,32 @@ impl<'a> CommSourceStorage<'a> {
             .fetch_one(self.pool)
             .await
     }
+
+    /// Most-recent sources for the inbox view, optionally filtered by provider
+    /// (`gmail` / `drive`). A `None` provider returns all.
+    pub async fn recent(
+        &self,
+        provider: Option<&str>,
+        limit: i64,
+    ) -> Result<Vec<CommSource>, sqlx::Error> {
+        match provider {
+            Some(p) => {
+                sqlx::query_as::<_, CommSource>(
+                    "SELECT * FROM comm_sources WHERE provider = $1 ORDER BY occurred_at DESC NULLS LAST LIMIT $2",
+                )
+                .bind(p)
+                .bind(limit)
+                .fetch_all(self.pool)
+                .await
+            }
+            None => {
+                sqlx::query_as::<_, CommSource>(
+                    "SELECT * FROM comm_sources ORDER BY occurred_at DESC NULLS LAST LIMIT $1",
+                )
+                .bind(limit)
+                .fetch_all(self.pool)
+                .await
+            }
+        }
+    }
 }

@@ -101,6 +101,18 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::sync::post)
             .service(routes::admin::sync_status::get)
             .service(routes::admin::extract::post)
+            .service(routes::admin::inbox::get)
+            .service(routes::admin::todos::get)
+            .service(routes::admin::todos::create)
+            .service(routes::admin::todos::update)
+            .service(routes::admin::todos::set_status)
+            .service(routes::admin::todos::remove)
+            .service(routes::admin::timeline::get)
+            .service(routes::admin::timeline::create_event)
+            .service(routes::admin::timeline::create_deadline)
+            .service(routes::admin::timeline::set_deadline_status)
+            .service(routes::admin::timeline::remove_deadline)
+            .service(routes::admin::timeline::remove_event)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))

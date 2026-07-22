@@ -92,5 +92,25 @@ items survive. Email/doc text is treated as **untrusted** — the system prompt
 ignores instructions embedded in content (prompt-injection defense). Each call is
 audited in `llm_runs` (model, token usage, estimated cost); on failure the source
 is left unprocessed for the next run. A source is re-extracted automatically when
-its content changes (an upsert resets `processed_at`). Surfacing/editing these
-items in the UI is Phase 05.
+its content changes (an upsert resets `processed_at`).
+
+### The planning dashboard
+
+The `/admin` hub renders four server-side (Askama + htmx + Alpine) views behind
+the `AdminSession` guard:
+
+- **Dashboard** (`/admin`) — open-todo/event/deadline counts, the next upcoming
+  deadlines, recent communications, and one-click **Sync now** / **Extract todos**
+  buttons (each shown only when its integration is configured).
+- **Inbox** (`/admin/inbox`) — aggregated `comm_sources`, filterable by provider
+  (`?provider=gmail|drive`); each row links out to the original Gmail/Drive item.
+- **Todos** (`/admin/todos`) — add/complete/dismiss/reopen/edit/delete inline via
+  htmx. Low-confidence AI suggestions are flagged **Review**; each todo links back
+  to its source.
+- **Timeline** (`/admin/timeline`) — events and deadlines merged and sorted by
+  date, with add/complete/delete controls.
+
+Human edits are durable: editing an AI item flips its `created_by` to `human`, and
+completing/dismissing changes its status — both of which the extraction re-run
+skips (it only replaces AI-created, still-`open` items), so manual work is never
+clobbered.

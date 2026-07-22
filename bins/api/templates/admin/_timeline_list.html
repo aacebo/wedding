@@ -1,0 +1,44 @@
+<div id="timeline-list" class="space-y-3">
+    {% if rows.is_empty() %}
+    <div class="rounded-lg border border-dashed border-ink/20 p-8 text-center text-sm text-ink/60">
+        Nothing on the timeline yet. Add an event or deadline above, or extract them from your communications.
+    </div>
+    {% endif %}
+    {% for r in rows %}
+    <div class="flex items-start gap-4 rounded-lg border border-ink/10 bg-white/40 p-4 {% if r.status == "done" || r.status == "dismissed" %}opacity-50{% endif %}">
+        <div class="w-24 shrink-0 text-sm font-medium text-accent">
+            {% match r.date %}{% when Some with (d) %}{{ d }}{% when None %}<span class="text-ink/40">Undated</span>{% endmatch %}
+        </div>
+        <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="rounded px-1.5 py-0.5 text-xs uppercase tracking-wide
+                    {% if r.kind == "deadline" %}bg-red-100 text-red-700{% else %}bg-accent/10 text-accent{% endif %}">{{ r.kind }}</span>
+                <span class="font-medium {% if r.status == "done" %}line-through{% endif %}">{{ r.title }}</span>
+                {% if !r.tag.is_empty() %}<span class="text-xs text-ink/40">{{ r.tag }}</span>{% endif %}
+                {% if r.needs_review %}<span class="rounded bg-amber-100 px-1.5 py-0.5 text-xs uppercase tracking-wide text-amber-700">Review</span>{% endif %}
+            </div>
+            {% match r.source_title %}{% when Some with (st) %}
+            <div class="mt-1 text-xs text-ink/50">From:
+                {% match r.source_url %}{% when Some with (u) %}<a href="{{ u }}" target="_blank" rel="noopener" class="text-accent hover:underline">{{ st }}</a>{% when None %}{{ st }}{% endmatch %}
+            </div>
+            {% when None %}{% endmatch %}
+        </div>
+        <div class="flex shrink-0 gap-1 text-xs">
+            {% if r.kind == "deadline" %}
+                {% if r.status == "open" %}
+                <button hx-patch="/admin/deadlines/{{ r.id }}/status?value=done" hx-target="#timeline-list" hx-swap="outerHTML"
+                        class="rounded border border-accent px-2 py-1 text-accent hover:bg-accent/10">Done</button>
+                {% else %}
+                <button hx-patch="/admin/deadlines/{{ r.id }}/status?value=open" hx-target="#timeline-list" hx-swap="outerHTML"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/60 hover:border-ink/40">Reopen</button>
+                {% endif %}
+                <button hx-delete="/admin/deadlines/{{ r.id }}" hx-target="#timeline-list" hx-swap="outerHTML" hx-confirm="Delete this deadline?"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/50 hover:border-red-400 hover:text-red-600">✕</button>
+            {% else %}
+                <button hx-delete="/admin/events/{{ r.id }}" hx-target="#timeline-list" hx-swap="outerHTML" hx-confirm="Delete this event?"
+                        class="rounded border border-ink/20 px-2 py-1 text-ink/50 hover:border-red-400 hover:text-red-600">✕</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
