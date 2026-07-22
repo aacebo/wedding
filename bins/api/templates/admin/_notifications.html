@@ -1,0 +1,47 @@
+{# Out-of-band badge update so the nav count refreshes with any panel action. #}
+<span id="notif-badge" hx-swap-oob="true"
+      hx-get="/admin/notifications/count"
+      hx-trigger="every 60s"
+      hx-swap="outerHTML">
+{% if unread > 0 %}<span class="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-white">{{ unread }}</span>{% endif %}
+</span>
+
+<div class="flex items-center justify-between border-b border-ink/10 px-4 py-3">
+    <h3 class="font-display text-sm font-semibold">Reminders</h3>
+    <div class="flex items-center gap-3 text-xs">
+        <button hx-post="/admin/notifications/refresh"
+                hx-target="#notif-panel-body" hx-swap="innerHTML"
+                class="text-accent hover:underline">Refresh</button>
+        {% if unread > 0 %}
+        <button hx-post="/admin/notifications/read-all"
+                hx-target="#notif-panel-body" hx-swap="innerHTML"
+                class="text-ink/60 hover:text-accent">Mark all read</button>
+        {% endif %}
+    </div>
+</div>
+
+{% if notifications.is_empty() %}
+<p class="px-4 py-6 text-center text-sm text-ink/60">You're all caught up.</p>
+{% else %}
+<ul class="max-h-96 divide-y divide-ink/5 overflow-y-auto">
+    {% for n in notifications %}
+    <li class="flex items-start gap-3 px-4 py-3 {% if n.is_unread() %}bg-accent/5{% endif %}">
+        <span class="mt-1 h-2 w-2 shrink-0 rounded-full {% if n.is_overdue() %}bg-red-500{% else %}bg-accent{% endif %}"></span>
+        <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium">{{ n.title }}</p>
+            <p class="text-xs {% if n.is_overdue() %}text-red-600{% else %}text-ink/60{% endif %}">{{ n.body }}</p>
+        </div>
+        <div class="flex shrink-0 flex-col items-end gap-1 text-[11px]">
+            {% if n.is_unread() %}
+            <button hx-patch="/admin/notifications/{{ n.id }}?value=read"
+                    hx-target="#notif-panel-body" hx-swap="innerHTML"
+                    class="text-accent hover:underline">Read</button>
+            {% endif %}
+            <button hx-patch="/admin/notifications/{{ n.id }}?value=dismissed"
+                    hx-target="#notif-panel-body" hx-swap="innerHTML"
+                    class="text-ink/40 hover:text-red-500">Dismiss</button>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

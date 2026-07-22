@@ -114,3 +114,24 @@ Human edits are durable: editing an AI item flips its `created_by` to `human`, a
 completing/dismissing changes its status — both of which the extraction re-run
 skips (it only replaces AI-created, still-`open` items), so manual work is never
 clobbered.
+
+### Notifications & deadline reminders
+
+Every admin page shows a **bell** in the nav with an unread count that polls every
+60s (`GET /admin/notifications/count`). Opening it loads a panel
+(`GET /admin/notifications`) listing reminders derived from open, dated deadlines
+and todos:
+
+- `deadline_overdue` — past due (shown first, in red).
+- `deadline_soon` / `todo_due` — due within the next 14 days.
+
+`generate_notifications()` (storage `NotificationStorage::generate`) is idempotent:
+one notification per referenced item (`UNIQUE (ref_type, ref_id)`), whose `kind`
+escalates in place as a deadline moves from soon to overdue, and which is pruned
+once its item is completed, dismissed, or undated. It runs automatically at the end
+of each `/admin/extract` pass and on the panel's **Refresh** button
+(`POST /admin/notifications/refresh`). Reminders can be marked read
+(`PATCH /admin/notifications/{id}?value=read`), dismissed (`value=dismissed`), or
+cleared in bulk (`POST /admin/notifications/read-all`); read/dismissed state
+survives regeneration. The `notifications` schema is channel-agnostic, so an
+email/push sender can be added later without a migration.

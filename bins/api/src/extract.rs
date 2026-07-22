@@ -169,6 +169,9 @@ pub async fn extract_pending<E: LlmExtractor>(
     report.total_events = events;
     report.total_deadlines = deadlines;
 
+    // Refresh in-page reminders from the freshly extracted deadlines/todos.
+    storage.notifications().generate().await?;
+
     Ok(report)
 }
 

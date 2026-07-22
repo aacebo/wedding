@@ -5,6 +5,7 @@ pub mod healthz;
 pub mod inbox;
 pub mod index;
 pub mod logout;
+pub mod notifications;
 pub mod sync;
 pub mod sync_status;
 pub mod timeline;

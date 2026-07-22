@@ -6,6 +6,7 @@ mod admin_item;
 mod comm_source;
 mod google_account;
 mod guest;
+mod notification;
 mod rsvp;
 mod sync_state;
 
@@ -13,6 +14,7 @@ pub use admin_item::*;
 pub use comm_source::*;
 pub use google_account::*;
 pub use guest::*;
+pub use notification::*;
 pub use rsvp::*;
 pub use sync_state::*;
 
@@ -23,6 +25,7 @@ pub struct Storage<'a> {
     _comm_sources: CommSourceStorage<'a>,
     _sync_state: SyncStateStorage<'a>,
     _admin_items: AdminItemStorage<'a>,
+    _notifications: NotificationStorage<'a>,
 }
 
 impl<'a> Storage<'a> {
@@ -34,6 +37,7 @@ impl<'a> Storage<'a> {
             _comm_sources: CommSourceStorage::new(pool),
             _sync_state: SyncStateStorage::new(pool),
             _admin_items: AdminItemStorage::new(pool),
+            _notifications: NotificationStorage::new(pool),
         }
     }
 
@@ -59,5 +63,9 @@ impl<'a> Storage<'a> {
 
     pub fn admin_items(&self) -> &AdminItemStorage<'a> {
         &self._admin_items
+    }
+
+    pub fn notifications(&self) -> &NotificationStorage<'a> {
+        &self._notifications
     }
 }

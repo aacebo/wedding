@@ -1,0 +1,6 @@
+<span id="notif-badge"
+      hx-get="/admin/notifications/count"
+      hx-trigger="every 60s"
+      hx-swap="outerHTML">
+{% if unread > 0 %}<span class="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-white">{{ unread }}</span>{% endif %}
+</span>

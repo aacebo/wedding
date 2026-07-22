@@ -113,6 +113,11 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::timeline::set_deadline_status)
             .service(routes::admin::timeline::remove_deadline)
             .service(routes::admin::timeline::remove_event)
+            .service(routes::admin::notifications::panel)
+            .service(routes::admin::notifications::count)
+            .service(routes::admin::notifications::set_status)
+            .service(routes::admin::notifications::read_all)
+            .service(routes::admin::notifications::refresh)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))
