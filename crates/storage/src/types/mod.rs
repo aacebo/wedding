@@ -4,6 +4,7 @@ mod google_account;
 mod guest;
 mod notification;
 mod rsvp;
+mod sync_run;
 mod sync_state;
 
 pub use admin_item::*;
@@ -12,4 +13,5 @@ pub use google_account::*;
 pub use guest::*;
 pub use notification::*;
 pub use rsvp::*;
+pub use sync_run::*;
 pub use sync_state::*;

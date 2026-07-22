@@ -1,7 +1,7 @@
 use actix_web::{Error, error::ErrorInternalServerError, get, web, web::Html};
 use askama::Template;
 
-use storage::types::{CommSource, DeadlineRow};
+use storage::types::{CommSource, DeadlineRow, SyncRun};
 
 use crate::{AdminSession, Context};
 
@@ -17,6 +17,7 @@ struct Dashboard {
     deadline_count: i64,
     upcoming: Vec<DeadlineRow>,
     recent: Vec<CommSource>,
+    last_run: Option<SyncRun>,
 }
 
 #[get("/admin")]
@@ -51,6 +52,11 @@ pub async fn get(ctx: web::Data<Context>, admin: AdminSession) -> Result<Html, E
         .recent(None, 5)
         .await
         .map_err(ErrorInternalServerError)?;
+    let last_run = storage
+        .sync_runs()
+        .latest()
+        .await
+        .map_err(ErrorInternalServerError)?;
 
     Ok(Html::new(
         Dashboard {
@@ -63,6 +69,7 @@ pub async fn get(ctx: web::Data<Context>, admin: AdminSession) -> Result<Html, E
             deadline_count,
             upcoming,
             recent,
+            last_run,
         }
         .render()
         .map_err(ErrorInternalServerError)?,

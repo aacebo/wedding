@@ -135,3 +135,51 @@ of each `/admin/extract` pass and on the panel's **Refresh** button
 cleared in bulk (`POST /admin/notifications/read-all`); read/dismissed state
 survives regeneration. The `notifications` schema is channel-agnostic, so an
 email/push sender can be added later without a migration.
+
+### Scheduled background sync
+
+The full pipeline — **ingest Gmail/Drive → LLM extraction → regenerate
+notifications** — is a single reusable pass, `pipeline::run_once(ctx, trigger)`.
+It can be driven three ways, all sharing one code path and one audit trail:
+
+- **Scheduled (production):** a Render **cron** service (`wedding-sync`,
+  `schedule: "*/30 * * * *"`) runs the one-shot CLI `/(/app/api) sync-once`, which
+  builds the context, runs a single pass, prints a JSON report, and exits.
+- **Manual:** the dashboard's **Run full sync** button posts to `POST /admin/pipeline`
+  (shown only when Google or OpenAI is configured).
+- **Granular:** the existing `POST /admin/sync` (ingest only) and `POST /admin/extract`
+  (extract only) endpoints are unchanged.
+
+**Overlap protection:** each pass takes a Postgres session-scoped **advisory lock**
+(`pg_try_advisory_lock`). If a scheduled run and a manual trigger coincide, the
+second is skipped (`{"skipped": true}`) rather than double-processing — safe even
+if the web service scales to multiple instances. Every pass is recorded in the
+`sync_runs` audit table (trigger, status, per-stage counts, error, timestamps),
+and the dashboard's **System status** widget surfaces the latest run and any error.
+
+Run a one-off pass locally:
+
+```sh
+DATABASE_URL=postgres://admin:admin@localhost:5432/wedding \
+cargo run -p api -- sync-once
+```
+
+### Deployment (Render)
+
+`render.yaml` provisions the Postgres database, the `wedding-api` web service, and
+the `wedding-sync` cron service. Secrets are declared `sync: false` so Render
+prompts for them at Blueprint creation (they are never committed); `SESSION_SECRET`
+is generated. Set the same Google/OpenAI secrets on both services. Copy
+`.env.example` to `.env` for local development.
+
+**Google Cloud OAuth setup:** create an OAuth 2.0 Client (Web application), add the
+authorized redirect URI `https://baicebo.com/admin/auth/google/callback` (and the
+`http://localhost:8080/...` variant for dev), and request only the read-only
+`gmail.readonly` and `drive.readonly` scopes plus `openid`/`email`. Put the two
+allowlisted wedding emails on the OAuth consent screen's test users.
+
+**Security notes:** Google scopes are read-only; tokens are encrypted at rest
+(AES-256 derived from `TOKEN_ENCRYPTION_KEY`); the allowlist is enforced on every
+`/admin/*` route (covered by an integration test) and unauthenticated requests get
+404; email/doc content is treated as untrusted LLM input; and no tokens, PII, or
+secrets are logged.

@@ -24,3 +24,57 @@ services:
         fromDatabase:
           name: wedding-db
           property: connectionString
+      # Signs the admin session cookie; generated once and kept stable so
+      # sessions survive restarts.
+      - key: SESSION_SECRET
+        generateValue: true
+      # Admin access + integrations. Secret values are prompted at Blueprint
+      # creation (sync:false) and set in the Render dashboard — never committed.
+      - key: ADMIN_ALLOWLIST
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      - key: TOKEN_ENCRYPTION_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+
+  # Scheduled background pass: ingest Gmail/Drive -> LLM extraction ->
+  # regenerate notifications, then exit. Render skips a run if the previous one
+  # is still going, and a Postgres advisory lock guards against overlap with a
+  # manual "Run full sync" trigger.
+  - type: cron
+    name: wedding-sync
+    runtime: docker
+    plan: standard
+    region: virginia
+    dockerfilePath: bins/api/Dockerfile
+    dockerContext: .
+    schedule: "*/30 * * * *"
+    dockerCommand: /app/api sync-once
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wedding-db
+          property: connectionString
+      # Same integration secrets as the web service (the cron pass decrypts
+      # tokens and calls Google + OpenAI). Session/allowlist aren't needed here.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      - key: TOKEN_ENCRYPTION_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini

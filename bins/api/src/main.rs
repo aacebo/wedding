@@ -10,8 +10,12 @@ mod context;
 mod extract;
 mod google_auth;
 mod ingest;
+mod pipeline;
 mod request_context;
 mod routes;
+
+#[cfg(test)]
+mod admin_auth_tests;
 
 pub use admin_session::AdminSession;
 pub use config::Config;
@@ -19,20 +23,9 @@ pub use context::Context;
 pub use google_auth::GoogleAuth;
 pub use request_context::{RequestContext, RequestContextMiddleware};
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    let config = Config::from_env();
-    let pool = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(&config.database_url)
-        .await
-        .expect("Failed to create pool");
-
-    sqlx::migrate!("../../crates/storage/migrations")
-        .run(&pool)
-        .await
-        .expect("Failed to run migrations");
-
+/// Builds the shared [`Context`] (DB pool + optional Google/OpenAI integrations)
+/// used by both the web server and the `sync-once` cron subcommand.
+fn build_context(config: &Config, pool: sqlx::PgPool) -> Context {
     // Google SSO is enabled only when all four values are present; otherwise its
     // routes 404 and the admin area falls back to dev-login.
     let google = match (
@@ -54,14 +47,50 @@ async fn main() -> std::io::Result<()> {
         .clone()
         .map(|key| llm::OpenAiExtractor::new(key, config.openai_model.clone()));
 
-    let ctx = Context::new(
+    Context::new(
         pool,
         config.admin_allowlist.clone(),
         config.dev_login_enabled,
         google,
         llm,
         config.llm_max_batch,
-    );
+    )
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    let config = Config::from_env();
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&config.database_url)
+        .await
+        .expect("Failed to create pool");
+
+    sqlx::migrate!("../../crates/storage/migrations")
+        .run(&pool)
+        .await
+        .expect("Failed to run migrations");
+
+    // `api sync-once` runs a single background pipeline pass and exits — this is
+    // what the Render cron job invokes. Anything else starts the web server.
+    if std::env::args().nth(1).as_deref() == Some("sync-once") {
+        let ctx = build_context(&config, pool);
+        match pipeline::run_once(&ctx, "scheduled").await {
+            Ok(report) => {
+                println!(
+                    "{}",
+                    serde_json::to_string(&report).unwrap_or_else(|_| "{}".to_string())
+                );
+                return Ok(());
+            }
+            Err(e) => {
+                eprintln!("sync-once failed: {e}");
+                return Err(std::io::Error::other(e));
+            }
+        }
+    }
+
+    let ctx = build_context(&config, pool);
     // Derives a stable signing key from the configured secret so admin session
     // cookies survive restarts (as long as SESSION_SECRET is stable).
     let session_key = Key::derive_from(config.session_secret.as_bytes());
@@ -118,6 +147,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::notifications::set_status)
             .service(routes::admin::notifications::read_all)
             .service(routes::admin::notifications::refresh)
+            .service(routes::admin::pipeline::post)
             // Served from disk relative to the working directory the server is
             // launched from (repo root /app in Docker — see compose & Dockerfile).
             .service(Files::new("/assets", "bins/api/assets"))

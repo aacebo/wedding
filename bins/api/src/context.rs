@@ -69,4 +69,8 @@ impl Context {
     pub fn storage(&self) -> Storage<'_> {
         Storage::new(&self.pool)
     }
+
+    pub fn pool(&self) -> &PgPool {
+        &self.pool
+    }
 }

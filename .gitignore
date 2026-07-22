@@ -23,3 +23,6 @@ target/
 # Local test artifacts
 cookies.txt
 body.json
+
+# Local environment (never commit real secrets); .env.example is committed
+.env

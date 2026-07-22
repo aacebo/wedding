@@ -72,7 +72,28 @@
         {% if llm_enabled %}
         <button id="extract-btn" class="rounded-md border border-accent px-4 py-2 text-sm font-medium text-accent hover:bg-accent/10">Extract todos</button>
         {% endif %}
+        {% if google_enabled || llm_enabled %}
+        <button id="pipeline-btn" class="rounded-md border border-accent px-4 py-2 text-sm font-medium text-accent hover:bg-accent/10">Run full sync</button>
+        {% endif %}
         <p id="action-result" class="text-sm text-ink/60"></p>
+    </div>
+
+    <div class="rounded-lg border border-ink/10 bg-white/40 p-6">
+        <h2 class="font-display text-lg font-semibold">System status</h2>
+        {% match last_run %}
+        {% when Some with (r) %}
+        <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            <span class="inline-flex items-center gap-1.5">
+                <span class="h-2 w-2 rounded-full {% if r.ok() %}bg-accent{% else %}bg-red-500{% endif %}"></span>
+                <span class="font-medium">Last sync {{ r.status }}</span>
+            </span>
+            <span class="text-ink/60">{{ r.trigger }} · {{ r.started_at.format("%Y-%m-%d %H:%M UTC") }}</span>
+        </div>
+        <p class="mt-1 text-sm text-ink/60">{{ r.sources_new }} new · {{ r.sources_updated }} updated · {{ r.todos_created }} todos · {{ r.events_created }} events · {{ r.deadlines_created }} deadlines</p>
+        {% match r.error %}{% when Some with (e) %}<p class="mt-1 text-sm text-red-600">{{ e }}</p>{% when None %}{% endmatch %}
+        {% when None %}
+        <p class="mt-2 text-sm text-ink/60">No background runs yet. Sync runs on a schedule (Render cron) or from <span class="font-medium">Run full sync</span>.</p>
+        {% endmatch %}
     </div>
 
     {% if google_enabled && !google_linked %}
@@ -109,6 +130,11 @@
         wire("extract-btn", "/admin/extract", (d) =>
             "Extracted " + d.todos_created + " todos, " + d.events_created + " events, " +
             d.deadlines_created + " deadlines (" + d.processed + " processed, " + d.failed + " failed). Reload to see them.");
+        wire("pipeline-btn", "/admin/pipeline", (d) =>
+            d.skipped ? "A sync is already running — try again shortly."
+            : ("Full sync " + d.status + ": " + d.sources_new + " new, " + d.todos_created +
+               " todos, " + d.deadlines_created + " deadlines." + (d.error ? " (" + d.error + ")" : "") +
+               " Reload to see them."));
     })();
 </script>
 {% endblock %}
