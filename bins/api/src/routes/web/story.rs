@@ -3,9 +3,12 @@ use std::fs;
 use actix_web::{Error, error::ErrorInternalServerError, get, web::Html};
 use askama::Template;
 
+use super::PageMetadata;
+
 #[derive(Template)]
 #[template(path = "story.html")]
 struct StoryPage {
+    meta: PageMetadata,
     images: Vec<String>,
 }
 
@@ -35,6 +38,11 @@ fn story_images() -> Vec<String> {
 #[get("/story")]
 pub async fn get() -> Result<Html, Error> {
     let page = StoryPage {
+        meta: PageMetadata::new(
+            "Our Story — Nancy & Alexander",
+            "The story of Nancy and Alexander, from the first chapter to their wedding celebration in Tuscany.",
+            "https://baicebo.com/story",
+        ),
         images: story_images(),
     };
 
