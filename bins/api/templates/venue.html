@@ -1,101 +1,54 @@
 {% extends "base.html" %}
 
-{% block title %}Venue — Nancy &amp; Alexander{% endblock %}
+{% block title %}Villa di Striano — Nancy &amp; Alexander{% endblock %}
 
 {% block content %}
-<main class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-8 py-16 text-center">
-    <p class="text-xs uppercase tracking-[0.4em] text-accent">Where we&#39;ll celebrate</p>
-    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Villa di Striano</h1>
-    <p class="font-serif text-lg italic text-ink/70">Borgo San Lorenzo, Tuscany &middot; Italy</p>
+<main id="main-content" class="page-shell venue-page">
+    <header class="page-intro" data-reveal>
+        <p class="page-kicker">Where we will celebrate</p>
+        <h1 class="page-title">Villa di Striano</h1>
+        <p class="page-deck">Borgo San Lorenzo, Tuscany &middot; Italy</p>
+    </header>
 
-    <div class="w-44 text-accent">
-        {% include "svg/frame.svg" %}
-    </div>
+    <section class="venue-montage pet-hover-zone" aria-label="Views of Villa di Striano">
+        <div class="venue-montage__hero" data-reveal><img src="/assets/venue/villa-di-striano-1.jpg" alt="Aerial view of Villa di Striano in the Tuscan hills"></div>
+        <div data-reveal><img src="/assets/venue/villa-di-striano-2.jpg" alt="The villa's arched loggia above its formal rose garden" loading="lazy"></div>
+        <div data-reveal><img src="/assets/venue/villa-di-striano-evening.jpg" alt="Evening reception under string lights in the villa garden" loading="lazy"></div>
+        <figure class="pet-cameo pet-cameo--cat venue-cat" data-pet-cameo aria-hidden="true">
+            <img src="/assets/pets/heihei.png" alt=""><figcaption class="pet-cameo__tag">room inspector</figcaption>
+        </figure>
+    </section>
 
-    <div class="flex w-full flex-col gap-3">
-        <img src="/assets/venue/villa-di-striano-1.jpg"
-             alt="Aerial view of Villa di Striano set in the Tuscan hills of the Mugello"
-             loading="lazy"
-             class="h-64 w-full rounded border border-ink/10 object-cover sm:h-80">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <img src="/assets/venue/villa-di-striano-2.jpg"
-                 alt="The villa's arched loggia above its formal rose garden"
-                 loading="lazy"
-                 class="h-48 w-full rounded border border-ink/10 object-cover sm:h-56">
-            <img src="/assets/venue/villa-di-striano-evening.jpg"
-                 alt="Evening reception under string lights in the villa garden"
-                 loading="lazy"
-                 class="h-48 w-full rounded border border-ink/10 object-cover sm:h-56">
+    <section class="venue-details" data-reveal>
+        <aside class="venue-address">
+            <span class="venue-address__label">The address</span>
+            <h2>Striano 42</h2>
+            <p>50032 Borgo San Lorenzo<br>Firenze, Italy</p>
+            <div class="venue-address__actions">
+                <a class="editorial-button" href="https://maps.google.com/?q=Villa+di+Striano+Borgo+San+Lorenzo+Firenze" target="_blank" rel="noopener">Open maps</a>
+                <a class="editorial-button" href="https://www.villadistriano.com/" target="_blank" rel="noopener">Website</a>
+            </div>
+        </aside>
+        <div class="venue-description">
+            <p>A countryside estate in the rolling hills of the Mugello, just north of Florence, Villa di Striano pairs classic Tuscan architecture with olive groves and garden terraces.</p>
+            <p><em>The perfect backdrop for the day.</em></p>
+            <p><a class="editorial-link" href="/travel">See Travel &amp; Stay</a> for directions, parking, and lodging.</p>
         </div>
-    </div>
+    </section>
 
-    <div class="flex flex-col gap-1">
-        <p class="font-display text-sm uppercase tracking-[0.25em] text-ink">Address</p>
-        <p class="font-serif text-lg text-ink/80">Loc. Striano 42<br>50032 Borgo San Lorenzo, Firenze, Italy</p>
-    </div>
-
-    <div class="flex flex-wrap items-center justify-center gap-4">
-        <a href="https://maps.google.com/?q=Villa+di+Striano+Borgo+San+Lorenzo+Firenze" target="_blank" rel="noopener"
-           class="mt-2 border border-ink px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-ink transition hover:bg-ink hover:text-cream">
-            Open in Maps
-        </a>
-        <a href="https://www.villadistriano.com/" target="_blank" rel="noopener"
-           class="mt-2 border border-ink px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-ink transition hover:bg-ink hover:text-cream">
-            Visit Website
-        </a>
-    </div>
-
-    <p class="mt-4 max-w-md font-serif text-lg leading-relaxed text-ink/80">
-        A countryside estate in the rolling hills of the Mugello, just north of Florence,
-        Villa di Striano pairs classic Tuscan architecture with olive groves and garden
-        terraces &mdash; the perfect backdrop for the day.
-    </p>
-
-    <div class="mt-6 flex w-full max-w-xl flex-col items-center gap-6 border-t border-ink/10 pt-8">
-        <p class="text-xs uppercase tracking-[0.4em] text-accent">A little history</p>
-        <h2 class="font-display text-2xl tracking-wide text-ink">Eight centuries on a Tuscan hill</h2>
-        <p class="max-w-prose font-serif text-base italic text-ink/60">
-            From a medieval watchtower to a painter&#39;s villa beloved by poets &mdash; a few of the
-            stories Striano has gathered over the centuries.
-        </p>
-
-        <div class="flex w-full flex-col gap-6 text-left">
-            <div class="border-l-2 border-accent pl-6">
-                <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">13th century &middot; A watchtower</p>
-                <p class="font-serif text-lg text-ink/80">Striano begins as a guarding tower of the powerful Ubaldini
-                family, keeping watch over the Mugello valley north of Florence.</p>
-            </div>
-            <div class="border-l-2 border-accent pl-6">
-                <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">18th century &middot; Villa &amp; the naturalist</p>
-                <p class="font-serif text-lg text-ink/80">The Franceschi family transforms the stronghold into a villa.
-                It also belonged to Antonio Cocchi &mdash; physician, writer, and curator of the Grand Duchy of Tuscany&#39;s museums.</p>
-            </div>
-            <div class="border-l-2 border-accent pl-6">
-                <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">1872 &middot; A painter&#39;s home</p>
-                <p class="font-serif text-lg text-ink/80">Michele Gordigiani &mdash; celebrated portraitist of the queens of
-                Europe &mdash; buys Striano and reimagines it with architect Del Moro, who designed the sun-filled
-                Limonaia under the Renaissance influence of Buontalenti.</p>
-            </div>
-            <div class="border-l-2 border-accent pl-6">
-                <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Belle &Eacute;poque &middot; Music &amp; muses</p>
-                <p class="font-serif text-lg text-ink/80">Gordigiani&#39;s daughter Giulietta &mdash; a singer and pianist &mdash;
-                marries Baron Robert von Mendelssohn, of the composer&#39;s family. The poet Gabriele D&#39;Annunzio
-                and the great actress Eleonora Duse spend long summer days at the villa as her close friends.</p>
-            </div>
-            <div class="border-l-2 border-accent pl-6">
-                <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Today &middot; A historic residence</p>
-                <p class="font-serif text-lg text-ink/80">Now a recognized Historic Residence (ADSI), Striano opens its
-                halls, gardens, and Tuscan views to host celebrations &mdash; including ours.</p>
-            </div>
+    <section class="venue-history">
+        <header class="venue-history__heading" data-reveal>
+            <h2>Eight centuries on a Tuscan hill.</h2>
+            <p>From a medieval watchtower to a painter's villa beloved by poets&mdash;a few of the stories Striano has gathered.</p>
+        </header>
+        <div class="history-columns">
+            <article class="history-entry" data-reveal><h3>13th century &middot; A watchtower</h3><p>Striano begins as a guarding tower of the powerful Ubaldini family, keeping watch over the Mugello valley north of Florence.</p></article>
+            <article class="history-entry" data-reveal><h3>18th century &middot; Villa &amp; naturalist</h3><p>The Franceschi family transforms the stronghold into a villa. It also belonged to Antonio Cocchi&mdash;physician, writer, and curator of Tuscany's museums.</p></article>
+            <article class="history-entry" data-reveal><h3>1872 &middot; A painter's home</h3><p>Portraitist Michele Gordigiani buys Striano and reimagines it with architect Del Moro under the Renaissance influence of Buontalenti.</p></article>
+            <article class="history-entry" data-reveal><h3>Belle Époque &middot; Music &amp; muses</h3><p>Gordigiani's daughter Giulietta welcomes poet Gabriele D'Annunzio and actress Eleonora Duse for long summer days at the villa.</p></article>
+            <article class="history-entry" data-reveal><h3>Today &middot; A historic residence</h3><p>Now a recognized Historic Residence, Striano opens its halls, gardens, and Tuscan views to host celebrations&mdash;including ours.</p></article>
         </div>
-    </div>
-
-    <p class="font-serif text-sm italic text-ink/50">
-        See the <a href="/travel" class="text-accent transition hover:text-ink">Travel &amp; Stay</a> page for directions, parking, and lodging.
-    </p>
-
-    <div class="w-16 text-accent">
-        {% include "svg/sprig.svg" %}
-    </div>
+        <figure class="venue-dog" data-pet-cameo aria-hidden="true"><img src="/assets/pets/marlow.png" alt=""></figure>
+    </section>
 </main>
 {% endblock %}

@@ -3,93 +3,81 @@
 {% block title %}Our Story — Nancy &amp; Alexander{% endblock %}
 
 {% block content %}
-<main class="mx-auto flex max-w-2xl flex-col items-center gap-8 px-8 py-16 text-center">
-    <p class="text-xs uppercase tracking-[0.4em] text-accent">How it began</p>
-    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Our Story</h1>
+<main id="main-content" class="page-shell story-page">
+    <header class="page-intro" data-reveal>
+        <p class="page-kicker">How it began &middot; New York City</p>
+        <h1 class="page-title">Our Story</h1>
+        <div class="ink-rule" aria-hidden="true"><span>love, actually</span></div>
+    </header>
 
-    <div class="w-44 text-accent">
-        {% include "svg/frame.svg" %}
-    </div>
+    <section class="story-feature" aria-label="Nancy and Alexander's story">
+        {% if images.is_empty() %}
+        <div class="story-carousel" data-reveal>
+            <div class="story-carousel__track" style="display:grid;place-items:center;">
+                <p>Photos coming soon</p>
+            </div>
+        </div>
+        {% else %}
+        <div x-data="{
+                current: 0,
+                count: {{ images.len() }},
+                isPaused: false,
+                timer: null,
+                goTo(i) { this.current = (i + this.count) % this.count; },
+                next() { this.goTo(this.current + 1); },
+                prev() { this.goTo(this.current - 1); },
+                start() { this.timer = setInterval(() => { if (!this.isPaused) this.next(); }, 5000); }
+             }"
+             x-init="start()"
+             @mouseenter="isPaused = true" @mouseleave="isPaused = false"
+             @focusin="isPaused = true" @focusout="isPaused = false"
+             class="story-carousel"
+             data-reveal role="group" aria-roledescription="carousel" aria-label="Photos of Nancy and Alexander">
+            <div class="story-carousel__track" x-cloak :style="`transform: translateX(-${current * 100}%)`">
+                {% for img in images %}
+                <img src="{{ img }}" alt="Nancy and Alexander" loading="lazy">
+                {% endfor %}
+            </div>
+            <button class="carousel-control carousel-control--prev" type="button" @click="prev()" aria-label="Previous photo">&#8249;</button>
+            <button class="carousel-control carousel-control--next" type="button" @click="next()" aria-label="Next photo">&#8250;</button>
+            <div class="carousel-dots">
+                {% for img in images %}
+                <button type="button" @click="goTo({{ loop.index0 }})" aria-label="Show photo {{ loop.index }}" :aria-current="current === {{ loop.index0 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
 
-    {% if images.is_empty() %}
-    <div class="aspect-[4/5] w-full max-w-lg border border-ink/20 bg-ink/5 flex items-center justify-center">
-        <span class="font-display text-xs uppercase tracking-[0.3em] text-ink/40">Photos coming soon</span>
-    </div>
-    {% else %}
-    <div x-data="{
-            current: 0,
-            count: {{ images.len() }},
-            isPaused: false,
-            autoplayMs: 5000,
-            timer: null,
-            goTo(i) { this.current = (i + this.count) % this.count; },
-            next() { this.goTo(this.current + 1); },
-            prev() { this.goTo(this.current - 1); },
-            start() { this.timer = setInterval(() => { if (!this.isPaused) this.next(); }, this.autoplayMs); }
-         }"
-         x-init="start()"
-         @mouseenter="isPaused = true" @mouseleave="isPaused = false"
-         @focusin="isPaused = true" @focusout="isPaused = false"
-         class="relative aspect-[4/5] w-full max-w-lg overflow-hidden rounded border border-ink/10 bg-ink/5"
-         role="group" aria-roledescription="carousel" aria-label="Photos of Nancy and Alexander">
-
-        <!-- Sliding track (Bootstrap-style push-slide via translateX) -->
-        <div class="flex h-full w-full transition-transform duration-[600ms] ease-in-out"
-             x-cloak
-             :style="`transform: translateX(-${current * 100}%)`">
-            {% for img in images %}
-            <img src="{{ img }}"
-                 alt="Nancy and Alexander"
-                 loading="lazy"
-                 class="h-full w-full shrink-0 object-cover">
-            {% endfor %}
+        <div class="story-copy" data-reveal>
+            <p class="story-copy__chapter">Chapter one</p>
+            <h2>Written across rooftops &amp; city streets.</h2>
+            <p>Nancy and Alexander met in New York City, and it has been a love story written across rooftops and city streets ever since.</p>
+            <p><em>Full story coming soon.</em></p>
         </div>
 
-        <!-- Prev / next chevron controls (Bootstrap .carousel-control-*), tinted -->
-        <button type="button" @click="prev()" aria-label="Previous photo"
-                class="absolute inset-y-0 left-0 flex w-[15%] items-center justify-start pl-3 text-3xl text-cream opacity-70 transition-opacity hover:opacity-100 [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
-            &#8249;
-        </button>
-        <button type="button" @click="next()" aria-label="Next photo"
-                class="absolute inset-y-0 right-0 flex w-[15%] items-center justify-end pr-3 text-3xl text-cream opacity-70 transition-opacity hover:opacity-100 [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
-            &#8250;
-        </button>
+        <figure class="pet-cameo pet-cameo--cat story-cat" data-pet-cameo aria-hidden="true">
+            <img src="/assets/pets/heihei.png" alt="">
+            <figcaption class="pet-cameo__tag">photo editor</figcaption>
+        </figure>
+    </section>
 
-        <!-- Bar indicators (Bootstrap .carousel-indicators: 30x3px, 3px gaps), tinted -->
-        <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
-            {% for img in images %}
-            <button type="button" @click="goTo({{ loop.index0 }})"
-                    aria-label="Slide {{ loop.index }}"
-                    :aria-current="current === {{ loop.index0 }}"
-                    class="mx-[3px] h-[3px] w-[30px] bg-cream transition-opacity duration-[600ms] [box-shadow:0_1px_2px_rgba(0,0,0,0.5)]"
-                    :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-50 hover:opacity-75'"></button>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    <p class="font-serif text-lg leading-relaxed text-ink/80">
-        Nancy and Alexander met in New York City, and it&#39;s been a love story written
-        across rooftops and city streets ever since. <span class="italic text-ink/50">(Full story coming soon.)</span>
-    </p>
-
-    <div class="flex w-full flex-col gap-6 text-left">
-        <div class="border-l-2 border-accent pl-6">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2021 &middot; The Meeting</p>
-            <p class="font-serif text-lg text-ink/80">Where it all started. <span class="italic text-ink/50">(TBD)</span></p>
-        </div>
-        <div class="border-l-2 border-accent pl-6">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2024 &middot; The Question</p>
-            <p class="font-serif text-lg text-ink/80">The proposal. <span class="italic text-ink/50">(TBD)</span></p>
-        </div>
-        <div class="border-l-2 border-accent pl-6">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">2027 &middot; The Wedding</p>
-            <p class="font-serif text-lg text-ink/80">June 19, 2027 &middot; Villa di Striano, Tuscany.</p>
-        </div>
+    <div class="pet-divider" data-pet-scroll aria-hidden="true">
+        <img src="/assets/pets/marlow.png" alt="" data-pet-walker>
     </div>
 
-    <div class="w-16 text-accent">
-        {% include "svg/sprig.svg" %}
-    </div>
+    <section class="story-timeline" aria-label="Our timeline">
+        <article class="timeline-entry" data-reveal>
+            <p class="timeline-entry__date">2021 &middot; The Meeting</p>
+            <div><h3>Where it all started.</h3><p>The first page of the story. <em>More details coming soon.</em></p></div>
+        </article>
+        <article class="timeline-entry" data-reveal>
+            <p class="timeline-entry__date">2024 &middot; The Question</p>
+            <div><h3>A very easy yes.</h3><p>The proposal chapter. <em>More details coming soon.</em></p></div>
+        </article>
+        <article class="timeline-entry" data-reveal>
+            <p class="timeline-entry__date">2027 &middot; The Wedding</p>
+            <div><h3>Next stop: Tuscany.</h3><p>June 19, 2027 &middot; Villa di Striano.</p></div>
+        </article>
+    </section>
 </main>
 {% endblock %}

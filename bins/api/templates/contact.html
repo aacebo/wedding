@@ -3,32 +3,31 @@
 {% block title %}Contact — Nancy &amp; Alexander{% endblock %}
 
 {% block content %}
-<main class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-8 py-16 text-center">
-    <p class="text-xs uppercase tracking-[0.4em] text-accent">Get in touch</p>
-    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Contact</h1>
-    <p class="font-serif text-lg italic text-ink/70">We&#39;d love to hear from you</p>
+<main id="main-content" class="contact-page">
+    <header class="page-intro" data-reveal>
+        <p class="page-kicker">Send us a note</p>
+        <h1 class="page-title">Contact</h1>
+        <p class="page-deck">We would love to hear from you.</p>
+    </header>
 
-    <div class="w-44 text-accent">
-        {% include "svg/frame.svg" %}
-    </div>
-
-    <div class="flex flex-col gap-6">
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-ink">The Couple</p>
-            <a href="mailto:nancyandalexander@example.com" class="font-serif text-lg text-accent transition hover:text-ink">nancyandalexander@example.com</a>
+    <section class="contact-card pet-hover-zone" data-reveal aria-label="Wedding contacts">
+        <article class="contact-entry">
+            <h2>The couple</h2>
+            <p><a class="editorial-link" href="mailto:nancyandalexander@example.com">nancyandalexander@example.com</a></p>
+        </article>
+        <article class="contact-entry">
+            <h2>Wedding planner</h2>
+            <p>TBD &middot; <a class="editorial-link" href="mailto:planner@example.com">planner@example.com</a></p>
+        </article>
+        <article class="contact-entry">
+            <h2>The venue</h2>
+            <p>Villa di Striano &middot; Tuscany, Italy</p>
+        </article>
+        <div class="contact-pets" aria-hidden="true">
+            <figure class="pet-cameo pet-cameo--cat" data-pet-cameo><img src="/assets/pets/heihei.png" alt=""><figcaption class="pet-cameo__tag">HeiHei</figcaption></figure>
+            <div class="contact-seal">N + A</div>
+            <figure class="pet-cameo pet-cameo--dog" data-pet-cameo><img src="/assets/pets/marlow.png" alt=""><figcaption class="pet-cameo__tag">Marlow</figcaption></figure>
         </div>
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-ink">Wedding Planner</p>
-            <p class="font-serif text-lg text-ink/70">TBD &middot; <a href="mailto:planner@example.com" class="text-accent transition hover:text-ink">planner@example.com</a></p>
-        </div>
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-ink">Venue</p>
-            <p class="font-serif text-lg text-ink/70">Villa di Striano &middot; Tuscany, Italy</p>
-        </div>
-    </div>
-
-    <div class="w-16 text-accent">
-        {% include "svg/sprig.svg" %}
-    </div>
+    </section>
 </main>
 {% endblock %}

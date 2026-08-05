@@ -3,63 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Nancy & Alexander{% endblock %}</title>
+    <meta name="theme-color" content="#f1ebdd">
+    <meta name="description" content="Nancy and Alexander's wedding celebration at Villa di Striano in Tuscany.">
+    <title>{% block title %}Nancy &amp; Alexander{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-    <style>[x-cloak]{display:none !important;}</style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cream: '#F7F1E6',
-                        ink: '#1A1A1A',
-                        accent: '#6B7253',
-                    },
-                    fontFamily: {
-                        display: ['"Playfair Display"', 'Georgia', 'serif'],
-                        serif: ['"EB Garamond"', 'Georgia', 'serif'],
-                    },
-                },
-            },
-        };
-    </script>
+    <script defer src="/assets/site.js"></script>
 </head>
-<body class="bg-cream text-ink font-serif min-h-screen">
-    {# The bar is transparent and overlays each page. nav link colors live in the
-       reusable "nav" macro; pages pick a theme by calling it with light/dark
-       classes. Default (cream pages) = dark text; welcome overrides to light. #}
-    {%- macro nav(link, rsvp) -%}
-    <header class="absolute inset-x-0 top-0 z-20 w-full">
-        <nav class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-6 py-4 font-display text-xs uppercase tracking-[0.25em]">
-            <a href="/welcome" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Home</a>
-            <a href="/story" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Our Story</a>
-            <a href="/schedule" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Schedule</a>
-            <a href="/travel" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Travel</a>
-            <a href="/venue" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Venue</a>
-            <a href="/contact" data-nav class="{{ link }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">Contact</a>
-            <a href="/guests" data-nav class="{{ rsvp }} transition aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-4">RSVP</a>
+<body class="{% block body_class %}{% endblock %}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header" x-data="{ open: false }" @keydown.escape.window="open = false">
+        <div class="masthead">
+            <a class="masthead__brand" href="/welcome" aria-label="Nancy and Alexander — Home">
+                <span class="masthead__names">Nancy &amp; Alexander</span>
+                <span class="masthead__edition">The Wedding Edition</span>
+            </a>
+            <div class="masthead__details" aria-hidden="true">
+                <span>19 June 2027</span>
+                <span>Villa di Striano</span>
+                <span>Tuscany, Italy</span>
+            </div>
+            <button class="nav-toggle" type="button" @click="open = !open" :aria-expanded="open.toString()" aria-controls="site-nav">
+                <span class="nav-toggle__line"></span>
+                <span class="nav-toggle__label" x-text="open ? 'Close' : 'Menu'">Menu</span>
+                <span class="nav-toggle__line"></span>
+            </button>
+        </div>
+        <nav id="site-nav" class="site-nav" :class="{ 'is-open': open }" aria-label="Primary navigation">
+            <a href="/welcome" data-nav>Home</a>
+            <a href="/story" data-nav>Our Story</a>
+            <a href="/schedule" data-nav>Schedule</a>
+            <a href="/travel" data-nav>Travel</a>
+            <a href="/venue" data-nav>Venue</a>
+            <a href="/contact" data-nav>Contact</a>
         </nav>
     </header>
-    {%- endmacro -%}
-    {% block navbar %}{% call nav("text-ink/70 hover:text-accent aria-[current=page]:text-ink", "text-accent hover:text-ink") %}{% endcall %}{% endblock %}
-    <script>
-        (function () {
-            // Mark the nav link matching the current page as active. "/" redirects
-            // to /welcome, so treat both as Home.
-            var path = location.pathname === '/' ? '/welcome' : location.pathname;
-            document.querySelectorAll('nav [data-nav]').forEach(function (a) {
-                var href = a.getAttribute('href');
-                if (path === href || path.indexOf(href + '/') === 0) {
-                    a.setAttribute('aria-current', 'page');
-                }
-            });
-        })();
-    </script>
+
     {% block content %}{% endblock %}
+
+    <footer class="site-footer">
+        <div class="site-footer__pets" data-pet-cameo aria-hidden="true">
+            <figure class="pet-stamp pet-stamp--cat">
+                <img src="/assets/pets/heihei.png" alt="">
+                <figcaption>HeiHei</figcaption>
+            </figure>
+            <div class="site-footer__monogram">
+                <span>N + A</span>
+                <small>Forever &amp; always</small>
+            </div>
+            <figure class="pet-stamp pet-stamp--dog">
+                <img src="/assets/pets/marlow.png" alt="">
+                <figcaption>Marlow</figcaption>
+            </figure>
+        </div>
+        <p>19.06.27 &middot; Villa di Striano &middot; Tuscany</p>
+    </footer>
 </body>
 </html>

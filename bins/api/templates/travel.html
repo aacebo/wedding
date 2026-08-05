@@ -3,92 +3,68 @@
 {% block title %}Travel &amp; Stay — Nancy &amp; Alexander{% endblock %}
 
 {% block content %}
-<main class="mx-auto flex max-w-2xl flex-col items-center gap-8 px-8 py-16 text-center">
-    <p class="text-xs uppercase tracking-[0.4em] text-accent">Getting there</p>
-    <h1 class="font-display text-5xl font-semibold tracking-wide text-ink">Travel &amp; Stay</h1>
+<main id="main-content" class="page-shell travel-page">
+    <header class="page-intro" data-reveal>
+        <p class="page-kicker">The travel desk &middot; Getting there</p>
+        <h1 class="page-title">Travel &amp; Stay</h1>
+        <p class="page-deck">A few favorite places near the venue. Book early&mdash;summer rooms in the Mugello fill quickly.</p>
+    </header>
 
-    <div class="w-44 text-accent">
-        {% include "svg/frame.svg" %}
+    <section class="travel-grid" aria-label="Recommended places to stay">
+        <article class="travel-card" data-reveal>
+            <img src="/assets/travel/il-salviatino.webp" alt="Il Salviatino, a five-star villa hotel in the hills of Fiesole" loading="lazy">
+            <span class="travel-card__number">01 &middot; Five stars</span>
+            <h2>Il Salviatino</h2>
+            <p>A five-star retreat in a frescoed 15th-century villa set in five hectares of gardens in the hills of Fiesole.</p>
+            <div class="travel-card__links">
+                <a class="editorial-link" href="https://salviatino.com/" target="_blank" rel="noopener">Website</a>
+                <a class="editorial-link" href="https://maps.google.com/?q=Il+Salviatino+Fiesole+Firenze" target="_blank" rel="noopener">Maps</a>
+            </div>
+        </article>
+        <article class="travel-card" data-reveal>
+            <img src="/assets/travel/villa-campestri.jpg" alt="Villa Campestri Olive Oil Resort set among olive groves near Vicchio" loading="lazy">
+            <span class="travel-card__number">02 &middot; Four stars</span>
+            <h2>Villa Campestri</h2>
+            <p>A romantic 13th-century hilltop villa set in olive groves near Vicchio, a short drive from the venue.</p>
+            <div class="travel-card__links">
+                <a class="editorial-link" href="https://www.villacampestri.com/en/" target="_blank" rel="noopener">Website</a>
+                <a class="editorial-link" href="https://maps.google.com/?q=Villa+Campestri+Olive+Oil+Resort+Vicchio" target="_blank" rel="noopener">Maps</a>
+            </div>
+        </article>
+        <article class="travel-card" data-reveal>
+            <img src="/assets/travel/monsignor-della-casa.jpg" alt="Monsignor della Casa Country Resort and Spa near Borgo San Lorenzo" loading="lazy">
+            <span class="travel-card__number">03 &middot; Four stars</span>
+            <h2>Monsignor della Casa</h2>
+            <p>A Renaissance-villa resort near Borgo San Lorenzo with a spa, two pools, and tennis.</p>
+            <div class="travel-card__links">
+                <a class="editorial-link" href="https://www.monsignordellacasa.com/" target="_blank" rel="noopener">Website</a>
+                <a class="editorial-link" href="https://maps.google.com/?q=Monsignor+della+Casa+Country+Resort+Borgo+San+Lorenzo" target="_blank" rel="noopener">Maps</a>
+            </div>
+        </article>
+    </section>
+
+    <p class="schedule-note">We may reserve a room block closer to the date. Mention “Nancy &amp; Alexander Wedding” when booking.</p>
+
+    <section class="travel-notes" aria-label="Travel information" data-reveal>
+        <article class="travel-note">
+            <h3>Getting there</h3>
+            <p>Florence Airport (FLR) is about a 40-minute drive. Pisa (PSA) is roughly 1.5 hours away, and Bologna (BLQ) is another option.</p>
+        </article>
+        <article class="travel-note">
+            <h3>Parking</h3>
+            <p>Complimentary on-site parking is available at Villa di Striano.</p>
+        </article>
+        <article class="travel-note">
+            <h3>Local transit</h3>
+            <p>Regional trains reach Borgo San Lorenzo, but a car is recommended for the villa and countryside.</p>
+        </article>
+    </section>
+
+    <div class="travel-pet-scene pet-hover-zone" data-reveal aria-hidden="true">
+        <figure class="pet-cameo pet-cameo--cat travel-cat" data-pet-cameo><img src="/assets/pets/heihei.png" alt=""><figcaption class="pet-cameo__tag">carry-on</figcaption></figure>
+        <figure class="pet-cameo pet-cameo--dog travel-dog" data-pet-cameo><img src="/assets/pets/marlow.png" alt=""><figcaption class="pet-cameo__tag">road trip</figcaption></figure>
     </div>
 
-    <div class="flex w-full flex-col gap-8 text-left">
-        <div class="flex flex-col gap-4">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Where to Stay</p>
-            <p class="font-serif text-lg text-ink/80">A few favorites near the venue &mdash; we&#39;d recommend
-            booking early, as rooms in the Mugello fill up for a summer wedding.</p>
-
-            <div class="flex flex-col gap-1">
-                <img src="/assets/travel/il-salviatino.webp"
-                     alt="Il Salviatino, a five-star villa hotel in the hills of Fiesole"
-                     loading="lazy"
-                     class="mb-2 h-48 w-full rounded border border-ink/10 object-cover">
-                <p class="font-display text-lg text-ink">Il Salviatino <span class="text-sm text-accent">&middot; 5&#9733;</span></p>
-                <p class="font-serif text-base text-ink/80">A five-star retreat in a frescoed 15th-century villa set in five
-                hectares of gardens in the hills of Fiesole &mdash; the grandest stay, between the Mugello and Florence.</p>
-                <p class="font-serif text-sm">
-                    <a href="https://salviatino.com/" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Website</a>
-                    <span class="text-ink/30">&middot;</span>
-                    <a href="https://maps.google.com/?q=Il+Salviatino+Fiesole+Firenze" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Maps</a>
-                </p>
-            </div>
-
-            <div class="flex flex-col gap-1">
-                <img src="/assets/travel/villa-campestri.jpg"
-                     alt="Villa Campestri Olive Oil Resort set among olive groves near Vicchio"
-                     loading="lazy"
-                     class="mb-2 h-48 w-full rounded border border-ink/10 object-cover">
-                <p class="font-display text-lg text-ink">Villa Campestri Olive Oil Resort <span class="text-sm text-accent">&middot; 4&#9733;</span></p>
-                <p class="font-serif text-base text-ink/80">A four-star 13th-century hilltop villa set in olive groves near Vicchio
-                &mdash; a romantic, quintessentially Tuscan stay a short drive from the venue.</p>
-                <p class="font-serif text-sm">
-                    <a href="https://www.villacampestri.com/en/" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Website</a>
-                    <span class="text-ink/30">&middot;</span>
-                    <a href="https://maps.google.com/?q=Villa+Campestri+Olive+Oil+Resort+Vicchio" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Maps</a>
-                </p>
-            </div>
-
-            <div class="flex flex-col gap-1">
-                <img src="/assets/travel/monsignor-della-casa.jpg"
-                     alt="Monsignor della Casa Country Resort &amp; Spa, a Renaissance villa resort near Borgo San Lorenzo"
-                     loading="lazy"
-                     class="mb-2 h-48 w-full rounded border border-ink/10 object-cover">
-                <p class="font-display text-lg text-ink">Monsignor della Casa Country Resort &amp; Spa <span class="text-sm text-accent">&middot; 4&#9733;</span></p>
-                <p class="font-serif text-base text-ink/80">A four-star Renaissance-villa resort just outside Borgo San Lorenzo
-                with a spa, two pools, and tennis &mdash; about 30 minutes from Florence and close to the venue.</p>
-                <p class="font-serif text-sm">
-                    <a href="https://www.monsignordellacasa.com/" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Website</a>
-                    <span class="text-ink/30">&middot;</span>
-                    <a href="https://maps.google.com/?q=Monsignor+della+Casa+Country+Resort+Borgo+San+Lorenzo" target="_blank" rel="noopener" class="text-accent transition hover:text-ink">Maps</a>
-                </p>
-            </div>
-
-            <p class="font-serif text-sm italic text-ink/50">We may reserve a room block closer to the date &mdash;
-            mention &ldquo;Nancy &amp; Alexander Wedding&rdquo; when booking.</p>
-        </div>
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Getting There</p>
-            <p class="font-serif text-lg text-ink/80">Villa di Striano is in the Mugello, north of Florence.
-            The nearest airport is Florence (FLR, Amerigo Vespucci), about a 40-minute drive.
-            Pisa (PSA) is roughly 1.5 hours away, and Bologna (BLQ) is another option.</p>
-        </div>
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Parking</p>
-            <p class="font-serif text-lg text-ink/80">Complimentary on-site parking is available at the venue.</p>
-        </div>
-        <div class="flex flex-col gap-1">
-            <p class="font-display text-sm uppercase tracking-[0.25em] text-accent">Transit</p>
-            <p class="font-serif text-lg text-ink/80">Regional trains run from Florence to Borgo San Lorenzo,
-            but a car is recommended to reach the villa and explore the Tuscan countryside.</p>
-        </div>
-    </div>
-
-    <a href="/venue"
-       class="mt-2 border border-ink px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-ink transition hover:bg-ink hover:text-cream">
-        Venue &amp; Directions
-    </a>
-
-    <div class="w-16 text-accent">
-        {% include "svg/sprig.svg" %}
-    </div>
+    <p style="text-align:center;margin-top:2.5rem;"><a href="/venue" class="editorial-button">Venue &amp; directions</a></p>
 </main>
 {% endblock %}

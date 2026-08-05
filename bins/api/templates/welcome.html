@@ -1,32 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Nancy &amp; Alexander — Wedding{% endblock %}
-
-{# Over the dark hero photo, the nav reads in cream. #}
-{% block navbar %}{% call nav("text-cream/80 hover:text-cream aria-[current=page]:text-cream [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]", "text-cream hover:text-accent [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]") %}{% endcall %}{% endblock %}
+{% block title %}Nancy &amp; Alexander — The Wedding Edition{% endblock %}
+{% block body_class %}home-page{% endblock %}
 
 {% block content %}
-<main class="relative flex min-h-screen flex-col items-center justify-center gap-6 overflow-hidden p-8 text-center">
-    <div class="absolute inset-0 -z-20 bg-cover bg-center"
-         style="background-image: url('/assets/welcome/villa-di-striano-hero.jpg');"></div>
-    {# Soft dark vignette: stronger top & bottom so the nav and text stay legible. #}
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/50 via-black/25 to-black/60"></div>
+<main id="main-content" class="home-collage pet-hover-zone">
+    <div class="home-collage__backdrop" aria-hidden="true"></div>
 
-    <div class="w-56 text-cream/90 [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.5))]">
-        {% include "svg/skyline.svg" %}
+    <div class="home-stage">
+        <figure class="photo-strip" data-reveal>
+            <img src="/assets/story/2.jpg" alt="Nancy and Alexander together">
+            <figcaption>New York to Tuscany &middot; frame 01</figcaption>
+        </figure>
+
+        <div class="envelope" aria-hidden="true"></div>
+
+        <article class="invitation-card" data-reveal>
+            <p class="invitation-card__eyebrow">Together with their families</p>
+            <h1>Nancy <span class="invitation-card__and">+</span><br>Alexander</h1>
+            <div class="invitation-card__illustration" aria-hidden="true">
+                {% include "svg/sprig.svg" %}
+            </div>
+            <p class="invitation-card__details">June 19, 2027<br>Villa di Striano<br>Tuscany, Italy</p>
+            <button hx-get="/welcome/details" hx-swap="outerHTML"
+                    class="editorial-button editorial-button--wine" type="button">
+                Open the invitation
+            </button>
+        </article>
+
+        <figure class="pet-cameo pet-cameo--cat home-pet--cat" data-pet-cameo aria-hidden="true">
+            <img src="/assets/pets/heihei.png" alt="">
+            <figcaption class="pet-cameo__tag">HeiHei</figcaption>
+        </figure>
+        <figure class="pet-cameo pet-cameo--dog home-pet--dog" data-pet-cameo aria-hidden="true">
+            <img src="/assets/pets/marlow.png" alt="">
+            <figcaption class="pet-cameo__tag">Marlow</figcaption>
+        </figure>
     </div>
-
-    <p class="text-xs uppercase tracking-[0.4em] text-cream/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">Together with their families</p>
-    <h1 class="font-display text-6xl font-semibold tracking-wide text-cream [text-shadow:0_2px_12px_rgba(0,0,0,0.7)]">Nancy &amp; Alexander</h1>
-    <p class="font-serif text-xl italic text-cream/85 [text-shadow:0_1px_6px_rgba(0,0,0,0.6)]">We&#39;re getting married</p>
-
-    <div class="w-44 text-cream/80 [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.5))]">
-        {% include "svg/frame.svg" %}
-    </div>
-
-    <button hx-get="/welcome/details" hx-swap="outerHTML"
-            class="mt-2 border border-cream/80 bg-cream/10 px-8 py-3 font-display text-sm uppercase tracking-[0.25em] text-cream backdrop-blur-sm transition hover:bg-cream hover:text-ink">
-        Details
-    </button>
 </main>
 {% endblock %}
