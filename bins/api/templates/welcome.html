@@ -4,7 +4,35 @@
 {% block body_class %}home-page{% endblock %}
 
 {% block content %}
-<main id="main-content" class="home-collage pet-hover-zone">
+<main id="main-content" class="home-collage"
+      x-data="{
+          state: 'closed',
+          reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          openEnvelope() {
+              if (this.state !== 'closed') return;
+              if (this.reduced) { this.state = 'open'; return; }
+              this.state = 'opening';
+          },
+          closeEnvelope() {
+              if (this.state !== 'open') return;
+              if (this.reduced) { this.state = 'closed'; return; }
+              this.state = 'closing';
+          },
+          finishEnvelopeAnimation(event) {
+              if (event.animationName === 'invitation-rise' && this.state === 'opening') {
+                  this.state = 'open';
+              }
+              if (event.animationName === 'envelope-flap-close' && this.state === 'closing') {
+                  this.state = 'closed';
+              }
+          }
+      }"
+      @animationend="finishEnvelopeAnimation($event)"
+      :class="{
+          'is-envelope-opening': state === 'opening',
+          'is-envelope-open': state === 'open',
+          'is-envelope-closing': state === 'closing'
+      }">
     <div class="home-collage__backdrop" aria-hidden="true"></div>
 
     <div class="home-stage">
@@ -13,29 +41,57 @@
             <figcaption>New York to Tuscany &middot; frame 01</figcaption>
         </figure>
 
-        <div class="envelope" aria-hidden="true"></div>
+        <section class="mail-scene" aria-label="Interactive save-the-date">
+            <div class="mail-scene__envelope">
+                <button class="envelope-opener" type="button" @click="openEnvelope()"
+                        :aria-disabled="(state !== 'closed').toString()"
+                        :aria-expanded="(state !== 'closed').toString()" aria-controls="save-the-date-card">
+                    <span class="visually-hidden">Open the envelope</span>
+                </button>
 
-        <article class="invitation-card" data-reveal>
-            <p class="invitation-card__eyebrow">Together with their families</p>
-            <h1>Nancy <span class="invitation-card__and">+</span><br>Alexander</h1>
-            <div class="invitation-card__illustration" aria-hidden="true">
-                {% include "svg/sprig.svg" %}
+                <div class="envelope-object" aria-hidden="true">
+                    <span class="envelope-back"></span>
+                    <span class="envelope-liner"></span>
+                    <span class="envelope-flap">
+                        <span class="envelope-flap__face envelope-flap__face--front">
+                            <span class="envelope-seal">N + A</span>
+                        </span>
+                        <span class="envelope-flap__face envelope-flap__face--inside"></span>
+                    </span>
+                    <span class="envelope-pocket"></span>
+                    <span class="envelope-hint">Click to open</span>
+                </div>
+
+                <div id="save-the-date-card" class="save-the-date-card" :aria-hidden="(state !== 'open').toString()">
+                    <button class="save-the-date-card__button" type="button" data-invite-zoom
+                            :tabindex="state === 'open' ? 0 : -1" aria-label="Enlarge save-the-date">
+                        <img src="/assets/invitation/save-the-date.webp"
+                             alt="Save the date for Nancy and Alexander, June 19, 2027 at Villa di Striano in Florence, Italy">
+                    </button>
+                </div>
+
+                <button class="envelope-close" type="button" x-cloak x-show="state === 'open'" @click="closeEnvelope()">
+                    Close envelope
+                </button>
             </div>
-            <p class="invitation-card__details">June 19, 2027<br>Villa di Striano<br>Tuscany, Italy</p>
-            <button hx-get="/welcome/details" hx-swap="outerHTML"
-                    class="editorial-button editorial-button--wine" type="button">
-                Open the invitation
-            </button>
-        </article>
+        </section>
 
         <figure class="pet-cameo pet-cameo--cat home-pet--cat" data-pet-cameo aria-hidden="true">
-            <img src="/assets/pets/heihei.png" alt="">
+            <img src="/assets/pets/heihei-home.webp" alt="">
             <figcaption class="pet-cameo__tag">HeiHei</figcaption>
         </figure>
         <figure class="pet-cameo pet-cameo--dog home-pet--dog" data-pet-cameo aria-hidden="true">
-            <img src="/assets/pets/marlow.png" alt="">
+            <img src="/assets/pets/marlow-home.webp" alt="">
             <figcaption class="pet-cameo__tag">Marlow</figcaption>
         </figure>
     </div>
+
+    <dialog class="invite-dialog" data-invite-dialog aria-label="Enlarged save-the-date">
+        <div class="invite-dialog__paper">
+            <button class="invite-dialog__close" type="button" data-invite-close aria-label="Close enlarged save-the-date">Close</button>
+            <img src="/assets/invitation/save-the-date.webp"
+                 alt="Save the date for Nancy and Alexander, June 19, 2027 at Villa di Striano in Florence, Italy">
+        </div>
+    </dialog>
 </main>
 {% endblock %}

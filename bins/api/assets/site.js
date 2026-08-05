@@ -21,6 +21,31 @@
         revealTargets.forEach((target) => target.classList.add("is-visible"));
     }
 
+    const inviteDialog = document.querySelector("[data-invite-dialog]");
+    const inviteZoom = document.querySelector("[data-invite-zoom]");
+    const inviteClose = document.querySelector("[data-invite-close]");
+    let inviteReturnFocus = null;
+
+    if (inviteDialog && inviteZoom && inviteClose) {
+        inviteZoom.addEventListener("click", () => {
+            inviteReturnFocus = inviteZoom;
+            inviteDialog.showModal();
+            document.body.classList.add("dialog-open");
+            inviteClose.focus();
+        });
+        inviteClose.addEventListener("click", () => inviteDialog.close());
+        inviteDialog.addEventListener("click", (event) => {
+            if (event.target === inviteDialog) inviteDialog.close();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && inviteDialog.open) inviteDialog.close();
+        });
+        inviteDialog.addEventListener("close", () => {
+            document.body.classList.remove("dialog-open");
+            inviteReturnFocus?.focus();
+        });
+    }
+
     const petTracks = [...document.querySelectorAll("[data-pet-scroll]")];
     if (!petTracks.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
