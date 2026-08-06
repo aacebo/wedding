@@ -139,6 +139,32 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .ink-rule { display: flex; align-items: center; gap: 1rem; margin: 1.5rem auto; max-width: 440px; color: var(--wine); }
 .ink-rule::before, .ink-rule::after { content: ""; height: 1px; flex: 1; background: currentColor; }
 .ink-rule span { font-family: var(--script); font-size: 1.4rem; }
+.page-notice {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: min(560px, 100%);
+    margin: calc(clamp(2.5rem, 6vw, 5rem) * -0.45) auto clamp(3rem, 6vw, 5rem);
+    padding: .9rem 1.1rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--ink);
+    border-left: 5px solid var(--wine);
+    box-shadow: 5px 6px 0 rgba(17, 16, 14, .14);
+}
+.page-notice__icon {
+    display: grid;
+    flex: 0 0 2rem;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--wine);
+    border-radius: 50%;
+    color: var(--wine);
+    font: 500 .78rem var(--mono);
+}
+.page-notice p { display: flex; align-items: baseline; gap: .8rem; margin: 0; }
+.page-notice__label { color: var(--wine); font: .61rem var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.page-notice strong { font: 600 1.3rem var(--display); }
 
 .editorial-button {
     display: inline-flex;
