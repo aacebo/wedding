@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main id="main-content" class="page-shell admin-rsvps-page">
+    <header class="page-intro">
+        <p class="page-kicker">Private guest book</p>
+        <h1 class="page-title">RSVP responses</h1>
+        <p class="page-deck">{{ responses.len() }} responses &middot; {{ attending_people }} attending people</p>
+    </header>
+    {% if responses.is_empty() %}
+    <p class="rsvp-card">No RSVP responses have been received yet.</p>
+    {% else %}
+    <div class="rsvp-table-scroll" role="region" aria-label="RSVP responses" tabindex="0">
+        <table class="rsvp-table">
+            <caption>Submitted responses (newest first). Times are shown in UTC.</caption>
+            <thead><tr>
+                <th scope="col">Name</th><th scope="col">Email</th><th scope="col">Response</th>
+                <th scope="col">Party size</th><th scope="col">Submitted (UTC)</th>
+            </tr></thead>
+            <tbody>
+                {% for response in responses %}
+                <tr>
+                    <th scope="row">{{ response.name }}</th><td>{{ response.email }}</td>
+                    <td>{% if response.attending %}Attending{% else %}Declining{% endif %}</td>
+                    <td>{{ response.party_size }}</td>
+                    <td><time datetime="{{ response.created_at.to_rfc3339() }}">{{ response.created_at.format("%Y-%m-%d %H:%M") }}</time></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

@@ -136,6 +136,45 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .page-title { margin: 0; font-family: var(--display); font-size: clamp(3.2rem, 8vw, 7.5rem); line-height: .88; letter-spacing: -.06em; }
 .page-deck { max-width: 620px; margin: 1.4rem auto 0; color: var(--muted); font-size: 1.25rem; font-style: italic; }
+.rsvp-card {
+    width: min(620px, 100%);
+    margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background: var(--paper-bright);
+    box-shadow: 7px 7px 0 var(--paper-deep);
+}
+.rsvp-card h2 { font-family: var(--display); line-height: 1.2; }
+.rsvp-form { display: grid; gap: 1.5rem; }
+.rsvp-field { display: grid; gap: .45rem; min-width: 0; padding: 0; margin: 0; border: 0; }
+.rsvp-field > label, .rsvp-field legend { font-weight: 600; }
+.rsvp-field legend { margin-bottom: .6rem; }
+.rsvp-field input:not([type="radio"]), .rsvp-field select {
+    width: 100%;
+    min-height: 48px;
+    padding: .6rem .75rem;
+    border: 1px solid var(--muted);
+    border-radius: 0;
+    background: var(--paper-bright);
+    color: var(--ink);
+}
+.rsvp-field [aria-invalid="true"] { border: 2px solid var(--wine); }
+.rsvp-field .rsvp-choice { display: flex; align-items: center; gap: .65rem; min-height: 44px; font-weight: 400; }
+.rsvp-choice input { width: 20px; height: 20px; accent-color: var(--wine); flex-shrink: 0; }
+.rsvp-help { margin: 0; font-size: 1rem; color: var(--muted); }
+.rsvp-field-error { margin: 0; color: var(--wine-dark); font-size: 1rem; }
+.rsvp-error-summary { padding: 1rem; border: 2px solid var(--wine); overflow-wrap: anywhere; }
+.rsvp-error-summary h2 { margin-top: 0; font-size: 1.5rem; }
+.rsvp-error-summary p:last-child { margin-bottom: 0; }
+.rsvp-form button { cursor: pointer; justify-self: start; }
+.admin-rsvps-page .page-title { font-size: clamp(2.6rem, 7vw, 6rem); }
+.rsvp-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--ink); background: var(--paper-bright); }
+.rsvp-table { width: 100%; border-collapse: collapse; text-align: left; }
+.rsvp-table caption { text-align: left; padding: 1rem; font-size: 1rem; color: var(--muted); }
+.rsvp-table th, .rsvp-table td { padding: .8rem 1rem; border-top: 1px solid var(--rule); vertical-align: top; }
+.rsvp-table td, .rsvp-table tbody th { overflow-wrap: anywhere; min-width: 110px; }
+.rsvp-table thead th { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; background: var(--paper); }
+.rsvp-table time { white-space: nowrap; font-size: 1rem; }
 .ink-rule { display: flex; align-items: center; gap: 1rem; margin: 1.5rem auto; max-width: 440px; color: var(--wine); }
 .ink-rule::before, .ink-rule::after { content: ""; height: 1px; flex: 1; background: currentColor; }
 .ink-rule span { font-family: var(--script); font-size: 1.4rem; }

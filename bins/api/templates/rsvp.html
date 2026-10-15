@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main id="main-content" class="page-shell rsvp-page">
+    <header class="page-intro">
+        <p class="page-kicker">A seat at our table</p>
+        <h1 class="page-title">RSVP</h1>
+        <p class="page-deck">We would love to celebrate with you.</p>
+    </header>
+
+    {% if confirmation %}
+    <section class="rsvp-card" aria-labelledby="rsvp-thanks">
+        <h2 id="rsvp-thanks">Thank you for your response</h2>
+        <p>We appreciate you letting us know whether you can join us.</p>
+        <p>Need to make a change? <a class="editorial-link" href="/contact">Contact us</a>.</p>
+    </section>
+    {% else %}
+    <form class="rsvp-card rsvp-form" method="post" action="/rsvp">
+        {% if !errors.is_empty() %}
+        <div class="rsvp-error-summary" role="alert" tabindex="-1">
+            <h2>Please review your RSVP</h2>
+            {% if !errors.general.is_empty() %}<p>{{ errors.general }} <a href="/contact">Contact us</a>.</p>{% endif %}
+            {% if !errors.name.is_empty() %}<p><a href="#rsvp-name">{{ errors.name }}</a></p>{% endif %}
+            {% if !errors.email.is_empty() %}<p><a href="#rsvp-email">{{ errors.email }}</a></p>{% endif %}
+            {% if !errors.attending.is_empty() %}<p><a href="#rsvp-attending">{{ errors.attending }}</a></p>{% endif %}
+            {% if !errors.party_size.is_empty() %}<p><a href="#rsvp-party-size">{{ errors.party_size }}</a></p>{% endif %}
+        </div>
+        {% endif %}
+        <div class="rsvp-field">
+            <label for="rsvp-name">Your name</label>
+            <input id="rsvp-name" name="name" autocomplete="name" maxlength="200" value="{{ form.name }}" required
+                   {% if !errors.name.is_empty() %}aria-invalid="true" aria-describedby="rsvp-name-error"{% endif %}>
+            {% if !errors.name.is_empty() %}<p class="rsvp-field-error" id="rsvp-name-error">{{ errors.name }}</p>{% endif %}
+        </div>
+        <div class="rsvp-field">
+            <label for="rsvp-email">Email address</label>
+            <input id="rsvp-email" name="email" type="email" autocomplete="email" maxlength="254" value="{{ form.email }}" required
+                   {% if !errors.email.is_empty() %}aria-invalid="true" aria-describedby="rsvp-email-error"{% endif %}>
+            {% if !errors.email.is_empty() %}<p class="rsvp-field-error" id="rsvp-email-error">{{ errors.email }}</p>{% endif %}
+        </div>
+        <fieldset class="rsvp-field" id="rsvp-attending" {% if !errors.attending.is_empty() %}aria-describedby="rsvp-attending-error"{% endif %}>
+            <legend>Will you be joining us?</legend>
+            <label class="rsvp-choice"><input type="radio" name="attending" value="yes" required {% if form.attending == "yes" %}checked{% endif %}> Joyfully accepts</label>
+            <label class="rsvp-choice"><input type="radio" name="attending" value="no" required {% if form.attending == "no" %}checked{% endif %}> Regretfully declines</label>
+            {% if !errors.attending.is_empty() %}<p class="rsvp-field-error" id="rsvp-attending-error">{{ errors.attending }}</p>{% endif %}
+        </fieldset>
+        <div class="rsvp-field">
+            <label for="rsvp-party-size">Party size, if attending</label>
+            <select id="rsvp-party-size" name="party_size" aria-describedby="rsvp-party-help{% if !errors.party_size.is_empty() %} rsvp-party-error{% endif %}"
+                    {% if !errors.party_size.is_empty() %}aria-invalid="true"{% endif %}>
+                <option value="1" {% if form.party_size == "1" %}selected{% endif %}>1 person</option>
+                <option value="2" {% if form.party_size == "2" %}selected{% endif %}>2 people</option>
+            </select>
+            <p class="rsvp-help" id="rsvp-party-help">Include yourself. Parties may have up to two people. If you decline, we record zero attendees regardless of this selection.</p>
+            {% if !errors.party_size.is_empty() %}<p class="rsvp-field-error" id="rsvp-party-error">{{ errors.party_size }}</p>{% endif %}
+        </div>
+        <button class="editorial-button editorial-button--wine" type="submit">Send RSVP</button>
+        <p class="rsvp-help">We keep the first response for each email address. To change a response, please <a href="/contact">contact us</a>.</p>
+    </form>
+    {% endif %}
+</main>
+{% endblock %}
