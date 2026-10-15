@@ -75,4 +75,39 @@ mod tests {
         assert!(!body.contains("More details coming soon"));
         assert!(!body.contains("aria-label=\"Page status\""));
     }
+
+    #[test]
+    async fn timeline_uses_confirmed_milestones_and_preserves_carousel() {
+        let page = StoryPage {
+            meta: PageMetadata::new("Story", "Story", "https://baicebo.com/story"),
+            images: vec!["/assets/story/1.jpg".into(), "/assets/story/2.jpg".into()],
+        };
+        let body = page.render().unwrap();
+        let timeline = body.split("aria-label=\"Our timeline\"").nth(1).unwrap();
+        assert_eq!(timeline.matches("class=\"timeline-entry\"").count(), 5);
+        assert_eq!(timeline.matches("datetime=\"2021\"").count(), 3);
+        let mut remaining = timeline;
+        for milestone in [
+            "A beer garden in Bushwick.",
+            "Next stop: Italy.",
+            "One more question in Rome.",
+            "datetime=\"2026\"",
+            "A very easy yes in St. Lucia.",
+            "datetime=\"2027-06-19\"",
+            "Back to Italy, together.",
+        ] {
+            remaining = remaining
+                .split_once(milestone)
+                .unwrap_or_else(|| panic!("Missing or out-of-order milestone: {milestone}"))
+                .1;
+        }
+        assert!(!timeline.contains("2024"));
+        assert!(timeline.contains("before heading back to New York City"));
+        assert!(timeline.contains("Cinque Terre"));
+        assert!(body.contains("aria-roledescription=\"carousel\""));
+        assert!(body.contains("aria-label=\"Previous photo\""));
+        assert!(body.contains("aria-label=\"Next photo\""));
+        assert!(body.contains("src=\"/assets/story/1.jpg\""));
+        assert!(body.contains("src=\"/assets/story/2.jpg\""));
+    }
 }
