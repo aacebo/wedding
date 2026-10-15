@@ -39,12 +39,40 @@ fn story_images() -> Vec<String> {
 pub async fn get() -> Result<Html, Error> {
     let page = StoryPage {
         meta: PageMetadata::new(
-            "Our Story — Nancy & Alexander",
-            "The story of Nancy and Alexander, from the first chapter to their wedding celebration in Tuscany.",
+            "Our Love Story — Nancy & Alexander",
+            "One first date, one wine-fueled text, and a spontaneous trip to Italy. The love story of Nancy and Alexander.",
             "https://baicebo.com/story",
         ),
         images: story_images(),
     };
 
     Ok(Html::new(page.render().map_err(ErrorInternalServerError)?))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::{App, test};
+
+    #[actix_web::test]
+    async fn story_renders_approved_copy_without_placeholder_notices() {
+        let app = test::init_service(App::new().service(get)).await;
+        let response =
+            test::call_service(&app, test::TestRequest::get().uri("/story").to_request()).await;
+        assert!(response.status().is_success());
+        let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
+        for text in [
+            "Our Love Story",
+            "one wine-fueled text",
+            "The next morning, Nancy asked again.",
+            "And Alex said yes.",
+            "this time with their favorite people.",
+            "their favorite one yet.",
+        ] {
+            assert!(body.contains(text), "Missing story text: {text}");
+        }
+        assert!(!body.contains("Full story coming soon"));
+        assert!(!body.contains("More details coming soon"));
+        assert!(!body.contains("aria-label=\"Page status\""));
+    }
 }
