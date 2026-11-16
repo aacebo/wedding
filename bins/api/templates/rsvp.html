@@ -20,17 +20,27 @@
         <div class="rsvp-error-summary" role="alert" tabindex="-1">
             <h2>Please review your RSVP</h2>
             {% if !errors.general.is_empty() %}<p>{{ errors.general }} <a href="/contact">Contact us</a>.</p>{% endif %}
-            {% if !errors.name.is_empty() %}<p><a href="#rsvp-name">{{ errors.name }}</a></p>{% endif %}
+            {% if !errors.first_name.is_empty() %}<p><a href="#rsvp-first-name">{{ errors.first_name }}</a></p>{% endif %}
+            {% if !errors.last_name.is_empty() %}<p><a href="#rsvp-last-name">{{ errors.last_name }}</a></p>{% endif %}
             {% if !errors.email.is_empty() %}<p><a href="#rsvp-email">{{ errors.email }}</a></p>{% endif %}
             {% if !errors.attending.is_empty() %}<p><a href="#rsvp-attending">{{ errors.attending }}</a></p>{% endif %}
-            {% if !errors.party_size.is_empty() %}<p><a href="#rsvp-party-size">{{ errors.party_size }}</a></p>{% endif %}
+            {% if !errors.accommodation.is_empty() %}<p><a href="#rsvp-accommodation-name">{{ errors.accommodation }}</a></p>{% endif %}
+            {% if !errors.phone.is_empty() %}<p><a href="#rsvp-phone">{{ errors.phone }}</a></p>{% endif %}
+            {% if !errors.dietary.is_empty() %}<p><a href="#rsvp-dietary">{{ errors.dietary }}</a></p>{% endif %}
+            {% if !errors.meal.is_empty() %}<p><a href="#rsvp-meal">{{ errors.meal }}</a></p>{% endif %}
         </div>
         {% endif %}
         <div class="rsvp-field">
-            <label for="rsvp-name">Your name</label>
-            <input id="rsvp-name" name="name" autocomplete="name" maxlength="200" value="{{ form.name }}" required
-                   {% if !errors.name.is_empty() %}aria-invalid="true" aria-describedby="rsvp-name-error"{% endif %}>
-            {% if !errors.name.is_empty() %}<p class="rsvp-field-error" id="rsvp-name-error">{{ errors.name }}</p>{% endif %}
+            <label for="rsvp-first-name">First name</label>
+            <input id="rsvp-first-name" name="first_name" autocomplete="given-name" maxlength="200" value="{{ form.first_name }}" required
+                   {% if !errors.first_name.is_empty() %}aria-invalid="true" aria-describedby="rsvp-first-name-error"{% endif %}>
+            {% if !errors.first_name.is_empty() %}<p class="rsvp-field-error" id="rsvp-first-name-error">{{ errors.first_name }}</p>{% endif %}
+        </div>
+        <div class="rsvp-field">
+            <label for="rsvp-last-name">Last name</label>
+            <input id="rsvp-last-name" name="last_name" autocomplete="family-name" maxlength="200" value="{{ form.last_name }}" required
+                   {% if !errors.last_name.is_empty() %}aria-invalid="true" aria-describedby="rsvp-last-name-error"{% endif %}>
+            {% if !errors.last_name.is_empty() %}<p class="rsvp-field-error" id="rsvp-last-name-error">{{ errors.last_name }}</p>{% endif %}
         </div>
         <div class="rsvp-field">
             <label for="rsvp-email">Email address</label>
@@ -44,17 +54,37 @@
             <label class="rsvp-choice"><input type="radio" name="attending" value="no" required {% if form.attending == "no" %}checked{% endif %}> Regretfully declines</label>
             {% if !errors.attending.is_empty() %}<p class="rsvp-field-error" id="rsvp-attending-error">{{ errors.attending }}</p>{% endif %}
         </fieldset>
-        <div class="rsvp-field">
-            <label for="rsvp-party-size">Party size, if attending</label>
-            <select id="rsvp-party-size" name="party_size" aria-describedby="rsvp-party-help{% if !errors.party_size.is_empty() %} rsvp-party-error{% endif %}"
-                    {% if !errors.party_size.is_empty() %}aria-invalid="true"{% endif %}>
-                <option value="1" {% if form.party_size == "1" %}selected{% endif %}>1 person</option>
-                <option value="2" {% if form.party_size == "2" %}selected{% endif %}>2 people</option>
-            </select>
-            <p class="rsvp-help" id="rsvp-party-help">Include yourself. Parties may have up to two people. If you decline, we record zero attendees regardless of this selection.</p>
-            {% if !errors.party_size.is_empty() %}<p class="rsvp-field-error" id="rsvp-party-error">{{ errors.party_size }}</p>{% endif %}
+        <div class="rsvp-field" id="rsvp-accommodation">
+            <label for="rsvp-accommodation-name">Accommodation name</label>
+            <input id="rsvp-accommodation-name" name="accommodation_name" autocomplete="organization" maxlength="200" value="{{ form.accommodation_name }}"
+                   {% if !errors.accommodation.is_empty() %}aria-invalid="true" aria-describedby="rsvp-accommodation-error"{% endif %}>
+            <label for="rsvp-accommodation-address">Accommodation address</label>
+            <textarea id="rsvp-accommodation-address" name="accommodation_address" autocomplete="street-address" maxlength="500" rows="2"
+                      {% if !errors.accommodation.is_empty() %}aria-invalid="true" aria-describedby="rsvp-accommodation-error"{% endif %}>{{ form.accommodation_address }}</textarea>
+            {% if !errors.accommodation.is_empty() %}<p class="rsvp-field-error" id="rsvp-accommodation-error">{{ errors.accommodation }}</p>{% endif %}
         </div>
+        <div class="rsvp-field">
+            <label for="rsvp-phone">Phone number</label>
+            <input id="rsvp-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" value="{{ form.phone }}"
+                   {% if !errors.phone.is_empty() %}aria-invalid="true" aria-describedby="rsvp-phone-error"{% endif %}>
+            <p class="rsvp-help">Include your country code so the transfer driver can reach you.</p>
+            {% if !errors.phone.is_empty() %}<p class="rsvp-field-error" id="rsvp-phone-error">{{ errors.phone }}</p>{% endif %}
+        </div>
+        <div class="rsvp-field">
+            <label for="rsvp-dietary">Dietary requirements, intolerances, or allergies</label>
+            <textarea id="rsvp-dietary" name="dietary_requirements" maxlength="1000" rows="3"
+                      {% if !errors.dietary.is_empty() %}aria-invalid="true" aria-describedby="rsvp-dietary-error"{% endif %}>{{ form.dietary_requirements }}</textarea>
+            <p class="rsvp-help">Include vegetarian or vegan requirements. Leave blank if none.</p>
+            {% if !errors.dietary.is_empty() %}<p class="rsvp-field-error" id="rsvp-dietary-error">{{ errors.dietary }}</p>{% endif %}
+        </div>
+        <fieldset class="rsvp-field" id="rsvp-meal" {% if !errors.meal.is_empty() %}aria-describedby="rsvp-meal-error"{% endif %}>
+            <legend>Main course choice (if attending)</legend>
+            <label class="rsvp-choice"><input type="radio" name="meal_preference" value="beef" {% if form.meal_preference == "beef" %}checked{% endif %}> Beef fillet</label>
+            <label class="rsvp-choice"><input type="radio" name="meal_preference" value="sea_bass" {% if form.meal_preference == "sea_bass" %}checked{% endif %}> Sea bass</label>
+            {% if !errors.meal.is_empty() %}<p class="rsvp-field-error" id="rsvp-meal-error">{{ errors.meal }}</p>{% endif %}
+        </fieldset>
         <button class="editorial-button editorial-button--wine" type="submit">Send RSVP</button>
+        <p class="rsvp-help">Each guest, including every plus-one, should submit their own RSVP using their full name. Please do not submit a group response.</p>
         <p class="rsvp-help">We keep the first response for each email address. To change a response, please <a href="/contact">contact us</a>.</p>
     </form>
     {% endif %}
