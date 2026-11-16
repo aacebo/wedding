@@ -14,14 +14,22 @@
         <table class="rsvp-table">
             <caption>Submitted responses (newest first). Times are shown in UTC.</caption>
             <thead><tr>
-                <th scope="col">Name</th><th scope="col">Email</th><th scope="col">Response</th>
-                <th scope="col">Party size</th><th scope="col">Submitted (UTC)</th>
+                <th scope="col">Name</th><th scope="col">Email</th><th scope="col">Attendance</th>
+                <th scope="col">Accommodation</th><th scope="col">Address</th><th scope="col">Phone</th>
+                <th scope="col">Dietary requirements / allergies</th><th scope="col">Main course</th>
+                <th scope="col">Legacy party size</th><th scope="col">Submitted (UTC)</th>
             </tr></thead>
             <tbody>
                 {% for response in responses %}
                 <tr>
-                    <th scope="row">{{ response.name }}</th><td>{{ response.email }}</td>
+                    <th scope="row">{{ response.name }}</th>
+                    <td>{{ response.email }}</td>
                     <td>{% if response.attending %}Attending{% else %}Declining{% endif %}</td>
+                    <td>{{ response.accommodation_name.as_deref().unwrap_or("—") }}</td>
+                    <td>{{ response.accommodation_address.as_deref().unwrap_or("—") }}</td>
+                    <td>{{ response.phone.as_deref().unwrap_or("—") }}</td>
+                    <td>{{ response.dietary_requirements.as_deref().unwrap_or("—") }}</td>
+                    <td>{{ response.meal_preference.as_deref().unwrap_or("—") }}</td>
                     <td>{{ response.party_size }}</td>
                     <td><time datetime="{{ response.created_at.to_rfc3339() }}">{{ response.created_at.format("%Y-%m-%d %H:%M") }}</time></td>
                 </tr>
