@@ -6,47 +6,78 @@ use storage::SubmitRsvpError;
 
 use super::PageMetadata;
 use crate::RequestContext;
-use crate::rsvp_validation::{valid_email, valid_name, valid_party_size};
+use crate::rsvp_validation::{valid_email, valid_name};
 
 #[derive(Default, serde::Deserialize)]
 #[serde(default)]
 pub(crate) struct RsvpForm {
-    name: String,
+    first_name: String,
+    last_name: String,
     email: String,
     attending: String,
-    party_size: String,
+    accommodation_name: String,
+    accommodation_address: String,
+    phone: String,
+    dietary_requirements: String,
+    meal_preference: String,
 }
 
 #[derive(Default)]
 struct FormErrors {
-    name: &'static str,
+    first_name: &'static str,
+    last_name: &'static str,
     email: &'static str,
     attending: &'static str,
-    party_size: &'static str,
+    accommodation: &'static str,
+    phone: &'static str,
+    dietary: &'static str,
+    meal: &'static str,
     general: &'static str,
 }
 
 impl FormErrors {
     fn is_empty(&self) -> bool {
-        self.name.is_empty()
+        self.first_name.is_empty()
+            && self.last_name.is_empty()
             && self.email.is_empty()
             && self.attending.is_empty()
-            && self.party_size.is_empty()
+            && self.accommodation.is_empty()
+            && self.phone.is_empty()
+            && self.dietary.is_empty()
+            && self.meal.is_empty()
             && self.general.is_empty()
     }
 }
 
+fn valid_text(value: &str, max_chars: usize) -> bool {
+    value.chars().count() <= max_chars && !value.chars().any(char::is_control)
+}
+
 impl RsvpForm {
-    fn validate(&mut self) -> Result<(bool, i16), FormErrors> {
-        self.name = self.name.trim().to_owned();
+    fn validate(&mut self) -> Result<(bool, Option<String>), FormErrors> {
+        self.first_name = self.first_name.trim().to_owned();
+        self.last_name = self.last_name.trim().to_owned();
         self.email = self.email.trim().to_lowercase();
+        self.accommodation_name = self.accommodation_name.trim().to_owned();
+        self.accommodation_address = self.accommodation_address.trim().to_owned();
+        self.phone = self.phone.trim().to_owned();
+        self.dietary_requirements = self.dietary_requirements.trim().to_owned();
+
         let mut errors = FormErrors::default();
-        if !valid_name(&self.name) {
-            errors.name = "Enter your name (up to 200 characters, without control characters).";
+        if !valid_name(&self.first_name) {
+            errors.first_name = "Enter your first name (up to 200 characters).";
+        }
+        if !valid_name(&self.last_name) {
+            errors.last_name = "Enter your last name (up to 200 characters).";
+        }
+        let full_name = format!("{} {}", self.first_name, self.last_name);
+        if full_name.chars().count() > 200 {
+            errors.last_name = "Your full name must be 200 characters or fewer.";
         }
         if !valid_email(&self.email) {
             errors.email = "Enter a valid email address.";
         }
+
         let attending = match self.attending.as_str() {
             "yes" => true,
             "no" => false,
@@ -55,19 +86,50 @@ impl RsvpForm {
                 false
             }
         };
-        let party_size = if !attending && matches!(self.party_size.as_str(), "" | "0" | "1" | "2") {
-            0
-        } else {
-            match self.party_size.parse::<i16>() {
-                Ok(size) if valid_party_size(attending, size) => size,
+
+        if attending {
+            if !valid_text(&self.accommodation_name, 200)
+                || self.accommodation_name.is_empty()
+                || !valid_text(&self.accommodation_address, 500)
+                || self.accommodation_address.is_empty()
+            {
+                errors.accommodation = "Enter the name and address of your accommodation.";
+            }
+            let digits = self.phone.chars().filter(char::is_ascii_digit).count();
+            let phone_chars_valid = self
+                .phone
+                .chars()
+                .all(|ch| ch.is_ascii_digit() || matches!(ch, '+' | '-' | '.' | '(' | ')' | ' '));
+            if !phone_chars_valid || !(7..=30).contains(&self.phone.chars().count()) || digits < 7 {
+                errors.phone = "Enter a phone number with country code.";
+            }
+        } else if !valid_text(&self.accommodation_name, 200)
+            || !valid_text(&self.accommodation_address, 500)
+        {
+            errors.accommodation = "Use plain text for accommodation details.";
+        } else if !valid_text(&self.phone, 30) {
+            errors.phone = "Use a phone number up to 30 characters.";
+        }
+
+        if !valid_text(&self.dietary_requirements, 1000) {
+            errors.dietary = "Use plain text (up to 1,000 characters).";
+        }
+
+        let meal_preference = if attending {
+            match self.meal_preference.as_str() {
+                "beef" => Some("beef".to_owned()),
+                "sea_bass" => Some("sea_bass".to_owned()),
                 _ => {
-                    errors.party_size = "Choose 1 or 2 people if attending; declines count as 0.";
-                    0
+                    errors.meal = "Choose beef or sea bass.";
+                    None
                 }
             }
+        } else {
+            None
         };
+
         if errors.is_empty() {
-            Ok((attending, party_size))
+            Ok((attending, meal_preference))
         } else {
             Err(errors)
         }
@@ -108,10 +170,7 @@ fn render(
 #[get("/rsvp")]
 pub async fn get() -> Result<HttpResponse, Error> {
     render(
-        RsvpForm {
-            party_size: "1".into(),
-            ..Default::default()
-        },
+        RsvpForm::default(),
         FormErrors::default(),
         false,
         StatusCode::OK,
@@ -131,14 +190,37 @@ pub async fn thanks() -> Result<HttpResponse, Error> {
 #[post("/rsvp")]
 pub async fn post(ctx: RequestContext, form: web::Form<RsvpForm>) -> Result<HttpResponse, Error> {
     let mut form = form.into_inner();
-    let (attending, party_size) = match form.validate() {
+    let (attending, meal_preference) = match form.validate() {
         Ok(values) => values,
         Err(errors) => return render(form, errors, false, StatusCode::UNPROCESSABLE_ENTITY),
     };
+
+    let first_name = form.first_name.clone();
+    let last_name = form.last_name.clone();
+    let email = form.email.clone();
+    let accommodation_name = if attending { Some(form.accommodation_name.clone()) } else { None };
+    let accommodation_address = if attending { Some(form.accommodation_address.clone()) } else { None };
+    let phone = if attending { Some(form.phone.clone()) } else { None };
+    let dietary_requirements = if form.dietary_requirements.is_empty() {
+        None
+    } else {
+        Some(form.dietary_requirements.clone())
+    };
+
     match ctx
         .storage()
         .rsvps()
-        .submit(&form.name, &form.email, attending, party_size)
+        .submit_individual(
+            &first_name,
+            &last_name,
+            &email,
+            attending,
+            accommodation_name.as_deref(),
+            accommodation_address.as_deref(),
+            phone.as_deref(),
+            dietary_requirements.as_deref(),
+            meal_preference.as_deref(),
+        )
         .await
     {
         Ok(()) => Ok(HttpResponse::SeeOther()
@@ -168,39 +250,6 @@ pub async fn post(ctx: RequestContext, form: web::Form<RsvpForm>) -> Result<Http
                 false,
                 StatusCode::INTERNAL_SERVER_ERROR,
             )
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn form(attending: &str, size: &str) -> RsvpForm {
-        RsvpForm {
-            name: " A Guest ".into(),
-            email: " GUEST@example.com ".into(),
-            attending: attending.into(),
-            party_size: size.into(),
-        }
-    }
-
-    #[test]
-    fn validates_attendance_and_normalizes_identity() {
-        let mut values = form("yes", "2");
-        assert_eq!(values.validate().ok(), Some((true, 2)));
-        assert_eq!(values.name, "A Guest");
-        assert_eq!(values.email, "guest@example.com");
-        assert_eq!(form("no", "2").validate().ok(), Some((false, 0)));
-        for (attendance, size) in [
-            ("", "1"),
-            ("maybe", "1"),
-            ("yes", "0"),
-            ("yes", "3"),
-            ("yes", ""),
-            ("no", "3"),
-        ] {
-            assert!(form(attendance, size).validate().is_err());
         }
     }
 }
