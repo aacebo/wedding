@@ -13,6 +13,7 @@ mod context;
 mod request_context;
 mod routes;
 mod rsvp_validation;
+mod sheets_sync;
 
 #[cfg(test)]
 mod tests;
@@ -81,6 +82,11 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed to run migrations");
 
     let ctx = Context::new(pool);
+    sheets_sync::spawn(
+        ctx.clone(),
+        config.google_sheets_webhook_url.clone(),
+        config.google_sheets_webhook_secret.clone(),
+    );
     let admin_access = web::Data::new(admin_auth::AdminAccess(config.admin_credentials));
     println!("Starting server at http://0.0.0.0:{}", config.port);
 
