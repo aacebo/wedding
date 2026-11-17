@@ -6,7 +6,6 @@ WORKDIR /app
 COPY rust-toolchain.toml ./
 
 COPY Cargo.toml Cargo.lock ./
-COPY crates ./crates
 COPY bins ./bins
 
 RUN cargo build --release --package api

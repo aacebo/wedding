@@ -1,73 +1,106 @@
+use crate::notion::{GuestError, Notion, Rsvp, SaveError};
 use actix_web::{
     Error, HttpResponse, error::ErrorInternalServerError, get, http::StatusCode, post, web,
 };
 use askama::Template;
-use storage::SubmitRsvpError;
 
 use super::PageMetadata;
-use crate::RequestContext;
-use crate::rsvp_validation::{valid_email, valid_name, valid_party_size};
+use crate::rsvp_validation::{valid_email, valid_name};
 
 #[derive(Default, serde::Deserialize)]
 #[serde(default)]
 pub(crate) struct RsvpForm {
-    name: String,
+    submission_id: String,
+    invitation_code: String,
+    first_name: String,
+    last_name: String,
     email: String,
-    attending: String,
-    party_size: String,
+    phone: String,
+    accommodation: String,
+    dietary_requirements: String,
+    main_course: String,
 }
 
 #[derive(Default)]
 struct FormErrors {
+    code: &'static str,
     name: &'static str,
     email: &'static str,
-    attending: &'static str,
-    party_size: &'static str,
+    phone: &'static str,
+    accommodation: &'static str,
+    dietary_requirements: &'static str,
+    main_course: &'static str,
     general: &'static str,
 }
 
 impl FormErrors {
     fn is_empty(&self) -> bool {
-        self.name.is_empty()
+        self.code.is_empty()
+            && self.name.is_empty()
             && self.email.is_empty()
-            && self.attending.is_empty()
-            && self.party_size.is_empty()
+            && self.phone.is_empty()
+            && self.accommodation.is_empty()
+            && self.dietary_requirements.is_empty()
+            && self.main_course.is_empty()
             && self.general.is_empty()
     }
 }
 
 impl RsvpForm {
-    fn validate(&mut self) -> Result<(bool, i16), FormErrors> {
-        self.name = self.name.trim().to_owned();
+    fn validate(&mut self) -> Result<(), FormErrors> {
+        self.invitation_code = self.invitation_code.trim().to_owned();
+        self.first_name = self.first_name.trim().to_owned();
+        self.last_name = self.last_name.trim().to_owned();
         self.email = self.email.trim().to_lowercase();
         let mut errors = FormErrors::default();
-        if !valid_name(&self.name) {
-            errors.name = "Enter your name (up to 200 characters, without control characters).";
+        if self.invitation_code.len() != 4
+            || !self.invitation_code.chars().all(|c| c.is_ascii_digit())
+        {
+            errors.code = "Enter the four-digit code from your invitation.";
+        }
+        if !valid_name(&self.first_name)
+            || !valid_name(&self.last_name)
+            || self.first_name.len() + self.last_name.len() > 199
+            || [self.first_name.as_str(), self.last_name.as_str()]
+                .iter()
+                .any(|name| {
+                    name.contains(['&', '+'])
+                        || name
+                            .split_whitespace()
+                            .any(|word| word.eq_ignore_ascii_case("family"))
+                })
+        {
+            errors.name = "Enter your individual first and last name.";
         }
         if !valid_email(&self.email) {
             errors.email = "Enter a valid email address.";
         }
-        let attending = match self.attending.as_str() {
-            "yes" => true,
-            "no" => false,
-            _ => {
-                errors.attending = "Choose whether you will attend.";
-                false
-            }
-        };
-        let party_size = if !attending && matches!(self.party_size.as_str(), "" | "0" | "1" | "2") {
-            0
-        } else {
-            match self.party_size.parse::<i16>() {
-                Ok(size) if valid_party_size(attending, size) => size,
-                _ => {
-                    errors.party_size = "Choose 1 or 2 people if attending; declines count as 0.";
-                    0
-                }
-            }
-        };
+        if self.phone.trim().is_empty()
+            || self.phone.chars().count() > 100
+            || self.phone.chars().any(char::is_control)
+        {
+            errors.phone = "Enter your phone number for transportation.";
+        }
+        if self.accommodation.chars().count() > 1000
+            || self.accommodation.chars().any(char::is_control)
+        {
+            errors.accommodation =
+                "Enter accommodation without control characters (up to 1,000 characters).";
+        }
+        if self.dietary_requirements.chars().count() > 1000
+            || self.dietary_requirements.chars().any(char::is_control)
+        {
+            errors.dietary_requirements =
+                "Enter dietary requirements without control characters (up to 1,000 characters).";
+        }
+        if !matches!(
+            self.main_course.as_str(),
+            "Beef" | "Sea Bass" | "Not selected"
+        ) {
+            errors.main_course = "Choose your main course or request a dietary alternative.";
+        }
         if errors.is_empty() {
-            Ok((attending, party_size))
+            Ok(())
         } else {
             Err(errors)
         }
@@ -109,7 +142,7 @@ fn render(
 pub async fn get() -> Result<HttpResponse, Error> {
     render(
         RsvpForm {
-            party_size: "1".into(),
+            submission_id: uuid::Uuid::new_v4().to_string(),
             ..Default::default()
         },
         FormErrors::default(),
@@ -129,78 +162,102 @@ pub async fn thanks() -> Result<HttpResponse, Error> {
 }
 
 #[post("/rsvp")]
-pub async fn post(ctx: RequestContext, form: web::Form<RsvpForm>) -> Result<HttpResponse, Error> {
+pub async fn post(
+    notion: web::Data<Notion>,
+    form: web::Form<RsvpForm>,
+) -> Result<HttpResponse, Error> {
     let mut form = form.into_inner();
-    let (attending, party_size) = match form.validate() {
-        Ok(values) => values,
+    match form.validate() {
+        Ok(()) => {}
         Err(errors) => return render(form, errors, false, StatusCode::UNPROCESSABLE_ENTITY),
+    }
+    let guest = match notion.guest_for_code(&form.invitation_code).await {
+        Ok(guest) => guest,
+        Err(GuestError::InvalidCode) => {
+            return render(
+                form,
+                FormErrors {
+                    code: "That invitation code is not valid.",
+                    ..Default::default()
+                },
+                false,
+                StatusCode::UNPROCESSABLE_ENTITY,
+            );
+        }
+        Err(GuestError::Unavailable) => {
+            return render(
+                form,
+                FormErrors {
+                    general: "We could not verify your invitation code. Please try again shortly.",
+                    ..Default::default()
+                },
+                false,
+                StatusCode::SERVICE_UNAVAILABLE,
+            );
+        }
     };
-    match ctx
-        .storage()
-        .rsvps()
-        .submit(&form.name, &form.email, attending, party_size)
+    let id = match uuid::Uuid::parse_str(&form.submission_id) {
+        Ok(id) => id,
+        Err(_) => {
+            return render(
+                form,
+                FormErrors {
+                    general: "Please reload the RSVP page and try again.",
+                    ..Default::default()
+                },
+                false,
+                StatusCode::BAD_REQUEST,
+            );
+        }
+    };
+    match notion
+        .save(&Rsvp {
+            id,
+            first_name: &form.first_name,
+            last_name: &form.last_name,
+            email: &form.email,
+            phone: form.phone.trim(),
+            accommodation: form.accommodation.trim(),
+            dietary_requirements: form.dietary_requirements.trim(),
+            main_course: form.main_course.trim(),
+            attending: true,
+            invitation_code: &form.invitation_code,
+            household: &guest.household,
+            invited_guests: guest.invited_guests,
+            guest_count: 1,
+        })
         .await
     {
         Ok(()) => Ok(HttpResponse::SeeOther()
             .insert_header(("Location", "/rsvp/thanks"))
             .insert_header(("Cache-Control", "no-store"))
             .finish()),
-        Err(SubmitRsvpError::Duplicate) => render(
+        Err(SaveError::Unavailable) => render(
             form,
             FormErrors {
-                general: "An RSVP has already been received for this email. Your original response has not been changed. Please contact us to make changes.",
+                general: "We could not save your RSVP. Please try again or contact us.",
+                ..Default::default()
+            },
+            false,
+            StatusCode::SERVICE_UNAVAILABLE,
+        ),
+        Err(SaveError::Uncertain) => render(
+            form,
+            FormErrors {
+                general: "We could not confirm whether your RSVP was received. Please contact us before submitting another response.",
+                ..Default::default()
+            },
+            false,
+            StatusCode::SERVICE_UNAVAILABLE,
+        ),
+        Err(SaveError::InvitationFull) => render(
+            form,
+            FormErrors {
+                code: "Every RSVP linked to this invitation has already been received.",
                 ..Default::default()
             },
             false,
             StatusCode::CONFLICT,
         ),
-        Err(SubmitRsvpError::Database(error)) => {
-            eprintln!(
-                "RSVP submission storage error [{}]: {error}",
-                ctx.request_id()
-            );
-            render(
-                form,
-                FormErrors {
-                    general: "We could not save your RSVP. Please try again or contact us.",
-                    ..Default::default()
-                },
-                false,
-                StatusCode::INTERNAL_SERVER_ERROR,
-            )
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn form(attending: &str, size: &str) -> RsvpForm {
-        RsvpForm {
-            name: " A Guest ".into(),
-            email: " GUEST@example.com ".into(),
-            attending: attending.into(),
-            party_size: size.into(),
-        }
-    }
-
-    #[test]
-    fn validates_attendance_and_normalizes_identity() {
-        let mut values = form("yes", "2");
-        assert_eq!(values.validate().ok(), Some((true, 2)));
-        assert_eq!(values.name, "A Guest");
-        assert_eq!(values.email, "guest@example.com");
-        assert_eq!(form("no", "2").validate().ok(), Some((false, 0)));
-        for (attendance, size) in [
-            ("", "1"),
-            ("maybe", "1"),
-            ("yes", "0"),
-            ("yes", "3"),
-            ("yes", ""),
-            ("no", "3"),
-        ] {
-            assert!(form(attendance, size).validate().is_err());
-        }
     }
 }

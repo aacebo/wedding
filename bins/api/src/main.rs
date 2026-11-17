@@ -1,16 +1,8 @@
 use actix_files::Files;
-use actix_web::{
-    App, HttpServer,
-    middleware::{DefaultHeaders, NormalizePath},
-    web,
-};
-use actix_web_httpauth::middleware::HttpAuthentication;
-use sqlx::postgres::PgPoolOptions;
+use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
-mod admin_auth;
 mod config;
-mod context;
-mod request_context;
+mod notion;
 mod routes;
 mod rsvp_validation;
 
@@ -18,8 +10,6 @@ mod rsvp_validation;
 mod tests;
 
 pub use config::Config;
-pub use context::Context;
-pub use request_context::{RequestContext, RequestContextMiddleware};
 
 fn configure_routes(config: &mut web::ServiceConfig) {
     config
@@ -48,51 +38,36 @@ fn configure_routes(config: &mut web::ServiceConfig) {
         .service(routes::web::rsvp::get)
         .service(routes::web::rsvp::post)
         .service(routes::web::rsvp::thanks)
-        .service(Files::new("/assets", "bins/api/assets"))
-        .service(
-            web::scope("")
-                .guard(actix_web::guard::fn_guard(|context| {
-                    let path = context.head().uri.path();
-                    path == "/guests" || path.starts_with("/guests/") || path.starts_with("/admin/")
-                }))
-                .wrap(HttpAuthentication::basic(admin_auth::validate))
-                .wrap(DefaultHeaders::new()
-                    .add(("Cache-Control", "no-store"))
-                    .add(("X-Robots-Tag", "noindex, nofollow")))
-                .service(routes::guests::list::get)
-                .service(routes::guests::create::post)
-                .service(routes::rsvps::create::post)
-                .service(routes::admin::rsvps),
-        );
+        .service(routes::web::progress::refresh)
+        .service(Files::new("/assets", "bins/api/assets"));
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let config = Config::from_env();
-    let pool = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(&config.database_url)
-        .await
-        .expect("Failed to create pool");
-
-    sqlx::migrate!("../../crates/storage/migrations")
-        .run(&pool)
-        .await
-        .expect("Failed to run migrations");
-
-    let ctx = Context::new(pool);
-    let admin_access = web::Data::new(admin_auth::AdminAccess(config.admin_credentials));
+    if config.notion_token.is_none()
+        || config.notion_data_source_id.is_none()
+        || config.notion_guests_data_source_id.is_none()
+        || config.notion_guests_page_id.is_none()
+    {
+        eprintln!(
+            "RSVP submissions are disabled: configure NOTION_TOKEN, NOTION_RSVP_DATA_SOURCE_ID, NOTION_GUESTS_DATA_SOURCE_ID, and NOTION_GUESTS_PAGE_ID"
+        );
+    }
+    let notion = web::Data::new(notion::Notion::new(
+        config.notion_token.clone(),
+        config.notion_data_source_id.clone(),
+        config.notion_guests_data_source_id.clone(),
+        config.notion_guests_page_id.clone(),
+    ));
+    let notion_progress_webhook_secret = web::Data::new(config.notion_progress_webhook_secret);
     println!("Starting server at http://0.0.0.0:{}", config.port);
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(ctx.clone()))
-            .app_data(admin_access.clone())
-            .app_data(
-                actix_web_httpauth::extractors::basic::Config::default().realm("Wedding admin"),
-            )
+            .app_data(notion.clone())
+            .app_data(notion_progress_webhook_secret.clone())
             .wrap(NormalizePath::trim())
-            .wrap(RequestContextMiddleware)
             .configure(configure_routes)
     })
     .bind(("0.0.0.0", config.port))?

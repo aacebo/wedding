@@ -1,11 +1,3 @@
-pub fn valid_party_size(attending: bool, party_size: i16) -> bool {
-    if attending {
-        (1..=2).contains(&party_size)
-    } else {
-        party_size == 0
-    }
-}
-
 pub fn valid_name(name: &str) -> bool {
     !name.trim().is_empty() && name.chars().count() <= 200 && !name.chars().any(char::is_control)
 }
@@ -17,14 +9,6 @@ pub fn valid_email(email: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn attendance_party_size_boundaries() {
-        for size in [-1, 0, 1, 2, 3, i16::MAX] {
-            assert_eq!(valid_party_size(true, size), size == 1 || size == 2);
-            assert_eq!(valid_party_size(false, size), size == 0);
-        }
-    }
 
     #[test]
     fn identity_validation() {

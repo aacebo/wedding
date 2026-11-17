@@ -1,372 +1,203 @@
+use crate::{configure_routes, notion::Notion};
 use actix_web::{
     App,
     http::{StatusCode, header},
     test, web,
 };
-use sqlx::{PgPool, postgres::PgPoolOptions};
-
-use crate::{
-    Context, RequestContextMiddleware,
-    admin_auth::{AdminAccess, AdminCredentials},
-    configure_routes,
-};
-
-const AUTH: &str = "Basic YWRtaW46cGFzc3dvcmQ=";
-
-fn credentials() -> Option<AdminCredentials> {
-    AdminCredentials::from_values(Some("admin".into()), Some("password".into()))
-}
-
-macro_rules! application {
-    ($pool:expr, $credentials:expr) => {
-        App::new()
-            .app_data(web::Data::new(Context::new($pool)))
-            .app_data(web::Data::new(AdminAccess($credentials)))
-            .app_data(
-                actix_web_httpauth::extractors::basic::Config::default().realm("Wedding admin"),
-            )
-            .wrap(RequestContextMiddleware)
-            .configure(configure_routes)
-    };
-}
 
 #[actix_web::test]
-async fn public_pages_work_without_database_and_private_routes_require_auth() {
-    let pool = PgPoolOptions::new()
-        .connect_lazy("postgres://localhost/unused")
-        .unwrap();
-    let app = test::init_service(application!(pool, credentials())).await;
+async fn pages_are_public_and_admin_routes_are_gone() {
+    let app = test::init_service(
+        App::new()
+            .app_data(web::Data::new(Notion::new(None, None, None, None)))
+            .configure(configure_routes),
+    )
+    .await;
     for path in ["/rsvp", "/rsvp/thanks", "/welcome", "/contact"] {
         let response =
             test::call_service(&app, test::TestRequest::get().uri(path).to_request()).await;
         assert_eq!(response.status(), StatusCode::OK, "{path}");
-        let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-        assert!(body.contains("href=\"/rsvp\""));
     }
-    for (method, path) in [
-        (actix_web::http::Method::GET, "/admin/rsvps".to_owned()),
-        (actix_web::http::Method::GET, "/guests".to_owned()),
-        (actix_web::http::Method::POST, "/guests".to_owned()),
-        (
-            actix_web::http::Method::POST,
-            format!("/guests/{}/rsvps", uuid::Uuid::nil()),
-        ),
-    ] {
-        for auth in [
-            None,
-            Some("not basic"),
-            Some("Basic !!!"),
-            Some("Basic YWRtaW46d3Jvbmc="),
-        ] {
-            let mut request = test::TestRequest::default()
-                .method(method.clone())
-                .uri(&path);
-            if let Some(auth) = auth {
-                request = request.insert_header((header::AUTHORIZATION, auth));
-            }
-            let response = test::call_service(&app, request.to_request()).await;
-            assert_eq!(response.status(), StatusCode::UNAUTHORIZED, "{path}");
-            assert!(response.headers().contains_key(header::WWW_AUTHENTICATE));
-            assert_eq!(
-                response.headers().get(header::CACHE_CONTROL).unwrap(),
-                "no-store"
-            );
-        }
+    for path in ["/admin", "/admin/rsvps", "/guests"] {
+        let response =
+            test::call_service(&app, test::TestRequest::get().uri(path).to_request()).await;
+        assert_eq!(response.status(), StatusCode::NOT_FOUND, "{path}");
     }
-    let response =
-        test::call_service(&app, test::TestRequest::get().uri("/missing").to_request()).await;
-    assert_eq!(response.status(), StatusCode::NOT_FOUND);
 }
 
 #[actix_web::test]
-async fn disabled_admin_rejects_even_valid_credentials() {
-    let pool = PgPoolOptions::new()
-        .connect_lazy("postgres://localhost/unused")
-        .unwrap();
-    let app = test::init_service(application!(pool, None)).await;
-    let response = test::call_service(
-        &app,
-        test::TestRequest::get()
-            .uri("/admin/rsvps")
-            .insert_header((header::AUTHORIZATION, AUTH))
-            .to_request(),
+async fn invalid_form_escapes_input_and_missing_notion_is_not_success() {
+    let app = test::init_service(
+        App::new()
+            .app_data(web::Data::new(Notion::new(None, None, None, None)))
+            .configure(configure_routes),
     )
     .await;
-    assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
-}
-
-#[actix_web::test]
-async fn invalid_forms_preserve_escaped_values_and_reject_large_payloads() {
-    let pool = PgPoolOptions::new()
-        .connect_lazy("postgres://localhost/unused")
-        .unwrap();
-    let app = test::init_service(application!(pool, None)).await;
     let response = test::call_service(
         &app,
         test::TestRequest::post()
             .uri("/rsvp")
             .set_form([
-                ("name", "<script>alert(1)</script>"),
-                ("email", "bad-email"),
+                ("submission_id", "00000000-0000-4000-8000-000000000000"),
+                ("invitation_code", "1234"),
+                ("first_name", "<script>alert(1)</script>"),
+                ("last_name", "Guest"),
+                ("email", "invalid"),
                 ("attending", ""),
-                ("party_size", "3"),
             ])
             .to_request(),
     )
     .await;
     assert_eq!(response.status(), StatusCode::UNPROCESSABLE_ENTITY);
     let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-    assert!(body.contains("aria-invalid=\"true\""));
-    assert!(body.contains("Choose whether you will attend"));
-    assert!(body.contains("Enter a valid email address"));
     assert!(!body.contains("<script>alert(1)</script>"));
     assert!(body.contains("&#60;script&#62;"));
     let response = test::call_service(
         &app,
         test::TestRequest::post()
             .uri("/rsvp")
-            .insert_header((header::CONTENT_TYPE, "application/x-www-form-urlencoded"))
-            .set_payload(format!("name={}", "a".repeat(8193)))
-            .to_request(),
-    )
-    .await;
-    assert_eq!(response.status(), StatusCode::PAYLOAD_TOO_LARGE);
-}
-
-#[sqlx::test(migrations = "../../crates/storage/migrations")]
-async fn form_saves_once_and_admin_shows_correct_totals(pool: PgPool) {
-    let app = test::init_service(application!(pool.clone(), credentials())).await;
-    for (name, email, attending, size) in [
-        ("<Guest>", " Guest@Example.com ", "yes", "2"),
-        ("Declining", "declining@example.com", "no", "2"),
-    ] {
-        let response = test::call_service(
-            &app,
-            test::TestRequest::post()
-                .uri("/rsvp")
-                .set_form([
-                    ("name", name),
-                    ("email", email),
-                    ("attending", attending),
-                    ("party_size", size),
-                ])
-                .to_request(),
-        )
-        .await;
-        assert_eq!(response.status(), StatusCode::SEE_OTHER);
-        assert_eq!(
-            response.headers().get(header::LOCATION).unwrap(),
-            "/rsvp/thanks"
-        );
-    }
-    let response = test::call_service(
-        &app,
-        test::TestRequest::post()
-            .uri("/rsvp")
             .set_form([
-                ("name", "Overwrite"),
-                ("email", "GUEST@example.com"),
-                ("attending", "no"),
-                ("party_size", "1"),
+                ("submission_id", "00000000-0000-4000-8000-000000000000"),
+                ("invitation_code", "1234"),
+                ("first_name", "Alex"),
+                ("last_name", "Guest"),
+                ("email", "guest@example.com"),
+                ("attending", "yes"),
+                ("guest_count", "1"),
+                ("phone", "+15555555555"),
+                ("main_course", "Beef"),
             ])
             .to_request(),
     )
     .await;
-    assert_eq!(response.status(), StatusCode::CONFLICT);
-    let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-    assert!(body.contains("original response has not been changed"));
-    assert!(body.contains("href=\"/contact\""));
-    assert!(!body.contains("&#60;Guest&#62;"));
-    let response = test::call_service(
-        &app,
-        test::TestRequest::get()
-            .uri("/admin/rsvps")
-            .insert_header((header::AUTHORIZATION, AUTH))
-            .to_request(),
-    )
-    .await;
-    assert_eq!(response.status(), StatusCode::OK);
-    assert_eq!(
-        response.headers().get(header::CACHE_CONTROL).unwrap(),
-        "no-store"
-    );
-    let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-    assert!(body.contains("2 responses &middot; 2 attending people"));
-    assert!(body.contains("&#60;Guest&#62;"));
-    assert!(body.contains("guest@example.com"));
-    assert!(body.contains("Declining"));
-    let responses = storage::RsvpStorage::new(&pool).responses().await.unwrap();
-    assert_eq!(responses.iter().map(|row| row.party_size).sum::<i16>(), 2);
-    assert!(!responses.iter().any(|row| row.name == "Overwrite"));
-}
-
-#[sqlx::test(migrations = "../../crates/storage/migrations")]
-async fn authenticated_legacy_api_uses_defaults_and_prevents_duplicates(pool: PgPool) {
-    let app = test::init_service(application!(pool.clone(), credentials())).await;
-    let response = test::call_service(
-        &app,
-        test::TestRequest::get()
-            .uri("/admin/rsvps")
-            .insert_header((header::AUTHORIZATION, AUTH))
-            .to_request(),
-    )
-    .await;
-    assert_eq!(response.status(), StatusCode::OK);
-    assert!(
-        String::from_utf8(test::read_body(response).await.to_vec())
-            .unwrap()
-            .contains("No RSVP responses")
-    );
-    for (index, attending, expected_size) in [(1, true, 1), (2, false, 0)] {
-        let guest = storage::types::Guest::new(
-            format!("Guest {index}"),
-            format!("api{index}@example.com"),
-            false,
-        );
-        storage::GuestStorage::new(&pool)
-            .create(&guest)
-            .await
-            .unwrap();
-        let path = format!("/guests/{}/rsvps", guest.id);
-        let response = test::call_service(
-            &app,
-            test::TestRequest::post()
-                .uri(&path)
-                .insert_header((header::AUTHORIZATION, AUTH))
-                .insert_header((header::CONTENT_TYPE, "application/json"))
-                .set_payload(format!(r#"{{"attending":{attending}}}"#))
-                .to_request(),
-        )
-        .await;
-        assert_eq!(response.status(), StatusCode::CREATED);
-        let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-        assert!(body.contains(&format!("\"party_size\":{expected_size}")));
-        let response = test::call_service(
-            &app,
-            test::TestRequest::post()
-                .uri(&path)
-                .insert_header((header::AUTHORIZATION, AUTH))
-                .insert_header((header::CONTENT_TYPE, "application/json"))
-                .set_payload(r#"{"attending":true,"party_size":2}"#)
-                .to_request(),
-        )
-        .await;
-        assert_eq!(response.status(), StatusCode::CONFLICT);
-        let response = test::call_service(
-            &app,
-            test::TestRequest::post()
-                .uri(&path)
-                .insert_header((header::AUTHORIZATION, AUTH))
-                .insert_header((header::CONTENT_TYPE, "application/json"))
-                .set_payload(r#"{"attending":true,"party_size":3}"#)
-                .to_request(),
-        )
-        .await;
-        assert_eq!(response.status(), StatusCode::BAD_REQUEST);
-    }
-    let response = test::call_service(
-        &app,
-        test::TestRequest::post()
-            .uri(&format!("/guests/{}/rsvps", uuid::Uuid::nil()))
-            .insert_header((header::AUTHORIZATION, AUTH))
-            .insert_header((header::CONTENT_TYPE, "application/json"))
-            .set_payload(r#"{"attending":true}"#)
-            .to_request(),
-    )
-    .await;
-    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+    assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+    assert!(!response.headers().contains_key(header::LOCATION));
 }
 
 #[actix_web::test]
-async fn storage_failure_is_not_success() {
-    let pool = PgPoolOptions::new()
-        .connect_lazy("postgres://localhost/unused")
-        .unwrap();
-    pool.close().await;
-    let app = test::init_service(application!(pool, credentials())).await;
+async fn individual_rsvp_requires_contact_and_meal_details() {
+    let app = test::init_service(
+        App::new()
+            .app_data(web::Data::new(Notion::new(None, None, None, None)))
+            .configure(configure_routes),
+    )
+    .await;
     let response = test::call_service(
         &app,
         test::TestRequest::post()
             .uri("/rsvp")
             .set_form([
-                ("name", "Guest"),
+                ("submission_id", "00000000-0000-4000-8000-000000000000"),
+                ("invitation_code", "1234"),
+                ("first_name", "Alex"),
+                ("last_name", "Guest"),
                 ("email", "guest@example.com"),
-                ("attending", "yes"),
-                ("party_size", "1"),
             ])
             .to_request(),
     )
     .await;
-    assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
-    assert!(!response.headers().contains_key(header::LOCATION));
-    assert!(
-        String::from_utf8(test::read_body(response).await.to_vec())
-            .unwrap()
-            .contains("could not save")
-    );
-    let response = test::call_service(
-        &app,
-        test::TestRequest::get()
-            .uri("/admin/rsvps")
-            .insert_header((header::AUTHORIZATION, AUTH))
-            .to_request(),
-    )
-    .await;
-    assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
-    assert_eq!(
-        response.headers().get(header::CACHE_CONTROL).unwrap(),
-        "no-store"
-    );
+    assert_eq!(response.status(), StatusCode::UNPROCESSABLE_ENTITY);
+    let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
+    assert!(body.contains("Enter your phone number"));
+    assert!(body.contains("Choose your main course"));
 }
 
-#[sqlx::test(migrations = "../../crates/storage/migrations")]
-async fn guest_api_normalizes_identity_and_requires_valid_fields(pool: PgPool) {
-    let app = test::init_service(application!(pool, credentials())).await;
-    for (body, status) in [
-        (
-            r#"{"name":" Guest ","email":" GUEST@example.com ","plus_one":true}"#,
-            StatusCode::CREATED,
-        ),
-        (
-            r#"{"name":"Duplicate","email":"guest@example.com","plus_one":false}"#,
-            StatusCode::CONFLICT,
-        ),
-        (
-            r#"{"name":" ","email":"valid@example.com","plus_one":false}"#,
-            StatusCode::BAD_REQUEST,
-        ),
-        (
-            r#"{"name":"Guest","email":"invalid","plus_one":false}"#,
-            StatusCode::BAD_REQUEST,
-        ),
-    ] {
-        let response = test::call_service(
-            &app,
-            test::TestRequest::post()
-                .uri("/guests")
-                .insert_header((header::AUTHORIZATION, AUTH))
-                .insert_header((header::CONTENT_TYPE, "application/json"))
-                .set_payload(body)
-                .to_request(),
-        )
-        .await;
-        assert_eq!(response.status(), status);
-        assert_eq!(
-            response.headers().get(header::CACHE_CONTROL).unwrap(),
-            "no-store"
-        );
-    }
+#[actix_web::test]
+async fn submitted_rsvp_is_written_to_notion() {
+    use std::io::{Read, Write};
+    use std::net::TcpListener;
+    use std::sync::mpsc;
+
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    let address = listener.local_addr().unwrap();
+    let (sender, receiver) = mpsc::channel();
+    let server = std::thread::spawn(move || {
+        for index in 0..4 {
+            let (mut stream, _) = listener.accept().unwrap();
+            stream
+                .set_read_timeout(Some(std::time::Duration::from_secs(10)))
+                .unwrap();
+            let mut data = Vec::new();
+            let mut buffer = [0; 4096];
+            loop {
+                let size = stream.read(&mut buffer).unwrap();
+                if size == 0 {
+                    break;
+                }
+                data.extend_from_slice(&buffer[..size]);
+                if let Some(end) = data.windows(4).position(|part| part == b"\r\n\r\n") {
+                    let headers = String::from_utf8_lossy(&data[..end]);
+                    let length = headers
+                        .lines()
+                        .find_map(|line| {
+                            let (name, value) = line.split_once(':')?;
+                            name.eq_ignore_ascii_case("content-length")
+                                .then(|| value.trim().parse::<usize>().unwrap())
+                        })
+                        .unwrap_or(0);
+                    if data.len() >= end + 4 + length {
+                        break;
+                    }
+                }
+            }
+            sender.send(String::from_utf8(data).unwrap()).unwrap();
+            let body = match index {
+                0 => {
+                    r#"{"results":[{"properties":{"Guest / Household":{"title":[{"plain_text":"Test household"}]},"Invited Guests":{"number":2}}}]}"#
+                }
+                1 | 2 => r#"{"results":[]}"#,
+                _ => r#"{"id":"test-page"}"#,
+            };
+            write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", body.len(), body).unwrap();
+        }
+    });
+    let notion = web::Data::new(Notion::for_test(format!("http://{address}/v1")));
+    let app = test::init_service(App::new().app_data(notion).configure(configure_routes)).await;
+    let form = [
+        ("submission_id", "00000000-0000-4000-8000-000000000000"),
+        ("invitation_code", "1234"),
+        ("first_name", "Alex"),
+        ("last_name", "Guest"),
+        ("email", "guest@example.com"),
+        ("phone", "+15555555555"),
+        ("accommodation", "Hotel, Florence"),
+        ("dietary_requirements", "Vegetarian"),
+        ("main_course", "Not selected"),
+    ];
     let response = test::call_service(
         &app,
-        test::TestRequest::get()
-            .uri("/guests")
-            .insert_header((header::AUTHORIZATION, AUTH))
+        test::TestRequest::post()
+            .uri("/rsvp")
+            .set_form(form)
             .to_request(),
     )
     .await;
-    assert_eq!(response.status(), StatusCode::OK);
-    let body = String::from_utf8(test::read_body(response).await.to_vec()).unwrap();
-    assert!(body.contains("\"name\":\"Guest\""));
-    assert!(body.contains("\"email\":\"guest@example.com\""));
-    assert!(!body.contains("Duplicate"));
+    assert_eq!(response.status(), StatusCode::SEE_OTHER);
+    let guest_query = receiver.recv().unwrap();
+    let query = receiver.recv().unwrap();
+    let invitation_query = receiver.recv().unwrap();
+    let create = receiver.recv().unwrap();
+    server.join().unwrap();
+    assert!(guest_query.starts_with("POST /v1/data_sources/test-guests/query"));
+    assert!(query.starts_with("POST /v1/data_sources/test-source/query"));
+    assert!(invitation_query.starts_with("POST /v1/data_sources/test-source/query"));
+    assert!(create.starts_with("POST /v1/pages"));
+    let body: serde_json::Value =
+        serde_json::from_str(create.split_once("\r\n\r\n").unwrap().1).unwrap();
+    assert_eq!(
+        body["properties"]["First Name"]["rich_text"][0]["text"]["content"],
+        "Alex"
+    );
+    assert_eq!(
+        body["properties"]["RSVP Status"]["select"]["name"],
+        "Confirmed"
+    );
+    assert_eq!(
+        body["properties"]["Dietary Requirements"]["rich_text"][0]["text"]["content"],
+        "Vegetarian"
+    );
+    assert_eq!(
+        body["properties"]["Invitation Code"]["rich_text"][0]["text"]["content"],
+        "1234"
+    );
 }

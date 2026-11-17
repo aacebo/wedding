@@ -1,33 +1,37 @@
 use std::env;
 
-use crate::admin_auth::AdminCredentials;
-
 #[derive(Clone)]
 pub struct Config {
     pub port: u16,
-    pub database_url: String,
-    pub admin_credentials: Option<AdminCredentials>,
+    pub notion_token: Option<String>,
+    pub notion_data_source_id: Option<String>,
+    pub notion_guests_data_source_id: Option<String>,
+    pub notion_guests_page_id: Option<String>,
+    pub notion_progress_webhook_secret: Option<String>,
 }
 
 impl Config {
     pub fn from_env() -> Self {
-        let port = env::var("PORT")
-            .unwrap_or_else(|_| "8080".to_string())
-            .parse()
-            .expect("PORT must be a valid number");
-
-        let database_url = env::var("DATABASE_URL")
-            .unwrap_or_else(|_| "postgres://admin:admin@localhost:5432/wedding".to_string());
-
-        let admin_credentials = AdminCredentials::from_values(
-            env::var("ADMIN_USERNAME").ok(),
-            env::var("ADMIN_PASSWORD").ok(),
-        );
-
         Self {
-            port,
-            database_url,
-            admin_credentials,
+            port: env::var("PORT")
+                .unwrap_or_else(|_| "8080".to_owned())
+                .parse()
+                .expect("PORT must be a valid number"),
+            notion_token: env::var("NOTION_TOKEN").ok().filter(|s| !s.is_empty()),
+            notion_data_source_id: env::var("NOTION_RSVP_DATA_SOURCE_ID")
+                .ok()
+                .filter(|s| !s.is_empty()),
+            notion_guests_data_source_id: Some(
+                env::var("NOTION_GUESTS_DATA_SOURCE_ID")
+                    .unwrap_or_else(|_| "41b96eec-0111-81e1-a385-000bebe7a8ad".to_owned()),
+            ),
+            notion_guests_page_id: Some(
+                env::var("NOTION_GUESTS_PAGE_ID")
+                    .unwrap_or_else(|_| "41b96eec-0111-811a-b80b-fa7bb1979db2".to_owned()),
+            ),
+            notion_progress_webhook_secret: env::var("NOTION_PROGRESS_WEBHOOK_SECRET")
+                .ok()
+                .filter(|s| !s.is_empty()),
         }
     }
 }

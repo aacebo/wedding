@@ -1,4 +1,5 @@
 pub mod contact;
+pub mod progress;
 pub mod rsvp;
 pub mod schedule;
 pub mod story;

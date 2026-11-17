@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["bins/*", "crates/*"]
-default-members = ["bins/*", "crates/*"]
+members = ["bins/*"]
+default-members = ["bins/*"]
 
 [workspace.package]
 version = "0.0.0"

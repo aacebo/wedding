@@ -1,11 +1,3 @@
-databases:
-  - name: wedding-db
-    plan: basic-256mb
-    region: virginia
-    postgresMajorVersion: "17"
-    databaseName: wedding
-    user: admin
-
 services:
   - type: web
     name: wedding-api
@@ -20,11 +12,9 @@ services:
       - baicebo.com
       - www.baicebo.com
     envVars:
-      - key: ADMIN_USERNAME
+      - key: NOTION_TOKEN
         sync: false
-      - key: ADMIN_PASSWORD
-        sync: false
-      - key: DATABASE_URL
-        fromDatabase:
-          name: wedding-db
-          property: connectionString
+      - key: NOTION_RSVP_DATA_SOURCE_ID
+        value: 41b96eec-0111-81c0-9318-000bf13b5594
+      - key: NOTION_PROGRESS_WEBHOOK_SECRET
+        generateValue: true
