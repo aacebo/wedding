@@ -171,8 +171,8 @@ pub async fn post(
         Ok(()) => {}
         Err(errors) => return render(form, errors, false, StatusCode::UNPROCESSABLE_ENTITY),
     }
-    let guest = match notion.guest_for_code(&form.invitation_code).await {
-        Ok(guest) => guest,
+    match notion.validate_rsvp_code(&form.invitation_code).await {
+        Ok(()) => {}
         Err(GuestError::InvalidCode) => {
             return render(
                 form,
@@ -222,8 +222,6 @@ pub async fn post(
             main_course: form.main_course.trim(),
             attending: true,
             invitation_code: &form.invitation_code,
-            household: &guest.household,
-            invited_guests: guest.invited_guests,
             guest_count: 1,
         })
         .await
@@ -249,15 +247,6 @@ pub async fn post(
             },
             false,
             StatusCode::SERVICE_UNAVAILABLE,
-        ),
-        Err(SaveError::InvitationFull) => render(
-            form,
-            FormErrors {
-                code: "Every RSVP linked to this invitation has already been received.",
-                ..Default::default()
-            },
-            false,
-            StatusCode::CONFLICT,
         ),
     }
 }

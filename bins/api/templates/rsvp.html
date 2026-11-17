@@ -35,7 +35,7 @@
             <input id="rsvp-code" name="invitation_code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{4}" maxlength="4" value="{{ form.invitation_code }}" required
                    {% if !errors.code.is_empty() %}aria-invalid="true" aria-describedby="rsvp-code-error"{% endif %}>
             {% if !errors.code.is_empty() %}<p class="rsvp-field-error" id="rsvp-code-error">{{ errors.code }}</p>{% endif %}
-            <p class="rsvp-help">The four-digit code printed on your invitation. Your plus-one should use the same code when submitting their own RSVP.</p>
+            <p class="rsvp-help">Enter the shared four-digit wedding RSVP code. Every guest, including plus-ones, submits their own RSVP with this code.</p>
         </div>
         <div class="rsvp-field">
             <label for="rsvp-name">First name</label>

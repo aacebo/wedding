@@ -142,11 +142,10 @@ async fn submitted_rsvp_is_written_to_notion() {
             }
             sender.send(String::from_utf8(data).unwrap()).unwrap();
             let body = match index {
-                0 => {
-                    r#"{"results":[{"properties":{"Guest / Household":{"title":[{"plain_text":"Test household"}]},"Invited Guests":{"number":2}}}]}"#
-                }
-                1 | 2 => r#"{"results":[]}"#,
-                _ => r#"{"id":"test-page"}"#,
+                0 => r#"{"results":[{}]}"#,
+                1 => r#"{"results":[]}"#,
+                2 => r#"{"id":"test-page"}"#,
+                _ => r#"{"results":[]}"#,
             };
             write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", body.len(), body).unwrap();
         }
@@ -175,12 +174,10 @@ async fn submitted_rsvp_is_written_to_notion() {
     assert_eq!(response.status(), StatusCode::SEE_OTHER);
     let guest_query = receiver.recv().unwrap();
     let query = receiver.recv().unwrap();
-    let invitation_query = receiver.recv().unwrap();
     let create = receiver.recv().unwrap();
     server.join().unwrap();
     assert!(guest_query.starts_with("POST /v1/data_sources/test-guests/query"));
     assert!(query.starts_with("POST /v1/data_sources/test-source/query"));
-    assert!(invitation_query.starts_with("POST /v1/data_sources/test-source/query"));
     assert!(create.starts_with("POST /v1/pages"));
     let body: serde_json::Value =
         serde_json::from_str(create.split_once("\r\n\r\n").unwrap().1).unwrap();

@@ -16,8 +16,6 @@ pub struct Rsvp<'a> {
     pub main_course: &'a str,
     pub attending: bool,
     pub invitation_code: &'a str,
-    pub household: &'a str,
-    pub invited_guests: u32,
     pub guest_count: u32,
 }
 
@@ -25,18 +23,12 @@ pub struct Rsvp<'a> {
 pub enum SaveError {
     Unavailable,
     Uncertain,
-    InvitationFull,
 }
 
 #[derive(Debug)]
 pub enum GuestError {
     InvalidCode,
     Unavailable,
-}
-
-pub struct Guest {
-    pub household: String,
-    pub invited_guests: u32,
 }
 
 pub struct Notion {
@@ -111,7 +103,7 @@ impl Notion {
         }
     }
 
-    pub async fn guest_for_code(&self, code: &str) -> Result<Guest, GuestError> {
+    pub async fn validate_rsvp_code(&self, code: &str) -> Result<(), GuestError> {
         let (token, _, guests, _) = self.configuration()?;
         let response = self
             .client
@@ -130,32 +122,12 @@ impl Notion {
             return Err(GuestError::Unavailable);
         }
         let result: Value = response.json().await.map_err(|_| GuestError::Unavailable)?;
-        let page = result
+        result
             .get("results")
             .and_then(Value::as_array)
             .and_then(|pages| pages.first())
             .ok_or(GuestError::InvalidCode)?;
-        let properties = page.get("properties").ok_or(GuestError::Unavailable)?;
-        let household = properties
-            .get("Guest / Household")
-            .and_then(|value| value.get("title"))
-            .and_then(Value::as_array)
-            .and_then(|title| title.first())
-            .and_then(|title| title.get("plain_text"))
-            .and_then(Value::as_str)
-            .unwrap_or_default()
-            .to_owned();
-        let invited_guests = properties
-            .get("Invited Guests")
-            .and_then(|value| value.get("number"))
-            .and_then(Value::as_u64)
-            .and_then(|value| u32::try_from(value).ok())
-            .filter(|value| *value > 0)
-            .ok_or(GuestError::Unavailable)?;
-        Ok(Guest {
-            household,
-            invited_guests,
-        })
+        Ok(())
     }
 
     pub async fn save(&self, rsvp: &Rsvp<'_>) -> Result<(), SaveError> {
@@ -206,37 +178,6 @@ impl Notion {
             submissions.insert(rsvp.id, true);
             return Ok(());
         }
-        let invitation_responses = self
-            .client
-            .post(format!("{}/data_sources/{source}/query", self.base_url))
-            .bearer_auth(token)
-            .header("Notion-Version", "2025-09-03")
-            .json(&json!({
-                "page_size": 100,
-                "filter": {"property": "Invitation Code", "rich_text": {"equals": rsvp.invitation_code}}
-            }))
-            .send()
-            .await
-            .map_err(|_| SaveError::Unavailable)?;
-        if !invitation_responses.status().is_success() {
-            eprintln!(
-                "RSVP invitation lookup failed: HTTP {}",
-                invitation_responses.status()
-            );
-            return Err(SaveError::Unavailable);
-        }
-        let invitation_responses: Value = invitation_responses
-            .json()
-            .await
-            .map_err(|_| SaveError::Unavailable)?;
-        let count = invitation_responses
-            .get("results")
-            .and_then(Value::as_array)
-            .ok_or(SaveError::Unavailable)?
-            .len();
-        if count >= usize::try_from(rsvp.invited_guests).unwrap_or(usize::MAX) {
-            return Err(SaveError::InvitationFull);
-        }
         let name = format!("{} {}", rsvp.first_name, rsvp.last_name);
         let main_course = if rsvp.attending {
             rsvp.main_course
@@ -255,9 +196,7 @@ impl Notion {
                 "Main Course": {"select": {"name": main_course}},
                 "RSVP Status": {"select": {"name": if rsvp.attending { "Confirmed" } else { "Declined" }}},
                 "Guest Count": {"number": rsvp.guest_count},
-                "Invited Guests": {"number": rsvp.invited_guests},
                 "Invitation Code": rich_text(rsvp.invitation_code),
-                "Guest / Household": rich_text(rsvp.household),
                 "Response Date": {"date": {"start": Utc::now().to_rfc3339()}},
                 "Wedding Site RSVP ID": rich_text(&rsvp.id.to_string())
             }
@@ -388,6 +327,41 @@ impl Notion {
             .and_then(|block| block.get("id"))
             .and_then(Value::as_str)
             .ok_or(GuestError::Unavailable)?;
+        // The callout is reserved for the generated summary. Remove any old child blocks
+        // before updating its text so a prior summary can never remain underneath it.
+        let callout_children: Value = self
+            .client
+            .get(format!(
+                "{}/blocks/{callout_id}/children?page_size=100",
+                self.base_url
+            ))
+            .bearer_auth(token)
+            .header("Notion-Version", "2025-09-03")
+            .send()
+            .await
+            .map_err(|_| GuestError::Unavailable)?
+            .error_for_status()
+            .map_err(|_| GuestError::Unavailable)?
+            .json()
+            .await
+            .map_err(|_| GuestError::Unavailable)?;
+        let child_ids = callout_children
+            .get("results")
+            .and_then(Value::as_array)
+            .ok_or(GuestError::Unavailable)?
+            .iter()
+            .filter_map(|block| block.get("id").and_then(Value::as_str));
+        for child_id in child_ids {
+            self.client
+                .delete(format!("{}/blocks/{child_id}", self.base_url))
+                .bearer_auth(token)
+                .header("Notion-Version", "2025-09-03")
+                .send()
+                .await
+                .map_err(|_| GuestError::Unavailable)?
+                .error_for_status()
+                .map_err(|_| GuestError::Unavailable)?;
+        }
         self.client
             .patch(format!("{}/blocks/{callout_id}", self.base_url))
             .bearer_auth(token)
