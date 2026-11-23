@@ -77,7 +77,7 @@ mod tests {
     }
 
     #[test]
-    async fn timeline_uses_confirmed_milestones_and_preserves_carousel() {
+    async fn timeline_uses_confirmed_milestones_and_renders_static_gallery() {
         let page = StoryPage {
             meta: PageMetadata::new("Story", "Story", "https://baicebo.com/story"),
             images: vec!["/assets/story/1.jpg".into(), "/assets/story/2.jpg".into()],
@@ -104,9 +104,8 @@ mod tests {
         assert!(!timeline.contains("2024"));
         assert!(timeline.contains("before heading back to New York City"));
         assert!(timeline.contains("Cinque Terre"));
-        assert!(body.contains("aria-roledescription=\"carousel\""));
-        assert!(body.contains("aria-label=\"Previous photo\""));
-        assert!(body.contains("aria-label=\"Next photo\""));
+        assert!(body.contains("class=\"story-gallery\""));
+        assert!(!body.contains("aria-roledescription=\"carousel\""));
         assert!(body.contains("src=\"/assets/story/1.jpg\""));
         assert!(body.contains("src=\"/assets/story/2.jpg\""));
     }

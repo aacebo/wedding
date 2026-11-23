@@ -11,39 +11,16 @@
 
     <section class="story-feature" aria-label="Nancy and Alexander's story">
         {% if images.is_empty() %}
-        <div class="story-carousel" data-reveal>
-            <div class="story-carousel__track" style="display:grid;place-items:center;">
-                <p>Photos coming soon</p>
-            </div>
+        <div class="story-gallery story-gallery--empty" data-reveal>
+            <p>Photos coming soon</p>
         </div>
         {% else %}
-        <div x-data="{
-                current: 0,
-                count: {{ images.len() }},
-                isPaused: false,
-                timer: null,
-                goTo(i) { this.current = (i + this.count) % this.count; },
-                next() { this.goTo(this.current + 1); },
-                prev() { this.goTo(this.current - 1); },
-                start() { this.timer = setInterval(() => { if (!this.isPaused) this.next(); }, 5000); }
-             }"
-             x-init="start()"
-             @mouseenter="isPaused = true" @mouseleave="isPaused = false"
-             @focusin="isPaused = true" @focusout="isPaused = false"
-             class="story-carousel"
-             data-reveal role="group" aria-roledescription="carousel" aria-label="Photos of Nancy and Alexander">
-            <div class="story-carousel__track" x-cloak :style="`transform: translateX(-${current * 100}%)`">
-                {% for img in images %}
+        <div class="story-gallery" data-reveal aria-label="Photos of Nancy and Alexander">
+            {% for img in images %}
+            <figure class="story-gallery__image">
                 <img src="{{ img }}" alt="Nancy and Alexander" loading="lazy">
-                {% endfor %}
-            </div>
-            <button class="carousel-control carousel-control--prev" type="button" @click="prev()" aria-label="Previous photo">&#8249;</button>
-            <button class="carousel-control carousel-control--next" type="button" @click="next()" aria-label="Next photo">&#8250;</button>
-            <div class="carousel-dots">
-                {% for img in images %}
-                <button type="button" @click="goTo({{ loop.index0 }})" aria-label="Show photo {{ loop.index }}" :aria-current="current === {{ loop.index0 }}"></button>
-                {% endfor %}
-            </div>
+            </figure>
+            {% endfor %}
         </div>
         {% endif %}
 
@@ -67,15 +44,7 @@
             <p>That spontaneous second date will always be hard to beat. But they have a feeling this next trip might just be their favorite one yet.</p>
         </div>
 
-        <figure class="pet-cameo pet-cameo--cat story-cat" data-pet-cameo aria-hidden="true">
-            <img src="/assets/pets/heihei-story.webp" alt="" loading="lazy">
-            <figcaption class="pet-cameo__tag">photo editor</figcaption>
-        </figure>
     </section>
-
-    <div class="pet-divider" data-pet-scroll aria-hidden="true">
-        <img src="/assets/pets/marlow-story.webp" alt="" loading="lazy" data-pet-walker>
-    </div>
 
     <section class="story-timeline" aria-label="Our timeline">
         <article class="timeline-entry" data-reveal>

@@ -53,10 +53,9 @@ impl RsvpForm {
         self.last_name = self.last_name.trim().to_owned();
         self.email = self.email.trim().to_lowercase();
         let mut errors = FormErrors::default();
-        if self.invitation_code.len() != 4
-            || !self.invitation_code.chars().all(|c| c.is_ascii_digit())
-        {
-            errors.code = "Enter the four-digit code from your invitation.";
+        self.invitation_code.make_ascii_uppercase();
+        if self.invitation_code != "BAICEBO" {
+            errors.code = "Enter the invitation code from your invitation.";
         }
         if !valid_name(&self.first_name)
             || !valid_name(&self.last_name)

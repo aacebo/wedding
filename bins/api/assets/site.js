@@ -7,7 +7,7 @@
         }
     });
 
-    const revealTargets = document.querySelectorAll("[data-reveal], [data-pet-cameo]");
+    const revealTargets = document.querySelectorAll("[data-reveal]");
     if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -45,28 +45,4 @@
             inviteReturnFocus?.focus();
         });
     }
-
-    const petTracks = [...document.querySelectorAll("[data-pet-scroll]")];
-    if (!petTracks.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let scheduled = false;
-    const updatePetTracks = () => {
-        petTracks.forEach((track) => {
-            const pet = track.querySelector("[data-pet-walker]");
-            if (!pet) return;
-            const rect = track.getBoundingClientRect();
-            const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
-            const travel = Math.max(0, track.clientWidth - pet.offsetWidth - 24);
-            track.style.setProperty("--pet-x", `${Math.round(travel * progress)}px`);
-        });
-        scheduled = false;
-    };
-    const scheduleUpdate = () => {
-        if (scheduled) return;
-        scheduled = true;
-        window.requestAnimationFrame(updatePetTracks);
-    };
-    updatePetTracks();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
 })();

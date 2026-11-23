@@ -7,6 +7,13 @@
       x-data="{
           state: 'closed',
           reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          init() {
+              if (this.reduced) {
+                  this.state = 'open';
+                  return;
+              }
+              requestAnimationFrame(() => requestAnimationFrame(() => this.state = 'opening'));
+          },
           openEnvelope() {
               if (this.state !== 'closed') return;
               if (this.reduced) { this.state = 'open'; return; }
@@ -66,8 +73,15 @@
                 <div id="save-the-date-card" class="save-the-date-card" :aria-hidden="(state !== 'open').toString()">
                     <button class="save-the-date-card__button" type="button" data-invite-zoom
                             :tabindex="state === 'open' ? 0 : -1" aria-label="Enlarge save-the-date">
-                        <img src="/assets/invitation/save-the-date.webp"
-                             alt="Save the date for Nancy and Alexander, June 19, 2027 at Villa di Striano in Florence, Italy">
+                        <span class="save-the-date-card__print">
+                            <span class="save-the-date-card__copy">
+                                <span class="save-the-date-card__eyebrow">Save the date</span>
+                                <span class="save-the-date-card__names">Nancy<br>&amp; Alexander</span>
+                                <span class="save-the-date-card__date">Saturday · June 19 · 2027</span>
+                                <span class="save-the-date-card__venue">Villa di Striano<br>Florence, Italy</span>
+                            </span>
+                            <span class="save-the-date-card__photo" aria-hidden="true"></span>
+                        </span>
                     </button>
                 </div>
 
@@ -77,21 +91,20 @@
             </div>
         </section>
 
-        <figure class="pet-cameo pet-cameo--cat home-pet--cat" data-pet-cameo aria-hidden="true">
-            <img src="/assets/pets/heihei-home.webp" alt="">
-            <figcaption class="pet-cameo__tag">HeiHei</figcaption>
-        </figure>
-        <figure class="pet-cameo pet-cameo--dog home-pet--dog" data-pet-cameo aria-hidden="true">
-            <img src="/assets/pets/marlow-home.webp" alt="">
-            <figcaption class="pet-cameo__tag">Marlow</figcaption>
-        </figure>
     </div>
 
     <dialog class="invite-dialog" data-invite-dialog aria-label="Enlarged save-the-date">
         <div class="invite-dialog__paper">
             <button class="invite-dialog__close" type="button" data-invite-close aria-label="Close enlarged save-the-date">Close</button>
-            <img src="/assets/invitation/save-the-date.webp"
-                 alt="Save the date for Nancy and Alexander, June 19, 2027 at Villa di Striano in Florence, Italy">
+            <div class="save-the-date-card__print">
+                <div class="save-the-date-card__copy">
+                    <span class="save-the-date-card__eyebrow">Save the date</span>
+                    <span class="save-the-date-card__names">Nancy<br>&amp; Alexander</span>
+                    <span class="save-the-date-card__date">Saturday · June 19 · 2027</span>
+                    <span class="save-the-date-card__venue">Villa di Striano<br>Florence, Italy</span>
+                </div>
+                <span class="save-the-date-card__photo" aria-hidden="true"></span>
+            </div>
         </div>
     </dialog>
 </main>

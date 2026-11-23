@@ -39,7 +39,7 @@ async fn invalid_form_escapes_input_and_missing_notion_is_not_success() {
             .uri("/rsvp")
             .set_form([
                 ("submission_id", "00000000-0000-4000-8000-000000000000"),
-                ("invitation_code", "1234"),
+                ("invitation_code", "BAICEBO"),
                 ("first_name", "<script>alert(1)</script>"),
                 ("last_name", "Guest"),
                 ("email", "invalid"),
@@ -58,7 +58,7 @@ async fn invalid_form_escapes_input_and_missing_notion_is_not_success() {
             .uri("/rsvp")
             .set_form([
                 ("submission_id", "00000000-0000-4000-8000-000000000000"),
-                ("invitation_code", "1234"),
+                ("invitation_code", "BAICEBO"),
                 ("first_name", "Alex"),
                 ("last_name", "Guest"),
                 ("email", "guest@example.com"),
@@ -88,7 +88,7 @@ async fn individual_rsvp_requires_contact_and_meal_details() {
             .uri("/rsvp")
             .set_form([
                 ("submission_id", "00000000-0000-4000-8000-000000000000"),
-                ("invitation_code", "1234"),
+                ("invitation_code", "BAICEBO"),
                 ("first_name", "Alex"),
                 ("last_name", "Guest"),
                 ("email", "guest@example.com"),
@@ -154,7 +154,7 @@ async fn submitted_rsvp_is_written_to_notion() {
     let app = test::init_service(App::new().app_data(notion).configure(configure_routes)).await;
     let form = [
         ("submission_id", "00000000-0000-4000-8000-000000000000"),
-        ("invitation_code", "1234"),
+        ("invitation_code", "BAICEBO"),
         ("first_name", "Alex"),
         ("last_name", "Guest"),
         ("email", "guest@example.com"),
@@ -195,6 +195,6 @@ async fn submitted_rsvp_is_written_to_notion() {
     );
     assert_eq!(
         body["properties"]["Invitation Code"]["rich_text"][0]["text"]["content"],
-        "1234"
+        "BAICEBO"
     );
 }
